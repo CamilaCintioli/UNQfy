@@ -2,6 +2,7 @@
 
 const fs = require('fs'); // necesitado para guardar/cargar unqfy
 const unqmod = require('./unqfy'); // importamos el modulo unqfy
+const ConsoleCommandHandler = require('./model/cli/ConsoleCommandHandler');
 
 // Retorna una instancia de UNQfy. Si existe filename, recupera la instancia desde el archivo.
 function getUNQfy(filename = 'data.json') {
@@ -47,8 +48,16 @@ function saveUNQfy(unqfy, filename = 'data.json') {
 */
 
 function main() {
-  console.log('arguments: ');
-  process.argv.forEach(argument => console.log(argument));
+
+  const unqfy = getUNQfy();
+  const commandHandler = new ConsoleCommandHandler();
+  const consoleCommand = process.argv[2];
+  const command = commandHandler.getCommand(consoleCommand);
+  const args = process.argv.splice(3);
+  
+  command.execute(args, unqfy);
+
+  saveUNQfy(unqfy);
 }
 
 main();
