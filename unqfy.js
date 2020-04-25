@@ -51,7 +51,8 @@ class UNQfy {
   }
 
   getArtistById(id) {
-
+    const artist = this.artistRepository.getArtistById(id);
+    console.log(artist? artist : 'No existe un artista con ese id');
   }
 
   getAlbumById(id) {
@@ -106,7 +107,7 @@ class UNQfy {
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy, Artist];
+    const classes = [UNQfy, Artist, ArtistRepository];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 }

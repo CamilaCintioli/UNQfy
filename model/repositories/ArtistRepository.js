@@ -15,6 +15,10 @@ class ArtistRepository{
   increaseId(){
     this.artistId++;
   }
+
+  getArtistById(artistId){
+    return this.artists.find(({id}) => id === artistId);
+  }
 }
 
 module.exports = ArtistRepository;
