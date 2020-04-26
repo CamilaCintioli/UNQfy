@@ -12,10 +12,10 @@ class TrackRepository{
         const track = new Track(this.id, trackData.title, trackData.genres, trackData.duration);
         this.tracks.push(track);
         console.log(track);
-        this.incrementarId();
+        this.incrementId();
     }
 
-    incrementarId(){
+    incrementId(){
         this.id = this.id + 1;
     }
 

@@ -4,12 +4,18 @@ const fs = require('fs'); // para cargar/guarfar unqfy
 const ArtistRepository = require('./model/repositories/ArtistRepository');
 const Artist = require('./model/Artist');
 const Track = require('./model/Track');
+const Album = require('./model/Album');
 const TrackRepository = require('./model/repositories/TrackRepository');
+const AlbumRepository = require('./model/repositories/AlbumRepository');
+//const PlaylistRepository = require('./module.repositories/PlaylistRepository');
 
 class UNQfy {
   constructor(){
     this.artistRepository = new ArtistRepository();
     this.trackRepository = new TrackRepository();
+    this.albumRepository = new AlbumRepository();
+   // this.playlistRepositiry = new PlaylistRepository();
+
   }
   
   // artistData: objeto JS con los datos necesarios para crear un artista
@@ -36,6 +42,7 @@ class UNQfy {
      - una propiedad name (string)
      - una propiedad year (number)
   */
+    this.albumRepository.addAlbum(albumData);
   }
 
 
@@ -111,7 +118,7 @@ class UNQfy {
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy, Artist, ArtistRepository,Track, TrackRepository];
+    const classes = [UNQfy, Artist, ArtistRepository,Track, TrackRepository, Album, AlbumRepository];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 }
