@@ -77,15 +77,17 @@ class UNQfy {
     console.log(track? track: "No existe un track con id " + id);
     
   }
-
+/*
   getPlaylistById(id) {
-
-  }
+    const playlist = this.playlistRepository.getPlaylistById(id);
+    console.log(playlist? playlist: "No existe una playlist con id " + id);
+  }*/
 
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genres) {
-
+    const track = this.trackRepository.getTracksMatchingGenres(genres);
+    console.log(track? track: "No existe un track con los generos pedidos");
   }
 
   // artistName: nombre de artista(string)
@@ -106,6 +108,8 @@ class UNQfy {
       * un metodo duration() que retorne la duración de la playlist.
       * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
   */
+
+  //this.PlaylistRepository.createPlaylist(playlistData);
 
   }
 

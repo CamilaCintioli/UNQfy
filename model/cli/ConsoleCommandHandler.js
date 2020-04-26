@@ -4,6 +4,7 @@ const AddTrackCommand = require('./commands/AddTrackCommand');
 const AddAlbumCommand = require('./commands/AddAlbumCommand');
 const GetAlbumByIdCommand = require ('./commands/GetAlbumByIdCommand');
 const GetTrackByIdCommand = require ('./commands/GetTrackByIdCommand');
+const GetTracksMatchingGenresCommand = require ('./commands/GetTracksMatchingGenresCommands');
 
 class ConsoleCommandHandler{
   getCommand(commandLine){
@@ -20,8 +21,8 @@ class ConsoleCommandHandler{
       return new AddAlbumCommand();
     case 'getAlbumById':
       return new GetAlbumByIdCommand();
-    //case 'addPlaylist':
-    //  return new AddPlaylist();
+    case 'getTracksMatchingGenres':
+      return new GetTracksMatchingGenresCommand();
     }
 
   }

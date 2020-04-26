@@ -19,8 +19,15 @@ class TrackRepository{
         return this.tracks.find (({id}) => id === trackId);
     }
 
+    getTracksMatchingGenres(genres){
+        this.tracks.filter(track => track.haveAnyGenres(genres));
+    }
+
+    
+
+
     incrementId(){
-        this.id = this.id + 1;
+        this.id ++;
     }
 
 }
