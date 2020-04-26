@@ -7,14 +7,14 @@ const Track = require('./model/Track');
 const Album = require('./model/Album');
 const TrackRepository = require('./model/repositories/TrackRepository');
 const AlbumRepository = require('./model/repositories/AlbumRepository');
-//const PlaylistRepository = require('./module.repositories/PlaylistRepository');
+//const PlaylistRepository = require('./module/repositories/PlaylistRepository');
 
 class UNQfy {
   constructor(){
     this.artistRepository = new ArtistRepository();
     this.trackRepository = new TrackRepository();
     this.albumRepository = new AlbumRepository();
-   // this.playlistRepositiry = new PlaylistRepository();
+    //this.playlistRepositiry = new PlaylistRepository();
 
   }
   
@@ -67,6 +67,8 @@ class UNQfy {
   }
 
   getAlbumById(id) {
+    const album = this.albumRepository.getAlbumById(id);
+    console.log(album? album: "No existe un album con id  = " + id);
 
   }
 

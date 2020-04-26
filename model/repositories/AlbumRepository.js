@@ -7,13 +7,16 @@ class AlbumRepository{
     }
 
     addAlbum(albumData){
-        console.log(albumData);
         const album = new Album(this.id, albumData.title, albumData.tracks, albumData.duration);
         console.log(album);
         this.albums.push(album);
         this.incrementId();
     }
 
+    getAlbumById(albumId){
+        return this.albums.find(({id}) => id === albumId);
+
+    }
 
 
     incrementId(){
