@@ -68,11 +68,13 @@ class UNQfy {
 
   getAlbumById(id) {
     const album = this.albumRepository.getAlbumById(id);
-    console.log(album? album: "No existe un album con id  = " + id);
+    console.log(album? album: "No existe un album con id " + id);
 
   }
 
   getTrackById(id) {
+    const track = this.trackRepository.getTrackById(id);
+    console.log(track? track: "No existe un track con id " + id);
     
   }
 

@@ -15,6 +15,10 @@ class TrackRepository{
         this.incrementId();
     }
 
+    getTrackById(trackId){
+        return this.tracks.find (({id}) => id === trackId);
+    }
+
     incrementId(){
         this.id = this.id + 1;
     }

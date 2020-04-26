@@ -3,6 +3,7 @@ const GetArtistByIdCommand = require('./commands/GetArtistByIdCommand');
 const AddTrackCommand = require('./commands/AddTrackCommand');
 const AddAlbumCommand = require('./commands/AddAlbumCommand');
 const GetAlbumByIdCommand = require ('./commands/GetAlbumByIdCommand');
+const GetTrackByIdCommand = require ('./commands/GetTrackByIdCommand');
 
 class ConsoleCommandHandler{
   getCommand(commandLine){
@@ -13,6 +14,8 @@ class ConsoleCommandHandler{
       return new GetArtistByIdCommand();
     case 'addTrack':
       return new AddTrackCommand();
+    case 'getTrackById':
+      return new GetTrackByIdCommand();
     case 'addAlbum':
       return new AddAlbumCommand();
     case 'getAlbumById':
