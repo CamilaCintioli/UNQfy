@@ -87,7 +87,7 @@ class UNQfy {
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genres) {
     const track = this.trackRepository.getTracksMatchingGenres(genres);
-    console.log(track? track: "No existe un track con los generos pedidos");
+    console.log(Array.isArray(track) && track.length ? track : "No existe un track con los generos pedidos");
   }
 
   // artistName: nombre de artista(string)

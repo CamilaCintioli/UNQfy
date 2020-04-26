@@ -9,9 +9,8 @@ class Track{
 
   haveAnyGenres(genresOrders){
     const genresGeneral = new Set(this.genres.concat(genresOrders));
-    console.log (genresOrders);
-    console.log (genresGeneral);
-    return genresGeneral.lenght < (genresOrders.lenght + this.genres.lenght);
+    
+    return genresGeneral.size !== (genresOrders.length + this.genres.length);
   }
 
 }

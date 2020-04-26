@@ -1,7 +1,8 @@
 class GetTracksMatchingGenresCommands{
-    execute(args, unquify){
-        unquify.getTracksMatchingGenres(args[5]);
-    }
+  execute(args, unquify){
+    const [,...genres] = args;
+    unquify.getTracksMatchingGenres(genres);
+  }
 } 
 
 module.exports = GetTracksMatchingGenresCommands; 

@@ -1,11 +1,12 @@
 class AddTrackCommand{
-    execute(args, unqfy){
-      unqfy.addTrack(undefined,{
-        title: args[1],
-        duration: args[3],
-        genres:args[5]});
-    }
-
+  execute(args, unqfy){
+    const [,title,, duration,, ...genres] = args;
+    unqfy.addTrack(undefined,{
+      title,
+      duration,
+      genres});
   }
+
+}
   
-  module.exports=AddTrackCommand;
+module.exports=AddTrackCommand;
