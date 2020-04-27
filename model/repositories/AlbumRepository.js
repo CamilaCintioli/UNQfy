@@ -19,6 +19,9 @@ class AlbumRepository{
 
   }
 
+  deleteAlbum(albumId){
+    this.albums = this.albums.filter(album => album.getId() !== albumId);
+  }
 
   incrementId(){
     this.id ++;
