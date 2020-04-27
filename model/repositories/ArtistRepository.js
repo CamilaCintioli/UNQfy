@@ -49,6 +49,11 @@ class ArtistRepository{
     }
   }
 
+  deleteArtist(artistId){
+    this.artists = this.artists.filter((artist) => artist.id !== artistId);
+    console.log('Artista borrado exitosamente');
+  }
+
 }
 
 module.exports = ArtistRepository;
