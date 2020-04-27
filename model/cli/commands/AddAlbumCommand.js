@@ -1,9 +1,10 @@
 class AddAlbumCommand{
-    execute(args, unqfy){
-      unqfy.addAlbum(undefined,{
-        title: args[1],
-        tracks: args[3]});
-    }
+  execute(args, unqfy){
+    const [,artistId,,title,,...tracks] = args;
+    unqfy.addAlbum(parseInt(artistId),{
+      title,
+      tracks});
   }
+}
   
-  module.exports=AddAlbumCommand;
+module.exports=AddAlbumCommand;

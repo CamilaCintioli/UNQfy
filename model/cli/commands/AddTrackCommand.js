@@ -1,10 +1,11 @@
 class AddTrackCommand{
   execute(args, unqfy){
-    const [,title,, duration,, ...genres] = args;
-    unqfy.addTrack(undefined,{
+    const [,albumId,,title,, duration,, ...genres] = args;
+    unqfy.addTrack(parseInt(albumId),{
       title,
-      duration,
-      genres});
+      duration: parseInt(duration),
+      genres,
+    });
   }
 
 }
