@@ -28,7 +28,29 @@ class TrackRepository{
     return this.tracks.filter(track => track.hasAlbumId(albumsIds));
   }
 
+  editTrack(trackId, trackData){
+    const track = this.getTrackById(trackId);
     
+    Object.keys(trackData).forEach(key => this.updateTrack(key, track, trackData[key]));
+    console.log('the new track is: ', track);
+  }  
+
+  updateTrack(key,track, data){
+    switch (key){
+      case 'title':
+        track.setTitle(data);
+        break;
+      case 'duration':
+        track.setDuration(data);
+        break;
+      case 'genres':
+        track.setGenres(data);     
+        break; 
+      case 'albumId':
+        track.setAlbumId(data);
+        break;
+      }
+  }
 
 
   incrementId(){

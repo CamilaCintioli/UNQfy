@@ -67,6 +67,10 @@ class UNQfy {
     this.trackRepository.addTrack(albumId, trackData);
   }
 
+  updateTrack(trackId, trackData){
+    this.trackRepository.editTrack(trackId, trackData);
+  }
+
   getArtistById(id) {
     const artist = this.artistRepository.getArtistById(id);
     console.log(artist? artist : 'No existe un artista con ese id');
