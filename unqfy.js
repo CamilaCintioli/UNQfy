@@ -39,7 +39,7 @@ class UNQfy {
 
     const artist = this.artistRepository.getArtistById(artistId);
     const albumsIds = artist.getAlbumsIds();
-    const tracksIds = this.trackRepository.getTracksMatchingArtist(albumsIds).map(track => track.getId());
+    const tracksIds = this.trackRepository.getTracksMatchingAlbumById(albumsIds).map(track => track.getId());
     
     tracksIds.forEach(trackId => this.trackRepository.deleteTrack(trackId));
     albumsIds.forEach(albumId => this.albumRepository.deleteAlbum(albumId));    
@@ -67,6 +67,16 @@ class UNQfy {
   updateAlbum(albumId, albumData){
     this.albumRepository.editAlbum(albumId, albumData);
 
+  }
+
+  deleteAlbum(albumId){
+    
+    const tracksDeleteByAlbum = this.trackRepository.getTracksMatchingAlbumById([albumId]);
+
+    const tracskById = tracksDeleteByAlbum.map(track => track.getId());
+    tracksById.forEach(track => this.trackRepository.deleteTrack(track));
+
+    this.albumRepository.deleteAlbum(albumId);
   }
 
   // trackData: objeto JS con los datos necesarios para crear un track
@@ -125,7 +135,7 @@ class UNQfy {
     
     const albumsIds = artists.map((artist) => artist.getAlbumsIds()).flat();
        
-    const track = this.trackRepository.getTracksMatchingArtist(albumsIds);
+    const track = this.trackRepository.getTracksMatchingAlbumId(albumsIds);
     console.log(Array.isArray(track) && track.length ? track : "No existe un track con el artista pedido");
 
   }

@@ -23,7 +23,7 @@ class TrackRepository{
     return this.tracks.filter(track => track.haveAnyGenres(genres));
   }
 
-  getTracksMatchingArtist(albumsIds){
+  getTracksMatchingAlbumById(albumsIds){
     
     return this.tracks.filter(track => track.hasAlbumId(albumsIds));
   }
@@ -32,6 +32,7 @@ class TrackRepository{
     this.tracks = this.tracks.filter(track => track.getId() !== trackId);
     
   }
+
   editTrack(trackId, trackData){
     const track = this.getTrackById(trackId);
     
