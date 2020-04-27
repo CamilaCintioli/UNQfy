@@ -35,6 +35,18 @@ class UNQfy {
     this.artistRepository.editArtist(artistId, artistData);
   }
 
+  deleteArtist(artistId){
+
+    const artist = this.artistRepository.getArtistById(artistId);
+    const albumsIds = artist.getAlbumsIds();
+    const tracksIds = this.trackRepository.getTracksMatchingArtist(albumsIds).map(track => track.getId());
+    
+    tracksIds.forEach(trackId => this.trackRepository.deleteTrack(trackId));
+    albumsIds.forEach(albumId => this.albumRepository.deleteAlbum(albumId));    
+    this.artistRepository.deleteArtist(artistId);
+
+  }
+
 
   // albumData: objeto JS con los datos necesarios para crear un album
   //   albumData.name (string)
