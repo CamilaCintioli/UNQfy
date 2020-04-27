@@ -19,6 +19,25 @@ class AlbumRepository{
 
   }
 
+  editAlbum(albumId, albumData){
+    const album = this.getAlbumById(albumId);
+    console.log("albumId es ", albumId);
+    Object.keys(albumData).forEach(key => this.updateAlbum(key, album, albumData[key]));
+    console.log('the new album is: ', album);
+  }  
+  
+
+  updateAlbum(key, album, data){
+    switch (key){
+      case 'title':
+        album.setTitle(data);
+        break;
+      case 'artistId':
+        album.setArtistId(data);
+        break;
+    }
+  }
+
 
   incrementId(){
     this.id ++;
