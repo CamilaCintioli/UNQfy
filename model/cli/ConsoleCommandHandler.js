@@ -7,7 +7,12 @@ const GetTrackByIdCommand = require ('./commands/GetTrackByIdCommand');
 const GetTracksMatchingGenresCommand = require ('./commands/GetTracksMatchingGenresCommands');
 const GetTracksMatchingArtistCommand = require ('./commands/GetTracksMatchingArtistCommand');
 const UpdateArtistCommand = require ('./commands/UpdateArtistCommand');
+<<<<<<< HEAD
 const DeleteArtistCommand = require('./commands/DeleteArtistCommand');
+=======
+const UpdateTrackCommand = require ('./commands/UpdateTrackCommand');
+const UpdateAlbumCommand = require ('./commands/UpdateAlbumCommand');
+>>>>>>> 8262f1e2940821dd2bff2df51d87b32c97490b16
 
 class ConsoleCommandHandler{
   getCommand(commandLine){
@@ -32,6 +37,10 @@ class ConsoleCommandHandler{
       return new UpdateArtistCommand();
     case 'deleteArtist':
       return new DeleteArtistCommand();
+    case 'updateTrack':
+      return new UpdateTrackCommand();
+    case 'updateAlbum':
+      return new UpdateAlbumCommand();
     }
 
   }

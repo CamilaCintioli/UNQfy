@@ -62,7 +62,12 @@ class UNQfy {
     const album = this.albumRepository.addAlbum(artistId,albumData);
     this.artistRepository.updateArtistAlbums(artistId,album.getId());
   }
+  
 
+  updateAlbum(albumId, albumData){
+    this.albumRepository.editAlbum(albumId, albumData);
+
+  }
 
   // trackData: objeto JS con los datos necesarios para crear un track
   //   trackData.name (string)
@@ -77,6 +82,10 @@ class UNQfy {
       - una propiedad genres (lista de strings)
   */
     this.trackRepository.addTrack(albumId, trackData);
+  }
+
+  updateTrack(trackId, trackData){
+    this.trackRepository.editTrack(trackId, trackData);
   }
 
   getArtistById(id) {

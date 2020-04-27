@@ -30,7 +30,30 @@ class TrackRepository{
 
   deleteTrack(trackId){
     this.tracks = this.tracks.filter(track => track.getId() !== trackId);
-    console.log('nueva lista de tracks', this.tracks);
+    
+  }
+  editTrack(trackId, trackData){
+    const track = this.getTrackById(trackId);
+    
+    Object.keys(trackData).forEach(key => this.updateTrack(key, track, trackData[key]));
+    console.log('the new track is: ', track);
+  }  
+
+  updateTrack(key,track, data){
+    switch (key){
+    case 'title':
+      track.setTitle(data);
+      break;
+    case 'duration':
+      track.setDuration(data);
+      break;
+    case 'genres':
+      track.setGenres(data);     
+      break; 
+    case 'albumId':
+      track.setAlbumId(data);
+      break;
+    }
   }
 
 

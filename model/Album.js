@@ -9,6 +9,16 @@ class Album{
   getId(){
     return this.id;
   }
+
+  setTitle(title){
+    this.title = title;
+  }
+
+  setArtistId(artistId){
+    this.artistId = artistId;
+  }
+
+
 }
 
 module.exports = Album;

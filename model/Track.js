@@ -22,6 +22,24 @@ class Track{
     return this.id;
   }
 
+  setTitle(title){
+    this.title = title;
+  }
+
+  setDuration(duration){
+    this.duration = duration;
+  }
+
+  setGenres(genres){
+    this.genres = genres;
+  }
+
+  setAlbumId(albumId){
+    this.albumId = albumId;
+  }
+
+  
+
 }
 
 module.exports=Track;
