@@ -18,6 +18,10 @@ class Track{
     return albumsIds.includes(this.albumId);
   }
 
+  getId(){
+    return this.id;
+  }
+
 }
 
 module.exports=Track;

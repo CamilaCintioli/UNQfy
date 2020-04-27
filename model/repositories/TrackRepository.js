@@ -28,7 +28,10 @@ class TrackRepository{
     return this.tracks.filter(track => track.hasAlbumId(albumsIds));
   }
 
-    
+  deleteTrack(trackId){
+    this.tracks = this.tracks.filter(track => track.getId() !== trackId);
+    console.log('nueva lista de tracks', this.tracks);
+  }
 
 
   incrementId(){
