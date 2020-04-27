@@ -1,27 +1,28 @@
 const Album = require('../Album');
 
 class AlbumRepository{
-    constructor(){
-        this.id = 0;
-        this.albums = [];
-    }
+  constructor(){
+    this.id = 0;
+    this.albums = [];
+  }
 
-    addAlbum(albumData){
-        const album = new Album(this.id, albumData.title, albumData.tracks, albumData.duration);
-        console.log(album);
-        this.albums.push(album);
-        this.incrementId();
-    }
+  addAlbum(artistId, albumData){
+    const album = new Album(this.id, albumData.title, albumData.tracks, artistId);
+    console.log(album);
+    this.albums.push(album);
+    this.incrementId();
+    return album;
+  }
 
-    getAlbumById(albumId){
-        return this.albums.find(({id}) => id === albumId);
+  getAlbumById(albumId){
+    return this.albums.find(({id}) => id === albumId);
 
-    }
+  }
 
 
-    incrementId(){
-        this.id ++;
-    }
+  incrementId(){
+    this.id ++;
+  }
 
 
 }

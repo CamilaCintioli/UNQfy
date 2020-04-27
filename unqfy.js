@@ -42,7 +42,9 @@ class UNQfy {
      - una propiedad name (string)
      - una propiedad year (number)
   */
-    this.albumRepository.addAlbum(albumData);
+
+    const album = this.albumRepository.addAlbum(artistId,albumData);
+    this.artistRepository.updateArtistAlbums(artistId,album.getId());
   }
 
 
@@ -58,7 +60,7 @@ class UNQfy {
       - una propiedad duration (number),
       - una propiedad genres (lista de strings)
   */
-    this.trackRepository.addTrack(trackData);
+    this.trackRepository.addTrack(albumId, trackData);
   }
 
   getArtistById(id) {
@@ -93,6 +95,13 @@ class UNQfy {
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
   getTracksMatchingArtist(artistName) {
+    
+    const artists = this.artistRepository.getArtistsFromName(artistName);
+    
+    const albumsIds = artists.map((artist) => artist.getAlbumsIds()).flat();
+       
+    const track = this.trackRepository.getTracksMatchingArtist(albumsIds);
+    console.log(Array.isArray(track) && track.length ? track : "No existe un track con el artista pedido");
 
   }
 

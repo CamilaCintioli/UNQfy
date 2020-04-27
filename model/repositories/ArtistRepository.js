@@ -19,6 +19,15 @@ class ArtistRepository{
   getArtistById(artistId){
     return this.artists.find(({id}) => id === artistId);
   }
+
+  getArtistsFromName(artistName){
+    return this.artists.filter(artist => artist.getFullName().includes(artistName));
+  }
+
+  updateArtistAlbums(artistId, albumId){
+    this.artists.find(artist => artist.getId() === artistId).addAlbumId(albumId);
+  }
+
 }
 
 module.exports = ArtistRepository;

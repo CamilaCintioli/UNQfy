@@ -7,9 +7,9 @@ class TrackRepository{
 
   }
 
-  addTrack(trackData){
-    console.log(trackData);
-    const track = new Track(this.id, trackData.title, trackData.genres, trackData.duration);
+  addTrack(albumId, trackData){
+
+    const track = new Track(this.id, trackData.title, trackData.genres, trackData.duration, albumId);
     this.tracks.push(track);
     console.log(track);
     this.incrementId();
@@ -21,6 +21,11 @@ class TrackRepository{
 
   getTracksMatchingGenres(genres){
     return this.tracks.filter(track => track.haveAnyGenres(genres));
+  }
+
+  getTracksMatchingArtist(albumsIds){
+    
+    return this.tracks.filter(track => track.hasAlbumId(albumsIds));
   }
 
     
