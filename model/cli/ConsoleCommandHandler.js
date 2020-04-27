@@ -7,6 +7,7 @@ const GetTrackByIdCommand = require ('./commands/GetTrackByIdCommand');
 const GetTracksMatchingGenresCommand = require ('./commands/GetTracksMatchingGenresCommands');
 const GetTracksMatchingArtistCommand = require ('./commands/GetTracksMatchingArtistCommand');
 const UpdateArtistCommand = require ('./commands/UpdateArtistCommand');
+const DeleteArtistCommand = require('./commands/DeleteArtistCommand');
 
 class ConsoleCommandHandler{
   getCommand(commandLine){
@@ -29,6 +30,8 @@ class ConsoleCommandHandler{
       return new GetTracksMatchingArtistCommand();
     case 'updateArtist':
       return new UpdateArtistCommand();
+    case 'deleteArtist':
+      return new DeleteArtistCommand();
     }
 
   }
