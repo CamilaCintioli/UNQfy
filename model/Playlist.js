@@ -5,6 +5,15 @@ class Playlist{
     this.tracks=tracks;
     this.duration=duration;
   }
+
+  getPlaylistId(){
+    return Playlist.id;
+  }
+
+
+
 }
+
+
 
 module.exports=Playlist;

@@ -48,6 +48,15 @@ class UNQfy {
   }
 
 
+
+  deletePlaylist(playlistId){
+
+
+    this.palylistRepository.deletePlaylist(playlistid);
+
+
+  }
+
   // albumData: objeto JS con los datos necesarios para crear un album
   //   albumData.name (string)
   //   albumData.year (number)
@@ -109,16 +118,19 @@ class UNQfy {
 
   }
 
+  
+
+
   getTrackById(id) {
     const track = this.trackRepository.getTrackById(id);
     console.log(track? track: "No existe un track con id " + id);
     
   }
-/*
+
   getPlaylistById(id) {
     const playlist = this.playlistRepository.getPlaylistById(id);
     console.log(playlist? playlist: "No existe una playlist con id " + id);
-  }*/
+  }
 
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
