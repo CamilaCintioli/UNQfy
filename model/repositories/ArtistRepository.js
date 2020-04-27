@@ -28,6 +28,24 @@ class ArtistRepository{
     this.artists.find(artist => artist.getId() === artistId).addAlbumId(albumId);
   }
 
+  editArtist(artistId, artistData){
+    const artist = this.getArtistById(artistId);
+    
+    Object.keys(artistData).forEach(key => this.updateArtist(key, artist, artistData[key]));
+    console.log("the new artist is: ", artist);
+  }
+
+  updateArtist(key, artist, data){
+    switch (key){
+      case "name":
+        artist.setName(data);
+      case "lastName":
+        artist.setLastname(data);
+      case "country":
+        artist.setCountry(data);      
+    }
+  }
+
 }
 
 module.exports = ArtistRepository;

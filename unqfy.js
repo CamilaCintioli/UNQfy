@@ -31,6 +31,10 @@ class UNQfy {
     this.artistRepository.addArtist(artistData);
   }
 
+  updateArtist(artistId, artistData){
+    this.artistRepository.editArtist(artistId, artistData);
+  }
+
 
   // albumData: objeto JS con los datos necesarios para crear un album
   //   albumData.name (string)
