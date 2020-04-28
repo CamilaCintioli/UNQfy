@@ -84,6 +84,10 @@ class TrackRepository{
     }
     return tracks;
   }
+
+  getTracks(){
+    return this.tracks;
+  }
 }
 
 module.exports = TrackRepository;
