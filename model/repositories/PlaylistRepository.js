@@ -19,8 +19,6 @@ class PlaylistRepository{
     }
 
     deletePlaylist(playlistid){
-        const playlist = this.getPlayListById(playlistId);
-
         this.playlists = this.playlists.filter(playlist => playlist.getId() !== playlistId);
     }
 

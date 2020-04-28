@@ -11,6 +11,7 @@ class TrackRepository{
 
     const track = new Track(this.id, trackData.title, trackData.genres, trackData.duration, albumId);
     this.tracks.push(track);
+    this.addTrackToAlbumId(albumId, trackId);
     console.log(track);
     this.incrementId();
   }
@@ -28,8 +29,14 @@ class TrackRepository{
     return this.tracks.filter(track => track.hasAlbumId(albumsIds));
   }
 
+  getAlbumIdMatchingByTracksId(tracksId){
+    const track = this.getTrackById(tracksId);
+    return this.track.albumId;
+  }
+
   deleteTrack(trackId){
-    this.tracks = this.tracks.filter(track => track.getId() !== trackId);
+    
+    this.tracks = this.tracks.filter(track => track.getId() !== trackId); 
     
   }
 

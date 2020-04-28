@@ -15,7 +15,6 @@ class UNQfy {
     this.trackRepository = new TrackRepository();
     this.albumRepository = new AlbumRepository();
     //this.playlistRepositiry = new PlaylistRepository();
-
   }
   
   // artistData: objeto JS con los datos necesarios para crear un artista
@@ -36,7 +35,6 @@ class UNQfy {
   }
 
   deleteArtist(artistId){
-
     const artist = this.artistRepository.getArtistById(artistId);
     const albumsIds = artist.getAlbumsIds();
     const tracksIds = this.trackRepository.getTracksMatchingAlbumById(albumsIds).map(track => track.getId());
@@ -44,19 +42,12 @@ class UNQfy {
     tracksIds.forEach(trackId => this.trackRepository.deleteTrack(trackId));
     albumsIds.forEach(albumId => this.albumRepository.deleteAlbum(albumId));    
     this.artistRepository.deleteArtist(artistId);
-
   }
-
-
-
+/*
   deletePlaylist(playlistId){
-
-
     this.palylistRepository.deletePlaylist(playlistid);
-
-
   }
-
+*/
   // albumData: objeto JS con los datos necesarios para crear un album
   //   albumData.name (string)
   //   albumData.year (number)
@@ -75,11 +66,9 @@ class UNQfy {
 
   updateAlbum(albumId, albumData){
     this.albumRepository.editAlbum(albumId, albumData);
-
   }
 
   deleteAlbum(albumId){
-    
     const tracksDeleteByAlbum = this.trackRepository.getTracksMatchingAlbumById([albumId]);
 
     const tracskById = tracksDeleteByAlbum.map(track => track.getId());
@@ -107,6 +96,10 @@ class UNQfy {
     this.trackRepository.editTrack(trackId, trackData);
   }
 
+  deleteTrack(trackId){
+    this.trackRepository.deleteTrack(trackId);
+  }
+
   getArtistById(id) {
     const artist = this.artistRepository.getArtistById(id);
     console.log(artist? artist : 'No existe un artista con ese id');
@@ -115,16 +108,11 @@ class UNQfy {
   getAlbumById(id) {
     const album = this.albumRepository.getAlbumById(id);
     console.log(album? album: "No existe un album con id " + id);
-
   }
-
-  
-
 
   getTrackById(id) {
     const track = this.trackRepository.getTrackById(id);
     console.log(track? track: "No existe un track con id " + id);
-    
   }
 
   getPlaylistById(id) {
@@ -142,14 +130,11 @@ class UNQfy {
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
   getTracksMatchingArtist(artistName) {
-    
     const artists = this.artistRepository.getArtistsFromName(artistName);
-    
     const albumsIds = artists.map((artist) => artist.getAlbumsIds()).flat();
-       
     const track = this.trackRepository.getTracksMatchingAlbumId(albumsIds);
-    console.log(Array.isArray(track) && track.length ? track : "No existe un track con el artista pedido");
 
+    console.log(Array.isArray(track) && track.length ? track : "No existe un track con el artista pedido");
   }
 
 
