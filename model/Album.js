@@ -19,6 +19,9 @@ class Album{
     this.artistId = artistId;
   }
 
+  addTrackId(trackId){
+    this.tracks.push(trackId);
+  }
 
 }
 

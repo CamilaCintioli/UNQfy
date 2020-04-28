@@ -45,6 +45,9 @@ class AlbumRepository{
     this.id ++;
   }
 
+  updateAlbumTracks(albumId,trackId){
+    this.getAlbumById(albumId).addTrackId(trackId);
+  }
 
 }
 

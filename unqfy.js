@@ -28,7 +28,10 @@ class UNQfy {
     - una propiedad name (string)
     - una propiedad country (string)
   */
-    return this.artistRepository.addArtist(artistData);
+
+    const artist = this.artistRepository.addArtist(artistData);
+    console.log(artist);
+    return artist;
   }
 
   updateArtist(artistId, artistData){
@@ -91,7 +94,10 @@ class UNQfy {
       - una propiedad duration (number),
       - una propiedad genres (lista de strings)
   */
-    return this.trackRepository.addTrack(albumId, trackData);
+
+    const track = this.trackRepository.addTrack(albumId, trackData);
+    this.albumRepository.updateAlbumTracks(albumId, track.getId());
+    return track;
   }
 
   updateTrack(trackId, trackData){
