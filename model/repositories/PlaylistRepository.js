@@ -30,6 +30,7 @@ class PlaylistRepository{
     this.playlists.push(newPlaylist);
     this.incrementId();
     console.log(newPlaylist);
+    return newPlaylist;
   }
 
 }

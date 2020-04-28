@@ -73,14 +73,13 @@ class TrackRepository{
   getTracksMatchingGenresAndDuration(genres, maxDuration){
     const tracksMatchingGenres = this.getTracksMatchingGenres(genres);
     const tracks = [];
-    
+  
     let durationPlaylist=0;
     for(const track of tracksMatchingGenres){
-      if(track.getDuration()+durationPlaylist > maxDuration ){
-        break;
-      }
-      tracks.push(track);
-      durationPlaylist+=track.getDuration();
+      if(!(track.getDuration()+durationPlaylist > maxDuration )){
+        tracks.push(track);
+        durationPlaylist+=track.getDuration();
+      }  
 
     }
     return tracks;

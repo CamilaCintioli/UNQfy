@@ -127,6 +127,7 @@ class UNQfy {
   getTracksMatchingGenres(genres) {
     const track = this.trackRepository.getTracksMatchingGenres(genres);
     console.log(Array.isArray(track) && track.length ? track : 'No existe un track con los generos pedidos');
+    return track;
   }
 
   // artistName: nombre de artista(string)
@@ -134,9 +135,10 @@ class UNQfy {
   getTracksMatchingArtist(artistName) {
     const artists = this.artistRepository.getArtistsFromName(artistName);
     const albumsIds = artists.map((artist) => artist.getAlbumsIds()).flat();
-    const track = this.trackRepository.getTracksMatchingAlbumId(albumsIds);
+    const track = this.trackRepository.getTracksMatchingAlbumById(albumsIds);
 
     console.log(Array.isArray(track) && track.length ? track : 'No existe un track con el artista pedido');
+    return track;
   }
 
 
@@ -154,7 +156,7 @@ class UNQfy {
 
     
     const tracks = this.trackRepository.getTracksMatchingGenresAndDuration(genresToInclude, maxDuration);
-    this.playlistRepository.createPlaylist(name, tracks);
+    return this.playlistRepository.createPlaylist(name, tracks);
 
   }
 
