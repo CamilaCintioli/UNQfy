@@ -10,7 +10,7 @@ function createAndAddArtist(unqfy, artistName, country) {
 }
 
 function createAndAddAlbum(unqfy, artistId, albumName, albumYear) {
-  return unqfy.addAlbum(artistId, { name: albumName, year: albumYear });
+  return unqfy.addAlbum(artistId, { title: albumName, year: albumYear });
 }
 
 function createAndAddTrack(unqfy, albumName, trackName, trackDuraction, trackGenres) {
@@ -35,9 +35,10 @@ describe('Add, remove and filter data', () => {
 
   it('should add an album to an artist', () => {
     const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+    
     const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
 
-    assert.equal(album.name, 'Appetite for Destruction');
+    assert.equal(album.title, 'Appetite for Destruction');
     assert.equal(album.year, 1987);
   });
 

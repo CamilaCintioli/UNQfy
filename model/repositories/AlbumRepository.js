@@ -7,7 +7,7 @@ class AlbumRepository{
   }
 
   addAlbum(artistId, albumData){
-    const album = new Album(this.id, albumData.title, albumData.tracks, artistId);
+    const album = new Album(this.id, albumData.title, albumData.tracks, artistId, albumData.year);
     console.log(album);
     this.albums.push(album);
     this.incrementId();

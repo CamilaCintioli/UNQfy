@@ -1,9 +1,11 @@
 class AddAlbumCommand{
   execute(args, unqfy){
-    const [,artistId,,title,,...tracks] = args;
+    const [,artistId,,title,,year,...tracks] = args;
     unqfy.addAlbum(parseInt(artistId),{
       title,
-      tracks});
+      tracks,
+      year:parseInt(year),
+    });
   }
 }
   

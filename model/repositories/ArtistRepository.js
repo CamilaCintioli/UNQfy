@@ -10,6 +10,7 @@ class ArtistRepository{
     const newArtist = new Artist(this.artistId, name, lastname, country);
     this.artists.push(newArtist);
     this.increaseId();
+    return newArtist;
   }
 
   increaseId(){
