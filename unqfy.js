@@ -7,14 +7,15 @@ const Track = require('./model/Track');
 const Album = require('./model/Album');
 const TrackRepository = require('./model/repositories/TrackRepository');
 const AlbumRepository = require('./model/repositories/AlbumRepository');
-//const PlaylistRepository = require('./module/repositories/PlaylistRepository');
+const PlaylistRepository = require('./model/repositories/PlaylistRepository');
+const Playlist = require('./model/Playlist');
 
 class UNQfy {
   constructor(){
     this.artistRepository = new ArtistRepository();
     this.trackRepository = new TrackRepository();
     this.albumRepository = new AlbumRepository();
-    //this.playlistRepositiry = new PlaylistRepository();
+    this.playlistRepository = new PlaylistRepository();
   }
   
   // artistData: objeto JS con los datos necesarios para crear un artista
@@ -43,11 +44,11 @@ class UNQfy {
     albumsIds.forEach(albumId => this.albumRepository.deleteAlbum(albumId));    
     this.artistRepository.deleteArtist(artistId);
   }
-/*
+  
   deletePlaylist(playlistId){
-    this.palylistRepository.deletePlaylist(playlistid);
+    this.playlistRepository.deletePlaylist(playlistId);
   }
-*/
+
   // albumData: objeto JS con los datos necesarios para crear un album
   //   albumData.name (string)
   //   albumData.year (number)
@@ -71,7 +72,7 @@ class UNQfy {
   deleteAlbum(albumId){
     const tracksDeleteByAlbum = this.trackRepository.getTracksMatchingAlbumById([albumId]);
 
-    const tracskById = tracksDeleteByAlbum.map(track => track.getId());
+    const tracksById = tracksDeleteByAlbum.map(track => track.getId());
     tracksById.forEach(track => this.trackRepository.deleteTrack(track));
 
     this.albumRepository.deleteAlbum(albumId);
@@ -107,24 +108,24 @@ class UNQfy {
 
   getAlbumById(id) {
     const album = this.albumRepository.getAlbumById(id);
-    console.log(album? album: "No existe un album con id " + id);
+    console.log(album? album: 'No existe un album con id ' + id);
   }
 
   getTrackById(id) {
     const track = this.trackRepository.getTrackById(id);
-    console.log(track? track: "No existe un track con id " + id);
+    console.log(track? track: 'No existe un track con id ' + id);
   }
 
   getPlaylistById(id) {
     const playlist = this.playlistRepository.getPlaylistById(id);
-    console.log(playlist? playlist: "No existe una playlist con id " + id);
+    console.log(playlist? playlist: 'No existe una playlist con id ' + id);
   }
 
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genres) {
     const track = this.trackRepository.getTracksMatchingGenres(genres);
-    console.log(Array.isArray(track) && track.length ? track : "No existe un track con los generos pedidos");
+    console.log(Array.isArray(track) && track.length ? track : 'No existe un track con los generos pedidos');
   }
 
   // artistName: nombre de artista(string)
@@ -134,7 +135,7 @@ class UNQfy {
     const albumsIds = artists.map((artist) => artist.getAlbumsIds()).flat();
     const track = this.trackRepository.getTracksMatchingAlbumId(albumsIds);
 
-    console.log(Array.isArray(track) && track.length ? track : "No existe un track con el artista pedido");
+    console.log(Array.isArray(track) && track.length ? track : 'No existe un track con el artista pedido');
   }
 
 
@@ -150,7 +151,9 @@ class UNQfy {
       * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
   */
 
-  //this.PlaylistRepository.createPlaylist(playlistData);
+    
+    const tracks = this.trackRepository.getTracksMatchingGenresAndDuration(genresToInclude, maxDuration);
+    this.playlistRepository.createPlaylist(name, tracks);
 
   }
 
@@ -167,7 +170,7 @@ class UNQfy {
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy, Artist, ArtistRepository,Track, TrackRepository, Album, AlbumRepository];
+    const classes = [UNQfy, Artist, ArtistRepository,Track, TrackRepository, Album, AlbumRepository, Playlist, PlaylistRepository];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 }
