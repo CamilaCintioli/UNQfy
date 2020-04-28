@@ -44,6 +44,22 @@ class UNQfy {
     albumsIds.forEach(albumId => this.albumRepository.deleteAlbum(albumId));    
     this.artistRepository.deleteArtist(artistId);
   }
+
+  getArtists(){
+    const artists = this.artistRepository.getArtists();
+    return console.log(artists);
+  }
+  
+  getPlaylists(){
+    const playlists = this.playlistRepository.getPlaylists();
+    return console.log(playlists);
+  }
+
+  getAlbums(){
+    const albums = this.albumRepository.getAlbums();
+    return console.log(albums);
+  }
+
   
   deletePlaylist(playlistId){
     this.playlistRepository.deletePlaylist(playlistId);

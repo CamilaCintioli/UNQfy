@@ -41,6 +41,10 @@ class AlbumRepository{
     }
   }
 
+  getAlbums(){
+    return this.getAlbums;
+  }
+  
   incrementId(){
     this.id ++;
   }

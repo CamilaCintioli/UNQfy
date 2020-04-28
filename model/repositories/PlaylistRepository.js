@@ -32,6 +32,10 @@ class PlaylistRepository{
     console.log(newPlaylist);
   }
 
+  getPlaylists(){
+    return this.playlists;
+  }
+
 }
 
 module.exports = PlaylistRepository;

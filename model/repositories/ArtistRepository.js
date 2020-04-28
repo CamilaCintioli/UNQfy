@@ -54,6 +54,10 @@ class ArtistRepository{
     console.log('Artista borrado exitosamente');
   }
 
+  getArtists(){
+    return this.artists;
+  }
+
 }
 
 module.exports = ArtistRepository;
