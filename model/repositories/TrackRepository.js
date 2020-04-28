@@ -11,7 +11,7 @@ class TrackRepository{
 
     const track = new Track(this.id, trackData.title, trackData.genres, trackData.duration, albumId);
     this.tracks.push(track);
-    this.addTrackToAlbumId(albumId, trackId);
+    
     console.log(track);
     this.incrementId();
   }
@@ -68,7 +68,22 @@ class TrackRepository{
   incrementId(){
     this.id ++;
   }
+  
+  getTracksMatchingGenresAndDuration(genres, maxDuration){
+    const tracksMatchingGenres = this.getTracksMatchingGenres(genres);
+    const tracks = [];
+    
+    let durationPlaylist=0;
+    for(const track of tracksMatchingGenres){
+      if(track.getDuration()+durationPlaylist > maxDuration ){
+        break;
+      }
+      tracks.push(track);
+      durationPlaylist+=track.getDuration();
 
+    }
+    return tracks;
+  }
 }
 
 module.exports = TrackRepository;

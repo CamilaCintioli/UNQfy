@@ -38,7 +38,9 @@ class Track{
     this.albumId = albumId;
   }
 
-  
+  getDuration(){
+    return this.duration;
+  }
 
 }
 

@@ -6,11 +6,9 @@ class Playlist{
     this.duration=duration;
   }
 
-  getPlaylistId(){
-    return Playlist.id;
+  getId(){
+    return this.id;
   }
-
-
 
 }
 
