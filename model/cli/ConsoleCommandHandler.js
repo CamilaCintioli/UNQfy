@@ -13,6 +13,7 @@ const UpdateAlbumCommand = require ('./commands/UpdateAlbumCommand');
 const DeleteAlbumCommand = require ('./commands/DeleteArtistCommand');
 const DeletePlaylistCommand = require ('./commands/DeletePlaylistCommand');
 const DeleteTrackCommand = require ('./commands/DeleteTrackCommand');
+const CreatePlaylistCommand = require('./commands/CreatePlaylistCommand');
 
 class ConsoleCommandHandler{
   getCommand(commandLine){
@@ -43,10 +44,12 @@ class ConsoleCommandHandler{
       return new UpdateAlbumCommand();
     case 'deleteAlbum':
       return new DeleteAlbumCommand();
-    case 'deletePlayLis':
+    case 'deletePlaylist':
       return new DeletePlaylistCommand();
     case 'deleteTrack':
       return new DeleteTrackCommand();
+    case 'createPlaylist':
+      return new CreatePlaylistCommand();
     }
 
   }
