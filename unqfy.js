@@ -91,7 +91,7 @@ class UNQfy {
       - una propiedad duration (number),
       - una propiedad genres (lista de strings)
   */
-    this.trackRepository.addTrack(albumId, trackData);
+    return this.trackRepository.addTrack(albumId, trackData);
   }
 
   updateTrack(trackId, trackData){

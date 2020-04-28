@@ -14,6 +14,7 @@ class TrackRepository{
     
     console.log(track);
     this.incrementId();
+    return track;
   }
 
   getTrackById(trackId){
