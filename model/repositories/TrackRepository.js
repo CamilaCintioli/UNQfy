@@ -7,9 +7,9 @@ class TrackRepository{
 
   }
 
-  addTrack(albumId, trackData){
+  addTrack(trackData){
 
-    const track = new Track(this.id, trackData.title, trackData.genres, trackData.duration, albumId);
+    const track = new Track(this.id, trackData.title, trackData.genres, trackData.duration);
     this.tracks.push(track);
     
     console.log(track);

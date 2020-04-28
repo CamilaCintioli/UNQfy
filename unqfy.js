@@ -63,7 +63,7 @@ class UNQfy {
      - una propiedad year (number)
   */
 
-    const album = this.albumRepository.addAlbum(artistId,albumData);
+    const album = this.albumRepository.addAlbum(albumData);
     this.artistRepository.updateArtistAlbums(artistId,album.getId());
     return album;
   }
@@ -95,7 +95,7 @@ class UNQfy {
       - una propiedad genres (lista de strings)
   */
 
-    const track = this.trackRepository.addTrack(albumId, trackData);
+    const track = this.trackRepository.addTrack(trackData);
     this.albumRepository.updateAlbumTracks(albumId, track.getId());
     return track;
   }
