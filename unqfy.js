@@ -322,6 +322,31 @@ class UNQfy {
     const classes = [UNQfy, Artist, Track, Album, Playlist];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
+
+  searchByName(name){
+    return {
+      artists: this.searchArtistsByName(name),
+      albums: this.searchAlbumsByTitle(name),
+      tracks: this.searchTracksByTitle(name),
+      playlists: this.searchPlaylistsByTitle(name),
+    }
+  }
+
+  searchArtistsByName(name) {
+    return this.artists.filter(artist => artist.getName().toLowerCase().includes(name.toLowerCase()));
+  }
+
+  searchAlbumsByTitle(name) {
+    return this.getAlbums().filter(album => album.getTitle().toLowerCase().includes(name.toLowerCase()));
+  }
+
+  searchTracksByTitle(name) {
+    return this.getAllTracks().filter(track => track.getTitle().toLowerCase().includes(name.toLowerCase()));
+  }
+
+  searchPlaylistsByTitle(name) {
+    return this.playlists.filter(playlist => playlist.getTitle().toLowerCase().includes(name.toLowerCase()));
+  }
 }
 
 // COMPLETAR POR EL ALUMNO: exportar todas las clases que necesiten ser utilizadas desde un modulo cliente

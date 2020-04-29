@@ -37,6 +37,10 @@ class Track{
     return allGenres.size !== (genres.length + this.genres.length);
   }
 
+  getTitle(){
+    return this.title;
+  }
+
 
 }
 

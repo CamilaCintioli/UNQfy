@@ -54,7 +54,7 @@ describe('Add, remove and filter data', () => {
     assert.lengthOf(track.genres, 2);
   });
 
-  /*it('should find different things by name', () => {
+  it('should find different things by name', () => {
     const artist1 = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
     const album1 = createAndAddAlbum(unqfy, artist1.id, 'Roses Album', 1987);
     const track = createAndAddTrack(unqfy, album1.id, 'Roses track', 200, ['pop', 'movie']);
@@ -67,7 +67,7 @@ describe('Add, remove and filter data', () => {
       tracks: [track],
       playlists: [playlist],
     });
-  });*/
+  });
 
   it('should get all tracks matching genres', () => {
     const artist1 = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');

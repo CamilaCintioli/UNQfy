@@ -24,6 +24,9 @@ class Playlist{
     this.duration-=duration;
   }
 
+  getTitle(){
+    return this.title;
+  }
 }
 
 

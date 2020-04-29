@@ -30,6 +30,10 @@ class Album{
     this.tracks = this.tracks.filter((track) => track.getId() !== trackId);
   }
 
+  getTitle(){
+    return this.title;
+  }
+
 }
 
 module.exports = Album;
