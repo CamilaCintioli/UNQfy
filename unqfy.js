@@ -10,6 +10,8 @@ class UNQfy {
   constructor(){
     this.artists = [];
     this.artistId = 0;
+    this.albumId = 0;
+    this.trackId = 0;
   }
   
   // artistData: objeto JS con los datos necesarios para crear un artista
@@ -78,6 +80,9 @@ class UNQfy {
 
   getAlbums(){
    
+    const albumes = this.artists.flatMap((artist) => artist.getAlbumes());
+    console.log("Los albumes son: ", albumes);
+    return albumes;
   }
 
   
@@ -126,12 +131,40 @@ class UNQfy {
       - una propiedad duration (number),
       - una propiedad genres (lista de strings)
   */
-
-    
+    const track = new Track(this.trackId, trackData.title, trackData.genres, trackData.year);
+    const albumes = this.getAlbums();
+    const album = albumes.find(album => album.getId() === albumId);
+    album.addTrack(track);
+    console.log("album con el track ", album);    
+    return track;
   }
 
   updateTrack(trackId, trackData){
-    
+    const tracks = this.getAlbums().flatMap(album => album.getTracks());
+    const track = tracks.find(track => track.getId() === trackId);
+    if (track){
+      Object.keys(trackData).forEach(key => this.editTrack(key, track, trackData[key]));
+      console.log('the new track is: ', track);
+      return track;
+    } 
+    console.log("no existe el track con es id ", trackId);
+  }
+
+  editTrack(key,track, data){
+    switch (key){
+    case 'title':
+      track.setTitle(data);
+      break;
+    case 'duration':
+      track.setDuration(data);
+      break;
+    case 'genres':
+      track.setGenres(data);
+      break; 
+    case 'albumId':
+      track.setAlbumId(data);
+      break;
+    }
   }
 
   deleteTrack(trackId){

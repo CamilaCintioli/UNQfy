@@ -10,6 +10,14 @@ class Album{
     return this.id;
   }
 
+  getTracks(){
+    return this.tracks;
+  }
+
+  addTrack(track){
+    this.tracks.push(track);
+  }
+
   setTitle(title){
     this.title = title;
   }

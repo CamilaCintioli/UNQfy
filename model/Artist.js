@@ -15,8 +15,12 @@ class Artist{
     return this.id;
   }
 
+  getAlbums(){
+    return this.albums;
+  }
+
   addAlbum(album){
-    this.albumsIds.push(album);
+    this.albums.push(album);
   }
 
 
