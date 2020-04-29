@@ -205,6 +205,7 @@ class UNQfy {
     const album = this.artists.flatMap(artist => artist.getAlbums()).find(album => album.getTracks().map(track => track.getId()).includes(trackId));
     if(album){
       album.deleteTrack(trackId);
+      this.playlists.forEach(playlist => playlist.deleteTrack(trackId));
       console.log('Track borrado exitosamente');
     } else {
       console.log('No existe un track con ese id ', trackId);
@@ -275,14 +276,14 @@ class UNQfy {
     const tracks = this.getTracksMatchingGenres(genresToInclude);
     let duration = 0;
     const playlistTracks = [];
-
+    
     tracks.forEach((track) => {
       if(track.getDuration()+duration <= maxDuration){
         playlistTracks.push(track);
         duration+=track.getDuration();
       }  
     });
-
+    console.log(playlistTracks[0]);
     const newPlaylist = new Playlist(this.playlistId, name, playlistTracks, duration);
     this.playlists.push(newPlaylist);
     this.playlistId++;

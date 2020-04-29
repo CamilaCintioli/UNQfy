@@ -18,6 +18,12 @@ class Playlist{
     return this.tracks.includes(track);
   }
 
+  deleteTrack(trackId){
+    const duration = this.tracks.find(track => track.getId() === trackId).getDuration();
+    this.tracks = this.tracks.filter(track => track.getId() !== trackId);
+    this.duration-=duration;
+  }
+
 }
 
 
