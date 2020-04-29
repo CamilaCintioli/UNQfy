@@ -134,7 +134,17 @@ class UNQfy {
   }
 
   deleteAlbum(albumId) {
+    const artist = this.artists.find((artist) => artist.getAlbums().map((album) => album.getId()).includes(albumId));
 
+    if(artist){
+      artist.deleteAlbum(albumId);
+      console.log('Album borrado exitosamente');
+    } else {
+      console.log('No existe un album con ese id ', albumId);
+    }
+
+
+    
   }
 
   // trackData: objeto JS con los datos necesarios para crear un track

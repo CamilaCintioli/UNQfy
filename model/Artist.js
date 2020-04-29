@@ -35,6 +35,10 @@ class Artist{
   setCountry(country){
     this.country = country;
   }
+
+  deleteAlbum(albumId){
+    this.albums = this.albums.filter((album) => album.getId() !== albumId);
+  }
 }
 
 module.exports = Artist;
