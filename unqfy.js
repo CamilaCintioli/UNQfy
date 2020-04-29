@@ -31,7 +31,6 @@ class UNQfy {
     this.artists.push(newArtist);
     console.log('Se registró nuevo artista: ', newArtist);
     return newArtist;
-
   }
 
   updateArtist(artistId, artistData) {
@@ -74,6 +73,7 @@ class UNQfy {
   }
 
   getPlaylists() {
+
 
   }
 
@@ -200,7 +200,6 @@ class UNQfy {
   }
 
   deleteTrack(trackId) {
-
     const album = this.artists.flatMap(artist => artist.getAlbums()).find(album => album.getTracks().map(track => track.getId()).includes(trackId));
     if(album){
       album.deleteTrack(trackId);
@@ -208,15 +207,23 @@ class UNQfy {
     } else {
       console.log('No existe un track con ese id ', trackId);
     }
-
   }
 
   getArtistById(id) {
-
-
+    const artist = this.artists.find(artist => artist.getId() === id);
+    if (artist) {
+      return (console.log("El artista con id ", id, "es: ", artist));
+    }  
+    console.log ("El artista no está registrado con el id ", id);
   }
 
   getAlbumById(id) {
+    const albums = this.artists.map(artist => artist.getAlbums()).flat();
+    const album = albums.find(album => album.getId() === id);
+    if (album){
+      return (console.log("El album con id ", id, "es: ", album));
+    }
+    console.log ("El album no esta registrado con el id ", id);
 
 
   }
