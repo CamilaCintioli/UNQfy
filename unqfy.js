@@ -18,13 +18,13 @@ class UNQfy {
   //   artistData.name (string)
   //   artistData.country (string)
   // retorna: el nuevo artista creado
-  addArtist({ name, lastname, country }) {
+  addArtist({ name, country }) {
     /* Crea un artista y lo agrega a unqfy.
     El objeto artista creado debe soportar (al menos):
       - una propiedad name (string)
       - una propiedad country (string)
     */
-    const newArtist = new Artist(this.artistId, name, lastname, country);
+    const newArtist = new Artist(this.artistId, name, country);
     this.artistId++;
     this.artists.push(newArtist);
     console.log('Se registró nuevo artista: ', newArtist);
@@ -48,9 +48,6 @@ class UNQfy {
     switch (key) {
     case 'name':
       artist.setName(data);
-      break;
-    case 'lastname':
-      artist.setLastname(data);
       break;
     case 'country':
       artist.setCountry(data);
@@ -247,10 +244,16 @@ class UNQfy {
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
   getTracksMatchingArtist(artistName) {
-
-
-
-
+    
+    const artist = this.artists.find(artist => artist.getName() === artistName);
+    if(artist){
+      const tracks = artist.getAlbums().flatMap(album => album.getTracks());
+      
+      console.log(tracks);
+      return tracks;
+    } 
+    console.log('No existe un artista con ese nombre');
+    
   }
 
 

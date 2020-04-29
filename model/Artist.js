@@ -1,14 +1,13 @@
 class Artist{
-  constructor(id, name, lastname, country){
+  constructor(id, name, country){
     this.id = id;
     this.name = name;
-    this.lastname = lastname;
     this.country = country;
     this.albums = [];
   }
 
-  getFullName(){
-    return `${this.name} ${this.lastname}`;
+  getName(){
+    return this.name;
   }
 
   getId(){
@@ -26,10 +25,6 @@ class Artist{
 
   setName(name){
     this.name = name;
-  }
-
-  setLastname(lastname){
-    this.lastname = lastname;
   }
 
   setCountry(country){
