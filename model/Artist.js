@@ -29,7 +29,7 @@ class Artist{
   }
 
   setCountry(country){
-    this.country = country
+    this.country = country;
   }
 }
 

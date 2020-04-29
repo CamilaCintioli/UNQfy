@@ -26,12 +26,36 @@ class UNQfy {
     this.artistId++;
     this.artists.push(newArtist);
     console.log('Se registró nuevo artista: ', newArtist);
+    return newArtist;
     
   }
 
   updateArtist(artistId, artistData){
     
+    const artist = this.artists.find(({id}) => id === artistId);
+
+    if(artist){
+      Object.keys(artistData).forEach(key => this.editArtist(key, artist, artistData[key]));
+      console.log('Artista modificado: ', artist);
+      return artist;
+    } 
+    console.log('Artista no existe con ese id: ', artistId);
   }
+
+  editArtist(key, artist, data){
+    switch (key){
+    case 'name':
+      artist.setName(data);
+      break;
+    case 'lastname':
+      artist.setLastname(data);
+      break;
+    case 'country':
+      artist.setCountry(data);     
+      break; 
+    }
+  }
+
 
   deleteArtist(artistId){
   
