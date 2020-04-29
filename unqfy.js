@@ -104,7 +104,7 @@ class UNQfy {
       const album = new Album(this.albumId, title, year);
       artist.addAlbum(album);
       console.log('Se registró un nuevo album ', album);
-      //this.albumId++;
+      this.albumId++;
       return album;
     }
     console.log('No existe un artista con ese id ', artistId);
@@ -166,6 +166,7 @@ class UNQfy {
       const track = new Track(this.trackId, trackData.title, trackData.genres, trackData.duration);
       album.addTrack(track);
       console.log('Se registró un nuevo track', track);
+      this.trackId++;
       return track;
     }
     console.log('No existe un album con ese id', albumId);
@@ -235,7 +236,11 @@ class UNQfy {
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genres) {
 
+    const tracks = this.artists.flatMap((artist) => artist.getAlbums()).flatMap(album => album.getTracks());
 
+    const tracksByGenre = tracks.filter(track => track.haveAnyGenres(genres));
+    console.log(tracksByGenre);
+    return tracksByGenre;
 
   }
 

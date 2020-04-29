@@ -31,6 +31,13 @@ class Track{
     return this.duration;
   }
 
+  haveAnyGenres(genres){
+    const allGenres = new Set(this.genres.concat(genres));
+    
+    return allGenres.size !== (genres.length + this.genres.length);
+  }
+
+
 }
 
 module.exports=Track;
