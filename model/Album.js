@@ -22,9 +22,8 @@ class Album{
     this.title = title;
   }
 
-
-  addTrack(track){
-    this.tracks.push(track);
+  setYear(year){
+    this.year=year;
   }
 
 }
