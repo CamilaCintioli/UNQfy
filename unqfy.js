@@ -8,20 +8,24 @@ const Playlist = require('./model/Playlist');
 
 class UNQfy {
   constructor(){
-       
+    this.artists = [];
+    this.artistId = 0;
   }
   
   // artistData: objeto JS con los datos necesarios para crear un artista
   //   artistData.name (string)
   //   artistData.country (string)
   // retorna: el nuevo artista creado
-  addArtist(artistData) {
+  addArtist({name, lastname, country}) {
   /* Crea un artista y lo agrega a unqfy.
   El objeto artista creado debe soportar (al menos):
     - una propiedad name (string)
     - una propiedad country (string)
   */
-
+    const newArtist = new Artist(this.artistId, name, lastname, country);
+    this.artistId++;
+    this.artists.push(newArtist);
+    console.log('Se registró nuevo artista: ', newArtist);
     
   }
 
