@@ -58,7 +58,13 @@ class UNQfy {
 
 
   deleteArtist(artistId){
-  
+    const artist = this.artists.find((artist) => artist.getId() === artistId);
+    if(artist){
+      this.artists = this.artists.filter((artist) => artist.getId() !== artistId);
+      console.log('Artista borrado exitosamente');
+    } else {
+      console.log('No existe un artista con ese id ', artistId);
+    }      
   }
 
   getArtists(){
