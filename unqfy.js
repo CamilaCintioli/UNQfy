@@ -224,14 +224,22 @@ class UNQfy {
       return (console.log("El album con id ", id, "es: ", album));
     }
     console.log ("El album no esta registrado con el id ", id);
+  }
 
-
+  getAllTracks(){
+    const tracks = this.getAlbums().map(album => album.getTracks()).flat();
+    return tracks;
   }
 
   getTrackById(id) {
-
-
+    //console.log(this.getAllTracks());
+    const track = this.getAllTracks().find(track => track.getId() === id);
+    if (track){
+      return (console.log("El track con id ", id, "es: ", track));
+    }
+    console.log("El track no pertenece a ningún album");
   }
+
 
   getPlaylistById(id) {
 
