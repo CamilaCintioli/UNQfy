@@ -79,8 +79,7 @@ class UNQfy {
   }
 
   getAlbums(){
-   
-    const albumes = this.artists.flatMap((artist) => artist.getAlbumes());
+    const albumes = this.artists.flatMap((artist) => artist.getAlbums());
     console.log("Los albumes son: ", albumes);
     return albumes;
   }
@@ -131,11 +130,10 @@ class UNQfy {
       - una propiedad duration (number),
       - una propiedad genres (lista de strings)
   */
-    const track = new Track(this.trackId, trackData.title, trackData.genres, trackData.year);
+    const track = new Track(this.trackId, trackData.title, trackData.genres, trackData.duration);
     const albumes = this.getAlbums();
     const album = albumes.find(album => album.getId() === albumId);
-    album.addTrack(track);
-    console.log("album con el track ", album);    
+    album.addTrack(track);  
     return track;
   }
 
