@@ -77,7 +77,7 @@ class UNQfy {
   }
 
   getAlbums(){
-  
+   
   }
 
   
@@ -89,13 +89,20 @@ class UNQfy {
   //   albumData.name (string)
   //   albumData.year (number)
   // retorna: el nuevo album creado
-  addAlbum(artistId, albumData) {
+  addAlbum(artistId, {title, year}) {
   /* Crea un album y lo agrega al artista con id artistId.
     El objeto album creado debe tener (al menos):
      - una propiedad name (string)
      - una propiedad year (number)
   */
-
+    const artist = this.artists.find(({id}) => id === artistId);
+    if(artist){
+      const album = new Album(this.albumId, title, year);
+     artist.addAlbum(album);
+      console.log('Se registró un nuevo album ', album);
+      return album;
+    } 
+    console.log('No existe un artista con ese id ', artistId);
   }
   
 
