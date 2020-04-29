@@ -14,9 +14,8 @@ class Playlist{
     return this.duration;
   }
 
-  hasTrack(trackAsked){
-    console.log('canciones de playlist', this.tracks);
-    return this.tracks.includes(trackAsked.getId());
+  hasTrack(track){
+    return this.tracks.includes(track);
   }
 
 }

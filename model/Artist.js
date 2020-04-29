@@ -4,7 +4,7 @@ class Artist{
     this.name = name;
     this.lastname = lastname;
     this.country = country;
-    this.albumsIds = [];
+    this.albums = [];
   }
 
   getFullName(){
@@ -15,12 +15,8 @@ class Artist{
     return this.id;
   }
 
-  getAlbumsIds(){
-    return this.albumsIds;
-  }
-
-  addAlbumId(albumId){
-    this.albumsIds.push(albumId);
+  addAlbum(album){
+    this.albumsIds.push(album);
   }
 
 

@@ -1,21 +1,14 @@
 
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
-const ArtistRepository = require('./model/repositories/ArtistRepository');
 const Artist = require('./model/Artist');
 const Track = require('./model/Track');
 const Album = require('./model/Album');
-const TrackRepository = require('./model/repositories/TrackRepository');
-const AlbumRepository = require('./model/repositories/AlbumRepository');
-const PlaylistRepository = require('./model/repositories/PlaylistRepository');
 const Playlist = require('./model/Playlist');
 
 class UNQfy {
   constructor(){
-    this.artistRepository = new ArtistRepository();
-    this.trackRepository = new TrackRepository();
-    this.albumRepository = new AlbumRepository();
-    this.playlistRepository = new PlaylistRepository();
+       
   }
   
   // artistData: objeto JS con los datos necesarios para crear un artista
@@ -29,43 +22,32 @@ class UNQfy {
     - una propiedad country (string)
   */
 
-    const artist = this.artistRepository.addArtist(artistData);
-    console.log(artist);
-    return artist;
+    
   }
 
   updateArtist(artistId, artistData){
-    this.artistRepository.editArtist(artistId, artistData);
+    
   }
 
   deleteArtist(artistId){
-    const artist = this.artistRepository.getArtistById(artistId);
-    const albumsIds = artist.getAlbumsIds();
-    const tracksIds = this.trackRepository.getTracksMatchingAlbumById(albumsIds).map(track => track.getId());
-    
-    tracksIds.forEach(trackId => this.trackRepository.deleteTrack(trackId));
-    albumsIds.forEach(albumId => this.albumRepository.deleteAlbum(albumId));    
-    this.artistRepository.deleteArtist(artistId);
+  
   }
 
   getArtists(){
-    const artists = this.artistRepository.getArtists();
-    return console.log(artists);
+
   }
   
   getPlaylists(){
-    const playlists = this.playlistRepository.getPlaylists();
-    return console.log(playlists);
+    
   }
 
   getAlbums(){
-    const albums = this.albumRepository.getAlbums();
-    return console.log(albums);
+  
   }
 
   
   deletePlaylist(playlistId){
-    this.playlistRepository.deletePlaylist(playlistId);
+    
   }
 
   // albumData: objeto JS con los datos necesarios para crear un album
@@ -79,23 +61,15 @@ class UNQfy {
      - una propiedad year (number)
   */
 
-    const album = this.albumRepository.addAlbum(albumData);
-    this.artistRepository.updateArtistAlbums(artistId,album.getId());
-    return album;
   }
   
 
   updateAlbum(albumId, albumData){
-    this.albumRepository.editAlbum(albumId, albumData);
+    
   }
 
   deleteAlbum(albumId){
-    const tracksDeleteByAlbum = this.trackRepository.getTracksMatchingAlbumById([albumId]);
-
-    const tracksById = tracksDeleteByAlbum.map(track => track.getId());
-    tracksById.forEach(track => this.trackRepository.deleteTrack(track));
-
-    this.albumRepository.deleteAlbum(albumId);
+    
   }
 
   // trackData: objeto JS con los datos necesarios para crear un track
@@ -111,56 +85,52 @@ class UNQfy {
       - una propiedad genres (lista de strings)
   */
 
-    const track = this.trackRepository.addTrack(trackData);
-    this.albumRepository.updateAlbumTracks(albumId, track.getId());
-    return track;
+    
   }
 
   updateTrack(trackId, trackData){
-    this.trackRepository.editTrack(trackId, trackData);
+    
   }
 
   deleteTrack(trackId){
-    this.trackRepository.deleteTrack(trackId);
+    
   }
 
   getArtistById(id) {
-    const artist = this.artistRepository.getArtistById(id);
-    console.log(artist? artist : 'No existe un artista con ese id');
+    
+    
   }
 
   getAlbumById(id) {
-    const album = this.albumRepository.getAlbumById(id);
-    console.log(album? album: 'No existe un album con id ' + id);
+    
+    
   }
 
   getTrackById(id) {
-    const track = this.trackRepository.getTrackById(id);
-    console.log(track? track: 'No existe un track con id ' + id);
+    
+    
   }
 
   getPlaylistById(id) {
-    const playlist = this.playlistRepository.getPlaylistById(id);
-    console.log(playlist? playlist: 'No existe una playlist con id ' + id);
+    
+    
   }
 
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genres) {
-    const track = this.trackRepository.getTracksMatchingGenres(genres);
-    console.log(Array.isArray(track) && track.length ? track : 'No existe un track con los generos pedidos');
-    return track;
+    
+    
+    
   }
 
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
   getTracksMatchingArtist(artistName) {
-    const artists = this.artistRepository.getArtistsFromName(artistName);
-    const albumsIds = artists.map((artist) => artist.getAlbumsIds()).flat();
-    const track = this.trackRepository.getTracksMatchingAlbumById(albumsIds);
-
-    console.log(Array.isArray(track) && track.length ? track : 'No existe un track con el artista pedido');
-    return track;
+    
+    
+    
+    
   }
 
 
@@ -177,8 +147,7 @@ class UNQfy {
   */
 
     
-    const tracks = this.trackRepository.getTracksMatchingGenresAndDuration(genresToInclude, maxDuration);
-    return this.playlistRepository.createPlaylist(name, tracks);
+    
 
   }
 
@@ -195,7 +164,7 @@ class UNQfy {
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy, Artist, ArtistRepository,Track, TrackRepository, Album, AlbumRepository, Playlist, PlaylistRepository];
+    const classes = [UNQfy, Artist,Track, Album, Playlist];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 }

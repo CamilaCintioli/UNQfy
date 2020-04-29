@@ -7,16 +7,6 @@ class Track{
   }
 
 
-  haveAnyGenres(genresOrders){
-    const genresGeneral = new Set(this.genres.concat(genresOrders));
-    
-    return genresGeneral.size !== (genresOrders.length + this.genres.length);
-  }
-
-  hasAlbumId(albumsIds){
-    return albumsIds.includes(this.albumId);
-  }
-
   getId(){
     return this.id;
   }
