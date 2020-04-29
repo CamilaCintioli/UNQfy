@@ -12,6 +12,8 @@ class UNQfy {
     this.artistId = 0;
     this.albumId = 0;
     this.trackId = 0;
+    this.playlists=[];
+    this.playlistId=0;
   }
 
   // artistData: objeto JS con los datos necesarios para crear un artista
@@ -269,9 +271,22 @@ class UNQfy {
         * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
     */
 
+    const tracks = this.getTracksMatchingGenres(genresToInclude);
+    let duration = 0;
+    const playlistTracks = [];
 
+    tracks.forEach((track) => {
+      if(track.getDuration()+duration <= maxDuration){
+        playlistTracks.push(track);
+        duration+=track.getDuration();
+      }  
+    });
 
-
+    const newPlaylist = new Playlist(this.playlistId, name, playlistTracks, duration);
+    this.playlists.push(newPlaylist);
+    this.playlistId++;
+    console.log('Se registró una nueva playlist ', newPlaylist);
+    return newPlaylist;
   }
 
   save(filename) {
