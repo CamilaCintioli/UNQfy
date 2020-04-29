@@ -104,6 +104,7 @@ class UNQfy {
       const album = new Album(this.albumId, title, year);
       artist.addAlbum(album);
       console.log('Se registró un nuevo album ', album);
+      //this.albumId++;
       return album;
     }
     console.log('No existe un artista con ese id ', artistId);
@@ -199,6 +200,14 @@ class UNQfy {
   }
 
   deleteTrack(trackId) {
+
+    const album = this.artists.flatMap(artist => artist.getAlbums()).find(album => album.getTracks().map(track => track.getId()).includes(trackId));
+    if(album){
+      album.deleteTrack(trackId);
+      console.log('Track borrado exitosamente');
+    } else {
+      console.log('No existe un track con ese id ', trackId);
+    }
 
   }
 

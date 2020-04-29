@@ -26,6 +26,10 @@ class Album{
     this.year=year;
   }
 
+  deleteTrack(trackId){
+    this.tracks = this.tracks.filter((track) => track.getId() !== trackId);
+  }
+
 }
 
 module.exports = Album;
