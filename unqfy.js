@@ -68,7 +68,8 @@ class UNQfy {
   }
 
   getArtists(){
-
+    console.log("Los artistas son: ", this.artists);
+    return this.artists
   }
   
   getPlaylists(){
