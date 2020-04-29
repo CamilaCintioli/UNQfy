@@ -85,7 +85,8 @@ class UNQfy {
 
 
   deletePlaylist(playlistId) {
-
+    this.playlists = this.playlists.filter(playlist => playlist.getId() !== playlistId);
+    console.log('La playlist ha sido eliminada exitosamente');
   }
 
   // albumData: objeto JS con los datos necesarios para crear un album
