@@ -5,7 +5,7 @@ const Artist = require('./model/Artist');
 const Track = require('./model/Track');
 const Album = require('./model/Album');
 const Playlist = require('./model/Playlist');
-const ErrorTheSameNameArtist = require('./model/Exceptions');
+const {ErrorTheSameNameArtist, ErrorTheSameTrackInAlbum} = require('./model/Exceptions');
 
 class UNQfy {
   constructor() {
@@ -163,6 +163,11 @@ class UNQfy {
         - una propiedad duration (number),
         - una propiedad genres (lista de strings)
     */
+    const checkTrack = this.getAlbums().flatMap(album => album.getTracks()).
+                                      find(track => track.getTitle() === trackData.title);
+    if (checkTrack){
+      throw new ErrorTheSameTrackInAlbum();
+    } 
     const albums = this.getAlbums();
     const album = albums.find(album => album.getId() === albumId);
     if (album) {

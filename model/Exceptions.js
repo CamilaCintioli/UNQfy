@@ -1,11 +1,14 @@
 class ErrorTheSameNameArtisit extends Error{
     constructor(){
         super("Ya existe un artista con ese nombre"); 
-        //this.name = "ValidationError"; 
     }
+}
 
-
+class ErrorTheSameTrackInAlbum extends Error{
+    constructor(){
+        super("Ya existe ese track en el album"); 
+    }
 
 }
 
-module.exports=ErrorTheSameNameArtisit;
+module.exports = {ErrorTheSameNameArtisit, ErrorTheSameTrackInAlbum};
