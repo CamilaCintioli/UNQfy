@@ -73,8 +73,8 @@ class UNQfy {
   }
 
   getPlaylists() {
-
-
+    console.log("Las playlist son: ", this.playlists);
+    return this.playlists;
   }
 
   getAlbums() {
@@ -143,9 +143,6 @@ class UNQfy {
     } else {
       console.log('No existe un album con ese id ', albumId);
     }
-
-
-    
   }
 
   // trackData: objeto JS con los datos necesarios para crear un track
@@ -214,18 +211,18 @@ class UNQfy {
   getArtistById(id) {
     const artist = this.artists.find(artist => artist.getId() === id);
     if (artist) {
-      return (console.log("El artista con id ", id, "es: ", artist));
+      return (console.log('El artista con id ', id, 'es: ', artist));
     }  
-    console.log ("El artista no está registrado con el id ", id);
+    console.log ('El artista no está registrado con el id ', id);
   }
 
   getAlbumById(id) {
     const albums = this.artists.map(artist => artist.getAlbums()).flat();
     const album = albums.find(album => album.getId() === id);
     if (album){
-      return (console.log("El album con id ", id, "es: ", album));
+      return (console.log('El album con id ', id, 'es: ', album));
     }
-    console.log ("El album no esta registrado con el id ", id);
+    console.log ('El album no esta registrado con el id ', id);
   }
 
   getAllTracks(){
@@ -237,9 +234,9 @@ class UNQfy {
     //console.log(this.getAllTracks());
     const track = this.getAllTracks().find(track => track.getId() === id);
     if (track){
-      return (console.log("El track con id ", id, "es: ", track));
+      return (console.log('El track con id ', id, 'es: ', track));
     }
-    console.log("El track no pertenece a ningún album");
+    console.log('El track no pertenece a ningún album');
   }
 
 
@@ -329,7 +326,7 @@ class UNQfy {
       albums: this.searchAlbumsByTitle(name),
       tracks: this.searchTracksByTitle(name),
       playlists: this.searchPlaylistsByTitle(name),
-    }
+    };
   }
 
   searchArtistsByName(name) {
