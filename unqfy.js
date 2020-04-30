@@ -5,6 +5,7 @@ const Artist = require('./model/Artist');
 const Track = require('./model/Track');
 const Album = require('./model/Album');
 const Playlist = require('./model/Playlist');
+const ErrorTheSameNameArtist = require('./model/Exceptions');
 
 class UNQfy {
   constructor() {
@@ -26,6 +27,9 @@ class UNQfy {
       - una propiedad name (string)
       - una propiedad country (string)
     */
+    if (this.searchArtistsByName(name).length > 0){
+      throw new ErrorTheSameNameArtist();
+    }
     const newArtist = new Artist(this.artistId, name, country);
     this.artistId++;
     this.artists.push(newArtist);
@@ -71,6 +75,8 @@ class UNQfy {
     console.log('Los artistas son: ', this.artists);
     return this.artists;
   }
+
+
 
   getPlaylists() {
     console.log("Las playlist son: ", this.playlists);
