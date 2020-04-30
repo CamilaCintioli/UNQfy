@@ -241,8 +241,11 @@ class UNQfy {
 
 
   getPlaylistById(id) {
-
-
+    const playlist = this.playlists.find(playlist => playlist.getId() === id);
+    if (playlist){
+      return (console.log('La playlist con id ', id, 'es ', playlist));
+    }
+    console.log('La playlist no pertenece a unqfy');
   }
 
   // genres: array de generos(strings)

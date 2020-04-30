@@ -17,6 +17,7 @@ const CreatePlaylistCommand = require('./commands/CreatePlaylistCommand');
 const GetArtistsCommand = require ('./commands/GetArtistsCommand');
 const GetPlaylistsCommand = require ('./commands/GetPlaylistsCommand');
 const GetAlbumsCommand = require ('./commands/GetAlbumsCommand');
+const GetPlaylistByIdCommand = require ('./commands/GetPlaylistByIdCommand');
 
 class ConsoleCommandHandler{
   getCommand(commandLine){
@@ -59,6 +60,8 @@ class ConsoleCommandHandler{
       return new GetPlaylistsCommand();  
     case 'getAlbums':
       return new GetAlbumsCommand();
+    case 'getPlaylistById':
+      return new GetPlaylistByIdCommand();
     }
 
   }
