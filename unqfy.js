@@ -376,8 +376,28 @@ class UNQfy {
     console.log('Ya existente el usuario ', user.getName());
   }
 
+  registerTrackByUser(userId, trackId){
+    const track = this.getTrackById(trackId);
+    console.log('user id',userId);
+    const user = this.getUserById(userId);
+    console.log(user);
+    return user.addTrackHeard(track);
+    console.log(user.tracksHeard);
+
+  } 
+
+  getUserById(id){
+
+    const user = this.users.find(user => user.id === id);
+    console.log("user ", user);
+    return this.users.find(user => user.id === id);
+  }
+
+
+  
   
 
+  
 }
 
 
