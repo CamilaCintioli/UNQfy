@@ -14,12 +14,26 @@ class User{
     getName(){
         return this.name;
     }
-    
+   
     
     addTrackHeard(track){
         return this.tracksHeard.push(track);
     }
 
+    getTracks(){
+        const tracks2 = [];
+        for (let track of this.tracksHeard){
+            if (!tracks2.includes(track))
+                tracks2.push(track);
+        }
+        return tracks2;
+    }
+
+    timesHeardATrack(trackId){
+        return this.tracksHeard.filter(track => track.getId() === trackId).length;
+    }
+
+/*    
     trackHeard(trackData){
         if (this.tracksHeard.map(track => track.getId()).includes(trackData.getId())){
             this.tracksHeard.find(track => track.getId() === trackData.getId()).addTimeTrackHeard(trackData);
@@ -28,6 +42,7 @@ class User{
             console.log("La canción ", trackData.getName(), "no está en esta plyList");
         } 
     }
+*/
 
     addTimeTrackHeard(trackData){
         this.timeTrackHeard = this.timeTrackHeard + trackData.getDuration();
