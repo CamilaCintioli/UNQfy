@@ -32,7 +32,9 @@ class Artist{
   }
 
   deleteAlbum(albumId){
+  
     this.albums = this.albums.filter((album) => album.getId() !== albumId);
+    console.log(this.albums);
   }
 
   edit(artistData){

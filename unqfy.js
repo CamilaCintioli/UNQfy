@@ -69,7 +69,7 @@ class UNQfy {
   }
 
   getPlaylists() {
-    console.log("Las playlist son: ", this.playlists);
+    console.log('Las playlist son: ', this.playlists);
     return this.playlists;
   }
 
@@ -121,14 +121,8 @@ class UNQfy {
 
 
   deleteAlbum(albumId) {
-    const artist = this.artists.find((artist) => artist.getAlbums().map((album) => album.getId()).includes(albumId));
-
-    if(artist){
-      artist.deleteAlbum(albumId);
-      console.log('Album borrado exitosamente');
-    } else {
-      console.log('No existe un album con ese id ', albumId);
-    }
+    this.artists.forEach(artist => artist.deleteAlbum(albumId));
+    console.log('Album fue borrado exitosamente');
   }
 
   // trackData: objeto JS con los datos necesarios para crear un track
@@ -144,7 +138,7 @@ class UNQfy {
         - una propiedad genres (lista de strings)
     */
     const checkTrack = this.getAlbums().flatMap(album => album.getTracks()).
-                                      find(track => track.getTitle() === trackData.title);
+      find(track => track.getTitle() === trackData.title);
     if (checkTrack){
       throw new ErrorTheSameTrackInAlbum();
     } 
@@ -224,7 +218,7 @@ class UNQfy {
   getTrackById(id) {
     const track = this.getAllTracks().find(track => track.getId() === id);
     if (track){
-      console.log('El track con id ', id, 'es: ', track)
+      console.log('El track con id ', id, 'es: ', track);
       return track;
     }
     console.log('El track no pertenece a ningún album');
@@ -366,14 +360,14 @@ class UNQfy {
   getTracksListenByUser(userId){
     const user = this.getUserById(userId);
     const tracksListen = user.getTracks();
-    console.log("tracks escuchados ", tracksListen);
+    console.log('tracks escuchados ', tracksListen);
     return user.getTracks();
   }
 
   getTimesHeardATrack(userId, trackId){
     const user = this.getUserById(userId);
 
-    console.log("Escucho el track ", user.timesHeardATrack(trackId), "veces");
+    console.log('Escucho el track ', user.timesHeardATrack(trackId), 'veces');
   }
 
 
