@@ -34,6 +34,21 @@ class Artist{
   deleteAlbum(albumId){
     this.albums = this.albums.filter((album) => album.getId() !== albumId);
   }
+
+  edit(artistData){
+    Object.keys(artistData).forEach(key => this.editAux(key, artistData[key]));
+  }
+
+  editAux(key, data) {
+    switch (key) {
+    case 'name':
+      this.setName(data);
+      break;
+    case 'country':
+      this.setCountry(data);
+      break;
+    }
+  }
 }
 
 module.exports = Artist;

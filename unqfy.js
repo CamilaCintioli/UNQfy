@@ -45,25 +45,14 @@ class UNQfy {
     const artist = this.artists.find(({ id }) => id === artistId);
 
     if (artist) {
-      Object.keys(artistData).forEach(key => this.editArtist(key, artist, artistData[key]));
+      artist.edit(artistData);
       console.log('Artista modificado: ', artist);
       return artist;
     }
     console.log('Artista no existe con ese id: ', artistId);
   }
 
-  editArtist(key, artist, data) {
-    switch (key) {
-    case 'name':
-      artist.setName(data);
-      break;
-    case 'country':
-      artist.setCountry(data);
-      break;
-    }
-  }
-
-
+ 
   deleteArtist(artistId) {
     const artist = this.artists.find((artist) => artist.getId() === artistId);
     if (artist) {
@@ -78,8 +67,6 @@ class UNQfy {
     console.log('Los artistas son: ', this.artists);
     return this.artists;
   }
-
-
 
   getPlaylists() {
     console.log("Las playlist son: ", this.playlists);
