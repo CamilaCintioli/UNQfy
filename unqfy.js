@@ -383,7 +383,7 @@ class UNQfy {
   } 
 
   getUserById(id){
-    return (this.users.find(user => user.id === id));
+    return this.users.find(user => user.id === id);
   }
 
   getTracksListenByUser(userId){
@@ -391,6 +391,12 @@ class UNQfy {
     const tracksListen = user.getTracks();
     console.log("tracks escuchados ", tracksListen);
     return user.getTracks();
+  }
+
+  getTimesHeardATrack(userId, trackId){
+    const user = this.getUserById(userId);
+
+    console.log("Escucho el track ", user.timesHeardATrack(trackId), "veces");
   }
 
 

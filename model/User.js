@@ -14,11 +14,7 @@ class User{
     getName(){
         return this.name;
     }
-
-/*    getTracks(){
-        return this.withoutRepeated();
-    }
-*/    
+   
     
     addTrackHeard(track){
         return this.tracksHeard.push(track);
@@ -33,6 +29,10 @@ class User{
         return tracks2;
     }
 
+    timesHeardATrack(trackId){
+        return this.tracksHeard.filter(track => track.getId() === trackId).length;
+    }
+
 /*    
     trackHeard(trackData){
         if (this.tracksHeard.map(track => track.getId()).includes(trackData.getId())){
@@ -44,7 +44,6 @@ class User{
     }
 */
 
-    
     addTimeTrackHeard(trackData){
         this.timeTrackHeard = this.timeTrackHeard + trackData.getDuration();
     }
