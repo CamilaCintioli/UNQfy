@@ -111,7 +111,7 @@ class UNQfy {
     const albums = this.artists.flatMap((artist) => artist.getAlbums());
     const album = albums.find((album) => album.getId() === albumId);
     if(album){
-      Object.keys(albumData).forEach(key => this.editAlbum(key, album, albumData[key]));
+      album.edit(albumData);
       console.log('the new album is: ', album);
       return album;
     }
@@ -119,16 +119,6 @@ class UNQfy {
     console.log('No existe album con ese id ', albumId);
   }
 
-  editAlbum(key, album, data){
-    switch (key){
-    case 'title':
-      album.setTitle(data);
-      break;
-    case 'year':
-      album.setYear(parseInt(data));
-      break;
-    }
-  }
 
   deleteAlbum(albumId) {
     const artist = this.artists.find((artist) => artist.getAlbums().map((album) => album.getId()).includes(albumId));
