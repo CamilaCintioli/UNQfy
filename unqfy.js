@@ -245,10 +245,10 @@ class UNQfy {
   }
 
   getTrackById(id) {
-    //console.log(this.getAllTracks());
     const track = this.getAllTracks().find(track => track.getId() === id);
     if (track){
-      return (console.log('El track con id ', id, 'es: ', track));
+      console.log('El track con id ', id, 'es: ', track)
+      return track;
     }
     console.log('El track no pertenece a ningún album');
   }
@@ -378,20 +378,21 @@ class UNQfy {
 
   registerTrackByUser(userId, trackId){
     const track = this.getTrackById(trackId);
-    console.log('user id',userId);
     const user = this.getUserById(userId);
-    console.log(user);
-    return user.addTrackHeard(track);
-    console.log(user.tracksHeard);
-
+    const tracks = user.addTrackHeard(track);
   } 
 
   getUserById(id){
-
-    const user = this.users.find(user => user.id === id);
-    console.log("user ", user);
-    return this.users.find(user => user.id === id);
+    return (this.users.find(user => user.id === id));
   }
+
+  getTracksListenByUser(userId){
+    const user = this.getUserById(userId);
+    const tracksListen = user.getTracks();
+    console.log("tracks escuchados ", tracksListen);
+    return user.getTracks();
+  }
+
 
 
   

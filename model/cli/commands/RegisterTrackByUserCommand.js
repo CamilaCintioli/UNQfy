@@ -3,7 +3,7 @@ class RegisterTrackByUserCommand{
         //console.log("argumentos ", args );
         const [,userId,,trackId] = args;
 
-        unqfy.registerTrackByUser(userId, trackId);
+        unqfy.registerTrackByUser(parseInt(userId), parseInt(trackId));
     }
 }
 

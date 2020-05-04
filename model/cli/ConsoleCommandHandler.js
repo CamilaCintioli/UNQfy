@@ -21,6 +21,7 @@ const GetPlaylistByIdCommand = require ('./commands/GetPlaylistByIdCommand');
 const AddUserCommand = require ('./commands/AddUserCommand');
 const RegisterTrackByUserCommand = require ('./commands/RegisterTrackByUserCommand');
 const GetUserByIdCommand = require ('./commands/GetUserByIdCommand');
+const GetTracksListenByUserCommand = require ('./commands/GetTracksListenByUserCommand');
 
 class ConsoleCommandHandler{
   getCommand(commandLine){
@@ -71,6 +72,8 @@ class ConsoleCommandHandler{
       return new RegisterTrackByUserCommand();
     case 'getUserById':
       return new GetUserByIdCommand();
+    case 'getTracksListenByUser':
+      return new GetTracksListenByUserCommand();
     }
 
   }
