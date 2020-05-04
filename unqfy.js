@@ -6,6 +6,7 @@ const Track = require('./model/Track');
 const Album = require('./model/Album');
 const Playlist = require('./model/Playlist');
 const {ErrorTheSameNameArtist, ErrorTheSameTrackInAlbum} = require('./model/Exceptions');
+const User = require ('./model/User');
 
 class UNQfy {
   constructor() {
@@ -13,8 +14,10 @@ class UNQfy {
     this.artistId = 0;
     this.albumId = 0;
     this.trackId = 0;
-    this.playlists=[];
-    this.playlistId=0;
+    this.playlists = [];
+    this.playlistId = 0;
+    this.userId = 0;
+    this.users = [];
   }
 
   // artistData: objeto JS con los datos necesarios para crear un artista
@@ -330,7 +333,7 @@ class UNQfy {
   static load(filename) {
     const serializedData = fs.readFileSync(filename, { encoding: 'utf-8' });
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy, Artist, Track, Album, Playlist];
+    const classes = [UNQfy, Artist, Track, Album, Playlist,User];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 
@@ -358,7 +361,27 @@ class UNQfy {
   searchPlaylistsByTitle(name) {
     return this.playlists.filter(playlist => playlist.getTitle().toLowerCase().includes(name.toLowerCase()));
   }
+
+
+
+  addUser(userData){
+    const user = this.users.map(user => user.name).includes(userData.name);
+    if (!user) {
+      const user = new User(this.userId, userData.name, userData.lastname);
+      this.users.push(user);
+      console.log('Se registró un nuevo user ', user);
+      this.userId++;
+      return user;
+    }
+    console.log('Ya existente el usuario ', user.getName());
+  }
+
+  
+
 }
+
+
+
 
 // COMPLETAR POR EL ALUMNO: exportar todas las clases que necesiten ser utilizadas desde un modulo cliente
 module.exports = {
