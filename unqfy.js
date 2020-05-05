@@ -361,10 +361,12 @@ class UNQfy {
     return user.getTracks();
   }
 
-  getTimesHeardATrack(userId, trackId){
+  getTimesHeardATrack(userId, trackId, hasToPrint){
     const user = this.getUserById(userId);
-
-    console.log('Escucho el track ', user.timesHeardATrack(trackId), 'veces');
+    const times = user.timesHeardATrack(trackId);
+    hasToPrint ? console.log(times) : undefined;
+    
+    return times;
   }
 
   getTopTracksOfArtist(artistId){

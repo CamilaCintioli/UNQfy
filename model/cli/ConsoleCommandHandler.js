@@ -19,7 +19,7 @@ const GetPlaylistsCommand = require ('./commands/GetPlaylistsCommand');
 const GetAlbumsCommand = require ('./commands/GetAlbumsCommand');
 const GetPlaylistByIdCommand = require ('./commands/GetPlaylistByIdCommand');
 const AddUserCommand = require ('./commands/AddUserCommand');
-const RegisterTrackByUserCommand = require ('./commands/RegisterTrackByUserCommand');
+const ListenTrackByUserCommand = require ('./commands/ListenTrackByUserCommand');
 const GetUserByIdCommand = require ('./commands/GetUserByIdCommand');
 const GetTracksListenByUserCommand = require ('./commands/GetTracksListenByUserCommand');
 const GetTimesHeardATrackCommand = require('./commands/GetTimesHeardATrackCommand');
@@ -71,8 +71,8 @@ class ConsoleCommandHandler{
       return new GetPlaylistByIdCommand();
     case 'addUser':
       return new AddUserCommand();
-    case 'registerTrackByUser':
-      return new RegisterTrackByUserCommand();
+    case 'listenTrackByUser':
+      return new ListenTrackByUserCommand();
     case 'getUserById':
       return new GetUserByIdCommand();
     case 'getTracksListenByUser':
