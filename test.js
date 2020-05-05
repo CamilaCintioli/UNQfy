@@ -21,7 +21,7 @@ function createAndAddUser(unqfy, name, lastname){
   return unqfy.addUser({name, lastname});
 }
 
-/*
+
 describe('Add, remove and filter data', () => {
   let unqfy = null;
 
@@ -151,7 +151,7 @@ describe('Playlist Creation and properties', () => {
     assert.lengthOf(playlist.tracks, 4);
   });
 });
-*/
+
 describe('User Creation and properties', () => {
   let unqfy = null;
 

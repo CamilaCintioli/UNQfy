@@ -1,7 +1,7 @@
 class GetAlbumByIdCommand{
-    execute(args, unquify){
-        unquify.getAlbumById(parseInt(args[1]),true);
-    }
+  execute(args, unquify){
+    console.log(unquify.getAlbumById(parseInt(args[1])));
+  }
 }
 
 module.exports = GetAlbumByIdCommand;

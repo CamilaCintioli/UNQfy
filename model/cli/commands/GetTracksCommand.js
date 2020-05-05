@@ -1,6 +1,6 @@
 class GetTracksCommand{
   execute(args,unqfy){
-    unqfy.getTracks(true);
+    console.log(unqfy.getTracks());
   }
 }
 

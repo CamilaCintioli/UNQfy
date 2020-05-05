@@ -1,6 +1,6 @@
 class GetUserByIdCommand{
   execute(args, unqfy){
-    unqfy.getUserById(parseInt(args[0]),true);
+    console.log(unqfy.getUserById(parseInt(args[0])));
   }
 }
 

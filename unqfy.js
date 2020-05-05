@@ -79,11 +79,8 @@ class UNQfy {
     return this.playlists;
   }
 
-  getAlbums(hasToPrint) {
+  getAlbums() {
     const albumes = this.artists.flatMap((artist) => artist.getAlbums());
-    if(hasToPrint){
-      console.log('Los albumes registrados son: ', albumes);
-    }
     return albumes;
   }
 
@@ -196,26 +193,23 @@ class UNQfy {
     console.log ('El artista no está registrado con el id ', id);
   }
 
-  getAlbumById(id, hasToPrint) {
+  getAlbumById(id) {
     const albums = this.artists.map(artist => artist.getAlbums()).flat();
     const album = albums.find(album => album.getId() === id);
     if (album){
-      hasToPrint ? console.log('El album con id ', id, 'es: ', album) : undefined;
       return album;
     }
     console.log ('El album no esta registrado con el id ', id);
   }
 
-  getTracks(hasToPrint){
+  getTracks(){
     const tracks = this.getAlbums().map(album => album.getTracks()).flat();
-    hasToPrint ? console.log(tracks): undefined;
     return tracks;
   }
 
-  getTrackById(id, hasToPrint) {
+  getTrackById(id) {
     const track = this.getTracks().find(track => track.getId() === id);
     if (track){
-      hasToPrint ? console.log('El track con id ', id, 'es: ', track) : undefined;    
       return track;
     }
     console.log('El track no pertenece a ningún album');
@@ -232,24 +226,21 @@ class UNQfy {
 
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
-  getTracksMatchingGenres(genres, hasToPrint) {
+  getTracksMatchingGenres(genres) {
 
     const tracks = this.getTracks();
     const tracksByGenre = tracks.filter(track => track.haveAnyGenres(genres));
-    hasToPrint ? console.log(tracksByGenre) : undefined;
     return tracksByGenre;
 
   }
 
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
-  getTracksMatchingArtist(artistName, hasToPrint) {
+  getTracksMatchingArtist(artistName) {
     
     const artist = this.artists.find(artist => artist.getName() === artistName);
     if(artist){
       const tracks = artist.getAlbums().flatMap(album => album.getTracks());
-      
-      hasToPrint ? console.log(tracks) : undefined;
       return tracks;
     } 
     console.log('No existe un artista con ese nombre');
@@ -349,9 +340,8 @@ class UNQfy {
     user.addTrackHeard(track);
   } 
 
-  getUserById(id, hasToPrint){
+  getUserById(id){
     const user = this.users.find(user => user.id === id);
-    hasToPrint ? console.log(user) : undefined;
     return user;
   }
 
@@ -362,11 +352,9 @@ class UNQfy {
     return user.getTracks();
   }
 
-  getTimesHeardATrack(userId, trackId, hasToPrint){
+  getTimesHeardATrack(userId, trackId){
     const user = this.getUserById(userId);
-    const times = user.timesHeardATrack(trackId);
-    hasToPrint ? console.log(times) : undefined;
-    
+    const times = user.timesHeardATrack(trackId);    
     return times;
   }
 
