@@ -49,6 +49,10 @@ class Album{
     }
   }
 
+  hasTrackWithTitle(title){
+    return !!this.tracks.find(track => track.getTitle() === title);
+  }
+
 }
 
 module.exports = Album;

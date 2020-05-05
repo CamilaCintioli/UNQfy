@@ -1,6 +1,6 @@
 class GetAlbumByIdCommand{
     execute(args, unquify){
-        unquify.getAlbumById(parseInt(args[1]));
+        unquify.getAlbumById(parseInt(args[1]),true);
     }
 }
 

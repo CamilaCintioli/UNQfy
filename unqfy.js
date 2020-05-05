@@ -30,14 +30,20 @@ class UNQfy {
       - una propiedad name (string)
       - una propiedad country (string)
     */
-    if (this.searchArtistsByName(name).length > 0){
-      throw new DuplicatedArtist();
+    
+    try{
+      if (this.searchArtistsByName(name).length > 0){
+        throw new DuplicatedArtist();
+      }
+      const newArtist = new Artist(this.artistId, name, country);
+      this.artistId++;
+      this.artists.push(newArtist);
+      console.log('Se registró nuevo artista: ', newArtist);
+      return newArtist;
     }
-    const newArtist = new Artist(this.artistId, name, country);
-    this.artistId++;
-    this.artists.push(newArtist);
-    console.log('Se registró nuevo artista: ', newArtist);
-    return newArtist;
+    catch(DuplicatedArtist){
+      console.log('Existe un artista con el nombre dado');
+    }   
   }
 
   updateArtist(artistId, artistData) {
@@ -139,23 +145,25 @@ class UNQfy {
         - una propiedad duration (number),
         - una propiedad genres (lista de strings)
     */
-    const checkTrack = this.getAlbums().flatMap(album => album.getTracks()).
-      find(track => track.getTitle() === trackData.title);
-    if (checkTrack){
-      throw new DuplicatedTrackInAlbum();
-    } 
-    const albums = this.getAlbums();
-    const album = albums.find(album => album.getId() === albumId);
-    if (album) {
+    const album = this.getAlbumById(albumId);
+
+    try{
+      if(!album){
+        return undefined;
+      }
+      if(album.hasTrackWithTitle(trackData.title)){
+        throw new DuplicatedTrackInAlbum();
+      }
       const track = new Track(this.trackId, trackData.title, trackData.genres, trackData.duration);
       album.addTrack(track);
-      console.log('Se registró un nuevo track', track);
       this.trackId++;
+      console.log('Se registró un nuevo track', track);
       return track;
-    }
-    console.log('No existe un album con ese id', albumId);
+    } catch(DuplicatedTrackInAlbum) {
+      console.log('Ya existe un track con ese nombre en el album');
+    }   
+   
   }
-
   updateTrack(trackId, trackData) {
     const tracks = this.getAlbums().flatMap(album => album.getTracks());
     const track = tracks.find(track => track.getId() === trackId);
@@ -188,11 +196,12 @@ class UNQfy {
     console.log ('El artista no está registrado con el id ', id);
   }
 
-  getAlbumById(id) {
+  getAlbumById(id, hasToPrint) {
     const albums = this.artists.map(artist => artist.getAlbums()).flat();
     const album = albums.find(album => album.getId() === id);
     if (album){
-      return (console.log('El album con id ', id, 'es: ', album));
+      hasToPrint ? console.log('El album con id ', id, 'es: ', album) : undefined;
+      return album;
     }
     console.log ('El album no esta registrado con el id ', id);
   }

@@ -11,4 +11,10 @@ class DuplicatedTrackInAlbum extends Error{
 
 }
 
-module.exports = {DuplicatedArtist, DuplicatedTrackInAlbum};
+class CommandDoesNotExist extends Error{
+  constructor(){
+    super('El comando no existe'); 
+  }
+}
+
+module.exports = {DuplicatedArtist, DuplicatedTrackInAlbum, CommandDoesNotExist};
