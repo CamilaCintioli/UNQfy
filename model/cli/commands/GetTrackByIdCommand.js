@@ -1,6 +1,6 @@
 class GetTrackByIdCommand{
     execute(args, unquify){
-        unquify.getTrackById(parseInt(args[1]));
+        unquify.getTrackById(parseInt(args[1]),true);
     }
 }
 

@@ -73,9 +73,11 @@ class UNQfy {
     return this.playlists;
   }
 
-  getAlbums() {
+  getAlbums(hasToPrint) {
     const albumes = this.artists.flatMap((artist) => artist.getAlbums());
-    console.log('Los albumes registrados son: ', albumes);
+    if(hasToPrint){
+      console.log('Los albumes registrados son: ', albumes);
+    }
     return albumes;
   }
 
@@ -200,10 +202,10 @@ class UNQfy {
     return tracks;
   }
 
-  getTrackById(id) {
+  getTrackById(id, hasToPrint) {
     const track = this.getAllTracks().find(track => track.getId() === id);
     if (track){
-      console.log('El track con id ', id, 'es: ', track);
+      hasToPrint ? console.log('El track con id ', id, 'es: ', track) : undefined;    
       return track;
     }
     console.log('El track no pertenece a ningún album');
@@ -220,24 +222,24 @@ class UNQfy {
 
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
-  getTracksMatchingGenres(genres) {
+  getTracksMatchingGenres(genres, hasToPrint) {
 
     const tracks = this.getAllTracks();
     const tracksByGenre = tracks.filter(track => track.haveAnyGenres(genres));
-    console.log(tracksByGenre);
+    hasToPrint ? console.log(tracksByGenre) : undefined;
     return tracksByGenre;
 
   }
 
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
-  getTracksMatchingArtist(artistName) {
+  getTracksMatchingArtist(artistName, hasToPrint) {
     
     const artist = this.artists.find(artist => artist.getName() === artistName);
     if(artist){
       const tracks = artist.getAlbums().flatMap(album => album.getTracks());
       
-      console.log(tracks);
+      hasToPrint ? console.log(tracks) : undefined;
       return tracks;
     } 
     console.log('No existe un artista con ese nombre');
@@ -337,9 +339,9 @@ class UNQfy {
     user.addTrackHeard(track);
   } 
 
-  getUserById(id){
+  getUserById(id, hasToPrint){
     const user = this.users.find(user => user.id === id);
-    console.log(user);
+    hasToPrint ? console.log(user) : undefined;
     return user;
   }
 
