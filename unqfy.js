@@ -62,6 +62,8 @@ class UNQfy {
   deleteArtist(artistId) {
     const artist = this.artists.find((artist) => artist.getId() === artistId);
     if (artist) {
+      const tracks = this.getTracksMatchingArtist(artist.getName());
+      this.playlists.forEach(playlist => playlist.deleteTracks(tracks));
       this.artists = this.artists.filter((artist) => artist.getId() !== artistId);
       console.log('Artista borrado exitosamente');
     } else {
@@ -126,7 +128,13 @@ class UNQfy {
 
 
   deleteAlbum(albumId) {
+    const album = this.getAlbumById(albumId);
+    if(!album){
+      console.log('No existe un album con el id');
+    }
+    const tracks = album.getTracks();
     this.artists.forEach(artist => artist.deleteAlbum(albumId));
+    this.playlists.forEach(playlist => playlist.deleteTracks(tracks));
     console.log('Album fue borrado exitosamente');
   }
 

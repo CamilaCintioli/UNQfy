@@ -29,6 +29,10 @@ class Playlist{
     
   }
 
+  deleteTracks(tracks){
+    tracks.map(track => track.getId()).forEach(trackId => this.deleteTrack(trackId));
+  }
+
   getTitle(){
     return this.title;
   }
