@@ -73,9 +73,11 @@ class UNQfy {
     return this.playlists;
   }
 
-  getAlbums() {
+  getAlbums(hasToPrint) {
     const albumes = this.artists.flatMap((artist) => artist.getAlbums());
-    console.log('Los albumes registrados son: ', albumes);
+    if(hasToPrint){
+      console.log('Los albumes registrados son: ', albumes);
+    }
     return albumes;
   }
 
@@ -200,10 +202,10 @@ class UNQfy {
     return tracks;
   }
 
-  getTrackById(id) {
+  getTrackById(id, hasToPrint) {
     const track = this.getAllTracks().find(track => track.getId() === id);
     if (track){
-      console.log('El track con id ', id, 'es: ', track);
+      hasToPrint ? console.log('El track con id ', id, 'es: ', track) : undefined;    
       return track;
     }
     console.log('El track no pertenece a ningún album');
@@ -220,24 +222,24 @@ class UNQfy {
 
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
-  getTracksMatchingGenres(genres) {
+  getTracksMatchingGenres(genres, hasToPrint) {
 
     const tracks = this.getAllTracks();
     const tracksByGenre = tracks.filter(track => track.haveAnyGenres(genres));
-    console.log(tracksByGenre);
+    hasToPrint ? console.log(tracksByGenre) : undefined;
     return tracksByGenre;
 
   }
 
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
-  getTracksMatchingArtist(artistName) {
+  getTracksMatchingArtist(artistName, hasToPrint) {
     
     const artist = this.artists.find(artist => artist.getName() === artistName);
     if(artist){
       const tracks = artist.getAlbums().flatMap(album => album.getTracks());
       
-      console.log(tracks);
+      hasToPrint ? console.log(tracks) : undefined;
       return tracks;
     } 
     console.log('No existe un artista con ese nombre');
@@ -334,11 +336,13 @@ class UNQfy {
   registerTrackByUser(userId, trackId){
     const track = this.getTrackById(trackId);
     const user = this.getUserById(userId);
-    const tracks = user.addTrackHeard(track);
+    user.addTrackHeard(track);
   } 
 
-  getUserById(id){
-    return this.users.find(user => user.id === id);
+  getUserById(id, hasToPrint){
+    const user = this.users.find(user => user.id === id);
+    hasToPrint ? console.log(user) : undefined;
+    return user;
   }
 
   getTracksListenByUser(userId){
@@ -354,10 +358,28 @@ class UNQfy {
     console.log('Escucho el track ', user.timesHeardATrack(trackId), 'veces');
   }
 
+  getTopTracksOfArtist(artistId){
+    const artist = this.artists.find(artist => artist.getId() === artistId);
+    const tracks = this.getTracksMatchingArtist(artist.getName());
+
+    const topTracks = {};
+
+    tracks.forEach(track => topTracks[track.title]=this.timesHeardTotal(track));
+
+    const topTrack = Object.keys(topTracks)
+      .sort((track1, track2) => topTracks[track1] < topTracks[track2])
+      .splice(0, 3);
+
+    console.log('Las tracks mas escuchadas del artista son',topTrack);
+    return topTrack;
 
 
-  
-  
+  }
+
+  timesHeardTotal(track){
+    return this.users.reduce((timesHeard,user) => this.getTimesHeardATrack(user.getId(), track.getId()) + timesHeard, 0);
+  }
+
 
   
 }

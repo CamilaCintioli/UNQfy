@@ -1,6 +1,6 @@
 class GetTracksMatchingArtistCommand{
   execute(args,unqfy){
-    unqfy.getTracksMatchingArtist(args[1]);
+    unqfy.getTracksMatchingArtist(args[1],true);
   }
 }
 

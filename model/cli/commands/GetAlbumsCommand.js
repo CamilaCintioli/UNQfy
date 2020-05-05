@@ -1,6 +1,6 @@
 class GetAlbumsCommand{
   execute(args, unqfy){
-    unqfy.getAlbums();
+    unqfy.getAlbums(true);
   }
 }
 
