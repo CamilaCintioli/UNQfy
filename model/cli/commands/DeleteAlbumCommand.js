@@ -1,6 +1,6 @@
 class DeleteAlbumCommand{
   execute(args, unqfy){
-    unqfy.deleteAlbum(parseInt(args[1]));
+    unqfy.deleteAlbum(parseInt(args[0]));
 
   }
 }

@@ -1,6 +1,6 @@
 class GetTracksMatchingArtistCommand{
   execute(args,unqfy){
-    console.log(unqfy.getTracksMatchingArtist(args[1]));
+    console.log(unqfy.getTracksMatchingArtist(args[0]));
   }
 }
 

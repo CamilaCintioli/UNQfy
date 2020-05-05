@@ -1,6 +1,6 @@
 class UpdateArtistCommand{
     execute(args,unqfy){
-      const artistId = parseInt(args[1]);
+      const artistId = parseInt(args[0]);
   
       unqfy.updateArtist(artistId, this.getArtistData(args.splice(2)));
     }

@@ -1,6 +1,6 @@
 class UpdateTrackCommand{
     execute(args, unqfy){
-        const trackId = parseInt(args[1]);
+        const trackId = parseInt(args[0]);
 
         unqfy.updateTrack(trackId, this.getTrackData(args.splice(2)));
     }

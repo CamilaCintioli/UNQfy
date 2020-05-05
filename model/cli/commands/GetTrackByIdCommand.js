@@ -1,6 +1,6 @@
 class GetTrackByIdCommand{
   execute(args, unquify){
-    console.log(unquify.getTrackById(parseInt(args[1])));
+    console.log(unquify.getTrackById(parseInt(args[0])));
   }
 }
 

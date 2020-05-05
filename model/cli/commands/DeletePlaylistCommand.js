@@ -1,6 +1,6 @@
 class DeletePlaylistCommand{
   execute(args, unqfy){
-    unqfy.deletePlaylist(parseInt(args[1]));
+    unqfy.deletePlaylist(parseInt(args[0]));
 
   }
 }

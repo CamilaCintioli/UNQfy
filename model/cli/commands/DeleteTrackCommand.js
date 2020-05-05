@@ -1,6 +1,6 @@
 class DeleteTrackCommand{
     execute(args, unqfy){
-        unqfy.deleteTrack(parseInt(args[1]));
+        unqfy.deleteTrack(parseInt(args[0]));
     }
 
 }

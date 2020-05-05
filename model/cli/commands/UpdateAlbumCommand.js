@@ -1,6 +1,6 @@
 class UpdateAlbumCommand{
     execute(args, unqfy){
-        const albumId = parseInt(args[1]);
+        const albumId = parseInt(args[0]);
 
         unqfy.updateAlbum(albumId, this.getAlbumData(args.splice(2)));
     }

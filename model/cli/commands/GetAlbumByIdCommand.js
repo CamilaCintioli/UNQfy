@@ -1,6 +1,6 @@
 class GetAlbumByIdCommand{
   execute(args, unquify){
-    console.log(unquify.getAlbumById(parseInt(args[1])));
+    console.log(unquify.getAlbumById(parseInt(args[0])));
   }
 }
 
