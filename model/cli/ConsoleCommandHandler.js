@@ -24,6 +24,7 @@ const GetUserByIdCommand = require ('./commands/GetUserByIdCommand');
 const GetTracksListenByUserCommand = require ('./commands/GetTracksListenByUserCommand');
 const GetTimesHeardATrackCommand = require('./commands/GetTimesHeardATrackCommand');
 const GetTopTracksOfArtistCommand = require('./commands/GetTopTracksOfArtistCommand');
+const GetTracksCommand = require('./commands/GetTracksCommand');
 const {CommandDoesNotExist} = require('../Exceptions');
 
 class ConsoleCommandHandler{
@@ -81,6 +82,8 @@ class ConsoleCommandHandler{
       return new GetTimesHeardATrackCommand();
     case 'getTopTracksOfArtist':
       return new GetTopTracksOfArtistCommand();
+    case 'getTracks':
+      return new GetTracksCommand();
     default:
       throw new CommandDoesNotExist();
     }

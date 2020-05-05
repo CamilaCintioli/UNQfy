@@ -206,13 +206,14 @@ class UNQfy {
     console.log ('El album no esta registrado con el id ', id);
   }
 
-  getAllTracks(){
+  getTracks(hasToPrint){
     const tracks = this.getAlbums().map(album => album.getTracks()).flat();
+    hasToPrint ? console.log(tracks): undefined;
     return tracks;
   }
 
   getTrackById(id, hasToPrint) {
-    const track = this.getAllTracks().find(track => track.getId() === id);
+    const track = this.getTracks().find(track => track.getId() === id);
     if (track){
       hasToPrint ? console.log('El track con id ', id, 'es: ', track) : undefined;    
       return track;
@@ -233,7 +234,7 @@ class UNQfy {
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genres, hasToPrint) {
 
-    const tracks = this.getAllTracks();
+    const tracks = this.getTracks();
     const tracksByGenre = tracks.filter(track => track.haveAnyGenres(genres));
     hasToPrint ? console.log(tracksByGenre) : undefined;
     return tracksByGenre;
@@ -321,7 +322,7 @@ class UNQfy {
   }
 
   searchTracksByTitle(name) {
-    return this.getAllTracks().filter(track => track.getTitle().toLowerCase().includes(name.toLowerCase()));
+    return this.getTracks().filter(track => track.getTitle().toLowerCase().includes(name.toLowerCase()));
   }
 
   searchPlaylistsByTitle(name) {
