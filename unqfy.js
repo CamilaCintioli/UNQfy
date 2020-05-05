@@ -158,29 +158,13 @@ class UNQfy {
     const tracks = this.getAlbums().flatMap(album => album.getTracks());
     const track = tracks.find(track => track.getId() === trackId);
     if (track) {
-      Object.keys(trackData).forEach(key => this.editTrack(key, track, trackData[key]));
+      track.edit(trackData);
       console.log('the new track is: ', track);
       return track;
     }
     console.log('no existe el track con es id ', trackId);
   }
 
-  editTrack(key, track, data) {
-    switch (key) {
-    case 'title':
-      track.setTitle(data);
-      break;
-    case 'duration':
-      track.setDuration(data);
-      break;
-    case 'genres':
-      track.setGenres(data);
-      break;
-    case 'albumId':
-      track.setAlbumId(data);
-      break;
-    }
-  }
 
   deleteTrack(trackId) {
     const album = this.artists.flatMap(artist => artist.getAlbums()).find(album => album.getTracks().map(track => track.getId()).includes(trackId));

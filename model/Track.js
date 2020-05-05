@@ -41,6 +41,21 @@ class Track{
     return this.title;
   }
 
+  edit(trackData){
+    Object.keys(trackData).forEach(key => this.editAux(key, trackData[key]));
+  }
+
+  editAux(key, data) {
+    switch (key) {
+    case 'title':
+      this.setTitle(data);
+      break;
+    case 'genres':
+      this.setGenres(data);
+      break;
+    }
+  }
+
 
 }
 
