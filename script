@@ -1,0 +1,43 @@
+node main addArtist Pepita Canada
+node main addArtist Pepon Argentina
+node main addAlbum 0 Album1 2001
+node main addAlbum 0 Album2 2002
+node main addAlbum 1 Album3 2003
+node main addTrack 0 Track1 5 rock   
+node main addTrack 0 Track2 4 pop
+node main addTrack 1 Track3 3 tango
+node main addTrack 1 Track4 2 tango rock
+node main addTrack 1 Track5 1 alternativo
+node main addUser Juan Jorge
+node main addUser Josefa Apellido
+
+node main getArtistById 0
+node main getAlbumById 0
+node main getTrackById 0
+node main getPlaylistById 0
+node main getUserById 0
+
+node main getArtists
+node main getAlbums
+node main getTracks
+node main getPlaylists
+
+node main createPlaylist Playlist1 15 tango rock
+
+node main deleteArtist 0
+node main deleteAlbum 0
+node main deleteTrack 0
+node main deletePlatlist 0
+
+node main getTracksMatchingGeneres rock pop
+node main getTracksMatchingArtist Pepita
+
+node main updateArtist 0 name Toto
+node main updateAlbum 0 title Album11
+node main updateTrack 0 title Foo
+
+node main listenTrackByUser 0 1
+node main getTimesHeardATrack 0 1
+node main getTracksListenByUser 0
+node main getTopTracksOfArtist 0
+
