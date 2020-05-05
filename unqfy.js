@@ -334,11 +334,13 @@ class UNQfy {
   registerTrackByUser(userId, trackId){
     const track = this.getTrackById(trackId);
     const user = this.getUserById(userId);
-    const tracks = user.addTrackHeard(track);
+    user.addTrackHeard(track);
   } 
 
   getUserById(id){
-    return this.users.find(user => user.id === id);
+    const user = this.users.find(user => user.id === id);
+    console.log(user);
+    return user;
   }
 
   getTracksListenByUser(userId){
@@ -354,10 +356,28 @@ class UNQfy {
     console.log('Escucho el track ', user.timesHeardATrack(trackId), 'veces');
   }
 
+  getTopTracksOfArtist(artistId){
+    const artist = this.artists.find(artist => artist.getId() === artistId);
+    const tracks = this.getTracksMatchingArtist(artist.getName());
+
+    const topTracks = {};
+
+    tracks.forEach(track => topTracks[track.title]=this.timesHeardTotal(track));
+
+    const topTrack = Object.keys(topTracks)
+      .sort((track1, track2) => topTracks[track1] < topTracks[track2])
+      .splice(0, 3);
+
+    console.log('Las tracks mas escuchadas del artista son',topTrack);
+    return topTrack;
 
 
-  
-  
+  }
+
+  timesHeardTotal(track){
+    return this.users.reduce((timesHeard,user) => this.getTimesHeardATrack(user.getId(), track.getId()) + timesHeard, 0);
+  }
+
 
   
 }

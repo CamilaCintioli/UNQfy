@@ -23,6 +23,7 @@ const RegisterTrackByUserCommand = require ('./commands/RegisterTrackByUserComma
 const GetUserByIdCommand = require ('./commands/GetUserByIdCommand');
 const GetTracksListenByUserCommand = require ('./commands/GetTracksListenByUserCommand');
 const GetTimesHeardATrackCommand = require('./commands/GetTimesHeardATrackCommand');
+const GetTopTracksOfArtistCommand = require('./commands/GetTopTracksOfArtistCommand');
 
 class ConsoleCommandHandler{
   getCommand(commandLine){
@@ -77,6 +78,8 @@ class ConsoleCommandHandler{
       return new GetTracksListenByUserCommand();
     case 'getTimesHeardATrack':
       return new GetTimesHeardATrackCommand();
+    case 'getTopTracksOfArtist':
+      return new GetTopTracksOfArtistCommand();
     }
 
   }
