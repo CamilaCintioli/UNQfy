@@ -222,8 +222,7 @@ class UNQfy {
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genres) {
 
-    const tracks = this.artists.flatMap((artist) => artist.getAlbums()).flatMap(album => album.getTracks());
-
+    const tracks = this.getAllTracks();
     const tracksByGenre = tracks.filter(track => track.haveAnyGenres(genres));
     console.log(tracksByGenre);
     return tracksByGenre;
