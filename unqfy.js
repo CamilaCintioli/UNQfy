@@ -5,7 +5,7 @@ const Artist = require('./model/Artist');
 const Track = require('./model/Track');
 const Album = require('./model/Album');
 const Playlist = require('./model/Playlist');
-const {ErrorTheSameNameArtist, ErrorTheSameTrackInAlbum} = require('./model/Exceptions');
+const {DuplicatedArtist, DuplicatedTrackInAlbum} = require('./model/Exceptions');
 const User = require ('./model/User');
 
 class UNQfy {
@@ -31,7 +31,7 @@ class UNQfy {
       - una propiedad country (string)
     */
     if (this.searchArtistsByName(name).length > 0){
-      throw new ErrorTheSameNameArtist();
+      throw new DuplicatedArtist();
     }
     const newArtist = new Artist(this.artistId, name, country);
     this.artistId++;
@@ -140,7 +140,7 @@ class UNQfy {
     const checkTrack = this.getAlbums().flatMap(album => album.getTracks()).
       find(track => track.getTitle() === trackData.title);
     if (checkTrack){
-      throw new ErrorTheSameTrackInAlbum();
+      throw new DuplicatedTrackInAlbum();
     } 
     const albums = this.getAlbums();
     const album = albums.find(album => album.getId() === albumId);
