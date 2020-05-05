@@ -17,7 +17,11 @@ function createAndAddTrack(unqfy, albumName, trackName, trackDuraction, trackGen
   return unqfy.addTrack(albumName, { title: trackName, duration: trackDuraction, genres: trackGenres });
 }
 
+function createAndAddUser(unqfy, name, lastname){
+  return unqfy.addUser({name, lastname});
+}
 
+/*
 describe('Add, remove and filter data', () => {
   let unqfy = null;
 
@@ -147,3 +151,40 @@ describe('Playlist Creation and properties', () => {
     assert.lengthOf(playlist.tracks, 4);
   });
 });
+*/
+describe('User Creation and properties', () => {
+  let unqfy = null;
+
+  beforeEach(() => {
+    unqfy = new libunqfy.UNQfy();
+  });
+
+  it('should add an user', () => {
+    const user = createAndAddUser(unqfy, 'Lara', 'Perez');
+   
+    assert.equal(user.name, 'Lara');
+    assert.equal(user.lastname, 'Perez');
+  });
+
+  it('should add a new track', () => {
+    const user = createAndAddUser(unqfy, 'Lara', 'Perez');
+
+    const artist = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
+
+    const album = createAndAddAlbum(unqfy, artist.id, 'Thriller', 1987);
+
+    const track1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock', 'movie']);
+    const track2 = createAndAddTrack(unqfy, album.id, 'Sweet Child o\' Mine', 1500, ['rock', 'hard rock', 'pop', 'movie']);
+    
+    user.addTrackHeard(track1);
+   
+    assert.lengthOf(user.tracksHeard, 1);
+    assert.equal(user.timesHeardATrack(track2.id), 0);
+
+
+
+  });
+
+});
+
+
