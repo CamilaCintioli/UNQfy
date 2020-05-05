@@ -1,14 +1,14 @@
-class ErrorTheSameNameArtisit extends Error{
-    constructor(){
-        super("Ya existe un artista con ese nombre"); 
-    }
+class DuplicatedArtist extends Error{
+  constructor(){
+    super('Ya existe un artista con ese nombre'); 
+  }
 }
 
-class ErrorTheSameTrackInAlbum extends Error{
-    constructor(){
-        super("Ya existe ese track en el album"); 
-    }
+class DuplicatedTrackInAlbum extends Error{
+  constructor(){
+    super('Ya existe ese track en el album'); 
+  }
 
 }
 
-module.exports = {ErrorTheSameNameArtisit, ErrorTheSameTrackInAlbum};
+module.exports = {DuplicatedArtist, DuplicatedTrackInAlbum};

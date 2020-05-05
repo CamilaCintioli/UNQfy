@@ -5,7 +5,7 @@ const Artist = require('./model/Artist');
 const Track = require('./model/Track');
 const Album = require('./model/Album');
 const Playlist = require('./model/Playlist');
-const {ErrorTheSameNameArtist, ErrorTheSameTrackInAlbum} = require('./model/Exceptions');
+const {DuplicatedArtist, DuplicatedTrackInAlbum} = require('./model/Exceptions');
 const User = require ('./model/User');
 
 class UNQfy {
@@ -31,7 +31,7 @@ class UNQfy {
       - una propiedad country (string)
     */
     if (this.searchArtistsByName(name).length > 0){
-      throw new ErrorTheSameNameArtist();
+      throw new DuplicatedArtist();
     }
     const newArtist = new Artist(this.artistId, name, country);
     this.artistId++;
@@ -45,25 +45,14 @@ class UNQfy {
     const artist = this.artists.find(({ id }) => id === artistId);
 
     if (artist) {
-      Object.keys(artistData).forEach(key => this.editArtist(key, artist, artistData[key]));
+      artist.edit(artistData);
       console.log('Artista modificado: ', artist);
       return artist;
     }
     console.log('Artista no existe con ese id: ', artistId);
   }
 
-  editArtist(key, artist, data) {
-    switch (key) {
-    case 'name':
-      artist.setName(data);
-      break;
-    case 'country':
-      artist.setCountry(data);
-      break;
-    }
-  }
-
-
+ 
   deleteArtist(artistId) {
     const artist = this.artists.find((artist) => artist.getId() === artistId);
     if (artist) {
@@ -79,10 +68,8 @@ class UNQfy {
     return this.artists;
   }
 
-
-
   getPlaylists() {
-    console.log("Las playlist son: ", this.playlists);
+    console.log('Las playlist son: ', this.playlists);
     return this.playlists;
   }
 
@@ -124,7 +111,7 @@ class UNQfy {
     const albums = this.artists.flatMap((artist) => artist.getAlbums());
     const album = albums.find((album) => album.getId() === albumId);
     if(album){
-      Object.keys(albumData).forEach(key => this.editAlbum(key, album, albumData[key]));
+      album.edit(albumData);
       console.log('the new album is: ', album);
       return album;
     }
@@ -132,26 +119,10 @@ class UNQfy {
     console.log('No existe album con ese id ', albumId);
   }
 
-  editAlbum(key, album, data){
-    switch (key){
-    case 'title':
-      album.setTitle(data);
-      break;
-    case 'year':
-      album.setYear(parseInt(data));
-      break;
-    }
-  }
 
   deleteAlbum(albumId) {
-    const artist = this.artists.find((artist) => artist.getAlbums().map((album) => album.getId()).includes(albumId));
-
-    if(artist){
-      artist.deleteAlbum(albumId);
-      console.log('Album borrado exitosamente');
-    } else {
-      console.log('No existe un album con ese id ', albumId);
-    }
+    this.artists.forEach(artist => artist.deleteAlbum(albumId));
+    console.log('Album fue borrado exitosamente');
   }
 
   // trackData: objeto JS con los datos necesarios para crear un track
@@ -167,9 +138,9 @@ class UNQfy {
         - una propiedad genres (lista de strings)
     */
     const checkTrack = this.getAlbums().flatMap(album => album.getTracks()).
-                                      find(track => track.getTitle() === trackData.title);
+      find(track => track.getTitle() === trackData.title);
     if (checkTrack){
-      throw new ErrorTheSameTrackInAlbum();
+      throw new DuplicatedTrackInAlbum();
     } 
     const albums = this.getAlbums();
     const album = albums.find(album => album.getId() === albumId);
@@ -187,34 +158,19 @@ class UNQfy {
     const tracks = this.getAlbums().flatMap(album => album.getTracks());
     const track = tracks.find(track => track.getId() === trackId);
     if (track) {
-      Object.keys(trackData).forEach(key => this.editTrack(key, track, trackData[key]));
+      track.edit(trackData);
       console.log('the new track is: ', track);
       return track;
     }
     console.log('no existe el track con es id ', trackId);
   }
 
-  editTrack(key, track, data) {
-    switch (key) {
-    case 'title':
-      track.setTitle(data);
-      break;
-    case 'duration':
-      track.setDuration(data);
-      break;
-    case 'genres':
-      track.setGenres(data);
-      break;
-    case 'albumId':
-      track.setAlbumId(data);
-      break;
-    }
-  }
 
   deleteTrack(trackId) {
-    const album = this.artists.flatMap(artist => artist.getAlbums()).find(album => album.getTracks().map(track => track.getId()).includes(trackId));
-    if(album){
-      album.deleteTrack(trackId);
+    const albumes= this.getAlbums();
+    const track= this.getTrackById(trackId);
+    if(track){
+      albumes.forEach(album => album.deleteTrack(trackId));
       this.playlists.forEach(playlist => playlist.deleteTrack(trackId));
       console.log('Track borrado exitosamente');
     } else {
@@ -247,7 +203,7 @@ class UNQfy {
   getTrackById(id) {
     const track = this.getAllTracks().find(track => track.getId() === id);
     if (track){
-      console.log('El track con id ', id, 'es: ', track)
+      console.log('El track con id ', id, 'es: ', track);
       return track;
     }
     console.log('El track no pertenece a ningún album');
@@ -266,8 +222,7 @@ class UNQfy {
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genres) {
 
-    const tracks = this.artists.flatMap((artist) => artist.getAlbums()).flatMap(album => album.getTracks());
-
+    const tracks = this.getAllTracks();
     const tracksByGenre = tracks.filter(track => track.haveAnyGenres(genres));
     console.log(tracksByGenre);
     return tracksByGenre;
@@ -389,14 +344,14 @@ class UNQfy {
   getTracksListenByUser(userId){
     const user = this.getUserById(userId);
     const tracksListen = user.getTracks();
-    console.log("tracks escuchados ", tracksListen);
+    console.log('tracks escuchados ', tracksListen);
     return user.getTracks();
   }
 
   getTimesHeardATrack(userId, trackId){
     const user = this.getUserById(userId);
 
-    console.log("Escucho el track ", user.timesHeardATrack(trackId), "veces");
+    console.log('Escucho el track ', user.timesHeardATrack(trackId), 'veces');
   }
 
 

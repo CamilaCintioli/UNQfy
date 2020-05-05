@@ -34,6 +34,21 @@ class Album{
     return this.title;
   }
 
+  edit(albumData){
+    Object.keys(albumData).forEach(key => this.editAux(key, albumData[key]));
+  }
+
+  editAux(key, data){
+    switch (key){
+    case 'title':
+      this.setTitle(data);
+      break;
+    case 'year':
+      this.setYear(parseInt(data));
+      break;
+    }
+  }
+
 }
 
 module.exports = Album;
