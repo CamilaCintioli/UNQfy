@@ -167,9 +167,10 @@ class UNQfy {
 
 
   deleteTrack(trackId) {
-    const album = this.artists.flatMap(artist => artist.getAlbums()).find(album => album.getTracks().map(track => track.getId()).includes(trackId));
-    if(album){
-      album.deleteTrack(trackId);
+    const albumes= this.getAlbums();
+    const track= this.getTrackById(trackId);
+    if(track){
+      albumes.forEach(album => album.deleteTrack(trackId));
       this.playlists.forEach(playlist => playlist.deleteTrack(trackId));
       console.log('Track borrado exitosamente');
     } else {

@@ -19,9 +19,14 @@ class Playlist{
   }
 
   deleteTrack(trackId){
-    const duration = this.tracks.find(track => track.getId() === trackId).getDuration();
-    this.tracks = this.tracks.filter(track => track.getId() !== trackId);
-    this.duration-=duration;
+    const track = this.tracks.find(track => track.getId() === trackId);
+    
+    if(track){
+      const duration = track.getDuration();
+      this.tracks = this.tracks.filter(track => track.getId() !== trackId);
+      this.duration-=duration;
+    }
+    
   }
 
   getTitle(){
