@@ -279,7 +279,7 @@ class UNQfy {
         duration+=track.getDuration();
       }  
     });
-    console.log(playlistTracks[0]);
+    
     const newPlaylist = new Playlist(this.playlistId, name, playlistTracks, duration);
     this.playlists.push(newPlaylist);
     this.playlistId++;
