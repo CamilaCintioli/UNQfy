@@ -11,6 +11,10 @@ Get the latest version of node from the [official website](https://nodejs.org/) 
 
  - ```npm install```
 
+## **UML**
+
+![uml](./UNQfyUML.svg "Diagrama de clases")
+
 ## **Run UNQfy**
 
 **Script**
