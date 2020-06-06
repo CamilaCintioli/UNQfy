@@ -7,7 +7,7 @@ const Album = require('./model/Album');
 const Playlist = require('./model/Playlist');
 const { DuplicatedArtist, DuplicatedTrackInAlbum } = require('./model/Exceptions');
 const User = require('./model/User');
-const rp = require('request-promise');
+const {searchIdForArtist,searchAlbumsForArtistId} = require('./model/services/spotifyService');
 
 class UNQfy {
   constructor() {
@@ -406,41 +406,13 @@ class UNQfy {
 
     const artistId = this.getArtistByName(artistName).id;
 
-    return this.searchIdForArtist(artistName)
-      .then((id) => this.searchAlbumsForArtistId(id))
+    return searchIdForArtist(artistName)
+      .then((id) => searchAlbumsForArtistId(id))
       .then((albums) => albums.forEach(album => this.addAlbum(artistId, album)));
 
   }
 
-  searchIdForArtist(artistName) {
-    const options = {
-      url: 'https://api.spotify.com/v1/search',
-      qs: {
-        q: artistName,
-        type: 'artist',
-      },
-      headers: { Authorization: `Bearer ${spotifyToken}` },
-      json: true,
-    };
-    return rp.get(options)
-      .then((response) => { return response.artists.items[0].id })
-      .catch(error => console.error(error));
-  }
 
-  searchAlbumsForArtistId(artistId) {
-    const options = {
-      url: `https://api.spotify.com/v1/artists/${artistId}/albums`,
-      headers: { Authorization: `Bearer ${spotifyToken}` },
-      json: true,
-    };
-    return rp.get(options)
-      .then((response) => {
-        return response.items.map(album => {
-          return { title: album.name, year: +album.release_date.slice(0, 4) };
-        });
-      })
-      .catch(error => console.error(error));
-  }
 }
 
 
