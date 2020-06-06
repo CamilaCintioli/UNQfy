@@ -17,6 +17,7 @@ class AddArtistCommand {
     }
 
     unqfy.addArtist({name,country});
+    unqfy.save('data.json');
     
   }
 }
