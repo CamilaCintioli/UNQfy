@@ -5,8 +5,9 @@ const Artist = require('./model/Artist');
 const Track = require('./model/Track');
 const Album = require('./model/Album');
 const Playlist = require('./model/Playlist');
-const {DuplicatedArtist, DuplicatedTrackInAlbum} = require('./model/Exceptions');
-const User = require ('./model/User');
+const { DuplicatedArtist, DuplicatedTrackInAlbum } = require('./model/Exceptions');
+const User = require('./model/User');
+const rp = require('request-promise');
 
 class UNQfy {
   constructor() {
@@ -30,9 +31,9 @@ class UNQfy {
       - una propiedad name (string)
       - una propiedad country (string)
     */
-    
-    try{
-      if (this.searchArtistsByName(name).length > 0){
+
+    try {
+      if (this.searchArtistsByName(name).length > 0) {
         throw new DuplicatedArtist();
       }
       const newArtist = new Artist(this.artistId, name, country);
@@ -41,9 +42,9 @@ class UNQfy {
       console.log('Se registró nuevo artista: ', newArtist);
       return newArtist;
     }
-    catch(DuplicatedArtist){
+    catch (DuplicatedArtist) {
       console.log('Existe un artista con el nombre dado');
-    }   
+    }
   }
 
   updateArtist(artistId, artistData) {
@@ -58,7 +59,7 @@ class UNQfy {
     console.log('Artista no existe con ese id: ', artistId);
   }
 
- 
+
   deleteArtist(artistId) {
     const artist = this.artists.find((artist) => artist.getId() === artistId);
     if (artist) {
@@ -117,7 +118,7 @@ class UNQfy {
   updateAlbum(albumId, albumData) {
     const albums = this.artists.flatMap((artist) => artist.getAlbums());
     const album = albums.find((album) => album.getId() === albumId);
-    if(album){
+    if (album) {
       album.edit(albumData);
       console.log('the new album is: ', album);
       return album;
@@ -129,7 +130,7 @@ class UNQfy {
 
   deleteAlbum(albumId) {
     const album = this.getAlbumById(albumId);
-    if(!album){
+    if (!album) {
       console.log('No existe un album con el id');
     }
     const tracks = album.getTracks();
@@ -152,11 +153,11 @@ class UNQfy {
     */
     const album = this.getAlbumById(albumId);
 
-    try{
-      if(!album){
+    try {
+      if (!album) {
         return undefined;
       }
-      if(album.hasTrackWithTitle(trackData.title)){
+      if (album.hasTrackWithTitle(trackData.title)) {
         throw new DuplicatedTrackInAlbum();
       }
       const track = new Track(this.trackId, trackData.title, trackData.genres, trackData.duration);
@@ -164,10 +165,10 @@ class UNQfy {
       this.trackId++;
       console.log('Se registró un nuevo track', track);
       return track;
-    } catch(DuplicatedTrackInAlbum) {
+    } catch (DuplicatedTrackInAlbum) {
       console.log('Ya existe un track con ese nombre en el album');
-    }   
-   
+    }
+
   }
   updateTrack(trackId, trackData) {
     const tracks = this.getAlbums().flatMap(album => album.getTracks());
@@ -182,9 +183,9 @@ class UNQfy {
 
 
   deleteTrack(trackId) {
-    const albumes= this.getAlbums();
-    const track= this.getTrackById(trackId);
-    if(track){
+    const albumes = this.getAlbums();
+    const track = this.getTrackById(trackId);
+    if (track) {
       albumes.forEach(album => album.deleteTrack(trackId));
       this.playlists.forEach(playlist => playlist.deleteTrack(trackId));
       console.log('Track borrado exitosamente');
@@ -197,27 +198,27 @@ class UNQfy {
     const artist = this.artists.find(artist => artist.getId() === id);
     if (artist) {
       return (console.log('El artista con id ', id, 'es: ', artist));
-    }  
-    console.log ('El artista no está registrado con el id ', id);
+    }
+    console.log('El artista no está registrado con el id ', id);
   }
 
   getAlbumById(id) {
     const albums = this.artists.map(artist => artist.getAlbums()).flat();
     const album = albums.find(album => album.getId() === id);
-    if (album){
+    if (album) {
       return album;
     }
-    console.log ('El album no esta registrado con el id ', id);
+    console.log('El album no esta registrado con el id ', id);
   }
 
-  getTracks(){
+  getTracks() {
     const tracks = this.getAlbums().map(album => album.getTracks()).flat();
     return tracks;
   }
 
   getTrackById(id) {
     const track = this.getTracks().find(track => track.getId() === id);
-    if (track){
+    if (track) {
       return track;
     }
     console.log('El track no pertenece a ningún album');
@@ -226,7 +227,7 @@ class UNQfy {
 
   getPlaylistById(id) {
     const playlist = this.playlists.find(playlist => playlist.getId() === id);
-    if (playlist){
+    if (playlist) {
       return (console.log('La playlist con id ', id, 'es ', playlist));
     }
     console.log('La playlist no pertenece a unqfy');
@@ -245,14 +246,14 @@ class UNQfy {
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
   getTracksMatchingArtist(artistName) {
-    
+
     const artist = this.artists.find(artist => artist.getName() === artistName);
-    if(artist){
+    if (artist) {
       const tracks = artist.getAlbums().flatMap(album => album.getTracks());
       return tracks;
-    } 
+    }
     console.log('No existe un artista con ese nombre');
-    
+
   }
 
 
@@ -271,14 +272,14 @@ class UNQfy {
     const tracks = this.getTracksMatchingGenres(genresToInclude);
     let duration = 0;
     const playlistTracks = [];
-    
+
     tracks.forEach((track) => {
-      if(track.getDuration()+duration <= maxDuration){
+      if (track.getDuration() + duration <= maxDuration) {
         playlistTracks.push(track);
-        duration+=track.getDuration();
-      }  
+        duration += track.getDuration();
+      }
     });
-    
+
     const newPlaylist = new Playlist(this.playlistId, name, playlistTracks, duration);
     this.playlists.push(newPlaylist);
     this.playlistId++;
@@ -299,11 +300,11 @@ class UNQfy {
   static load(filename) {
     const serializedData = fs.readFileSync(filename, { encoding: 'utf-8' });
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy, Artist, Track, Album, Playlist,User];
+    const classes = [UNQfy, Artist, Track, Album, Playlist, User];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 
-  searchByName(name){
+  searchByName(name) {
     return {
       artists: this.searchArtistsByName(name),
       albums: this.searchAlbumsByTitle(name),
@@ -330,7 +331,7 @@ class UNQfy {
 
 
 
-  addUser(userData){
+  addUser(userData) {
     const user = this.users.map(user => user.name).includes(userData.name);
     if (!user) {
       const user = new User(this.userId, userData.name, userData.lastname);
@@ -342,54 +343,104 @@ class UNQfy {
     console.log('Ya existente el usuario ', user.getName());
   }
 
-  registerTrackByUser(userId, trackId){
+  registerTrackByUser(userId, trackId) {
     const track = this.getTrackById(trackId);
     const user = this.getUserById(userId);
     user.addTrackHeard(track);
-  } 
+  }
 
-  getUserById(id){
+  getUserById(id) {
     const user = this.users.find(user => user.id === id);
     return user;
   }
 
-  getTracksListenByUser(userId){
+  getTracksListenByUser(userId) {
     const user = this.getUserById(userId);
     const tracksListen = user.getTracks();
     console.log('tracks escuchados ', tracksListen);
     return user.getTracks();
   }
 
-  getTimesHeardATrack(userId, trackId){
+  getTimesHeardATrack(userId, trackId) {
     const user = this.getUserById(userId);
-    const times = user.timesHeardATrack(trackId);    
+    const times = user.timesHeardATrack(trackId);
     return times;
   }
 
-  getTopTracksOfArtist(artistId){
+  getTopTracksOfArtist(artistId) {
     const artist = this.artists.find(artist => artist.getId() === artistId);
     const tracks = this.getTracksMatchingArtist(artist.getName());
 
     const topTracks = {};
 
-    tracks.forEach(track => topTracks[track.title]=this.timesHeardTotal(track));
+    tracks.forEach(track => topTracks[track.title] = this.timesHeardTotal(track));
 
     const topTrack = Object.keys(topTracks)
       .sort((track1, track2) => topTracks[track1] < topTracks[track2])
       .splice(0, 3);
 
-    console.log('Las tracks mas escuchadas del artista son',topTrack);
+    console.log('Las tracks mas escuchadas del artista son', topTrack);
     return topTrack;
 
 
   }
 
-  timesHeardTotal(track){
-    return this.users.reduce((timesHeard,user) => this.getTimesHeardATrack(user.getId(), track.getId()) + timesHeard, 0);
+  timesHeardTotal(track) {
+    return this.users.reduce((timesHeard, user) => this.getTimesHeardATrack(user.getId(), track.getId()) + timesHeard, 0);
   }
 
+  getArtistByName(artistName) {
 
-  
+    return this.artists.find(artist => artist.name === artistName);
+  }
+
+  getAlbumsForArtist(artistName) {
+    const artist = this.getArtistByName(artistName);
+    if (artist) {
+      return artist.getAlbums();
+    }
+    throw new Error('No existe un artista con ese nombre');
+  }
+
+  populateAlbumsForArtist(artistName) {
+
+    const artistId = this.getArtistByName(artistName).id;
+
+    return this.searchIdForArtist(artistName)
+      .then((id) => this.searchAlbumsForArtistId(id))
+      .then((albums) => albums.forEach(album => this.addAlbum(artistId, album)));
+
+  }
+
+  searchIdForArtist(artistName) {
+    const options = {
+      url: 'https://api.spotify.com/v1/search',
+      qs: {
+        q: artistName,
+        type: 'artist',
+      },
+      headers: { Authorization: `Bearer ${spotifyToken}` },
+      json: true,
+    };
+    return rp.get(options)
+      .then((response) => { return response.artists.items[0].id })
+      .catch(error => console.error(error));
+  }
+
+  searchAlbumsForArtistId(artistId) {
+    const options = {
+      url: `https://api.spotify.com/v1/artists/${artistId}/albums`,
+      headers: { Authorization: `Bearer ${spotifyToken}` },
+      json: true,
+    };
+    return rp.get(options)
+      .then((response) => {
+        return response.items.map(album => {
+          return { title: album.name, year: +album.release_date.slice(0, 4) };
+        });
+      })
+      .catch(error => console.error(error));
+  }
 }
 
 

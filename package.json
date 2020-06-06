@@ -6,6 +6,8 @@
   "dependencies": {
     "chai": "^4.1.2",
     "picklify": "github:lwoites/picklify",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.5",
     "yup": "^0.28.5"
   },
   "devDependencies": {

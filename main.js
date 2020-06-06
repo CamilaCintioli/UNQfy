@@ -56,8 +56,7 @@ function main() {
   const args = process.argv.splice(3);
   
   command.execute(args, unqfy);
-
-  saveUNQfy(unqfy);
+  
 }
 
 main();
