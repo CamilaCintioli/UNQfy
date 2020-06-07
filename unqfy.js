@@ -417,7 +417,7 @@ class UNQfy {
     const track = this.getTracks().find((track) => track.title === title);
 
     return searchIdForTrack(title)
-    //.then((id) => searchLyricsForTrackId(id))
+      .then((id) => track.getLyrics(id));
       
   }
 

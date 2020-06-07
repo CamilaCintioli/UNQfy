@@ -1,9 +1,12 @@
+const {searchLyricsForTrackId} = require('./services/musicMatchService');
+
 class Track{
   constructor(id,title,genres,duration){
     this.id=id;
     this.title=title;
     this.genres=genres;
     this.duration=duration;
+    this.lyrics=null;
   }
 
 
@@ -56,7 +59,18 @@ class Track{
     }
   }
 
+  getLyrics(trackId){
 
+    if(this.lyrics){
+      return this.lyrics;
+    }
+
+    return searchLyricsForTrackId(trackId)
+      .then(lyrics => {this.lyrics = lyrics; console.log(lyrics)})
+      .catch(error => {
+        return this.lyrics = 'Esta cancion no tiene letra';
+      });
+  }
 }
 
 module.exports=Track;
