@@ -22,7 +22,11 @@ class AddAlbumCommand{
       title,
       year:parseInt(year),
     });
+
+    unqfy.save('data.json');
   }
+
+
 }
   
 module.exports=AddAlbumCommand;

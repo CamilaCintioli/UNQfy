@@ -8,6 +8,7 @@ const Playlist = require('./model/Playlist');
 const { DuplicatedArtist, DuplicatedTrackInAlbum } = require('./model/Exceptions');
 const User = require('./model/User');
 const {searchIdForArtist,searchAlbumsForArtistId} = require('./model/services/spotifyService');
+const {searchIdForTrack, searchLyricsForTrackId} = require('./model/services/musicMatchService');
 
 class UNQfy {
   constructor() {
@@ -410,6 +411,14 @@ class UNQfy {
       .then((id) => searchAlbumsForArtistId(id))
       .then((albums) => albums.forEach(album => this.addAlbum(artistId, album)));
 
+  }
+
+  getLyrics(title){
+    const track = this.getTracks().find((track) => track.title === title);
+
+    return searchIdForTrack(title)
+    //.then((id) => searchLyricsForTrackId(id))
+      
   }
 
 

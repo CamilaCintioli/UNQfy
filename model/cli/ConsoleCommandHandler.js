@@ -27,6 +27,7 @@ const GetTopTracksOfArtistCommand = require('./commands/GetTopTracksOfArtistComm
 const GetTracksCommand = require('./commands/GetTracksCommand');
 const PopulateAlbumsForArtistCommand = require('./commands/PopulateAlbumsForArtistCommand');
 const GetAlbumsForArtistCommand = require('./commands/GetAlbumsForArtistCommand');
+const GetLyricsCommand = require('./commands/getLyricsCommand');
 const {CommandDoesNotExist} = require('../Exceptions');
 
 class ConsoleCommandHandler{
@@ -90,6 +91,8 @@ class ConsoleCommandHandler{
       return new PopulateAlbumsForArtistCommand();
     case 'getAlbumsForArtist':
       return new GetAlbumsForArtistCommand();
+    case 'getLyrics':
+      return new GetLyricsCommand();
     default:
       throw new CommandDoesNotExist();
     }

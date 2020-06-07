@@ -6,6 +6,8 @@ class AddTrackCommand{
       duration: parseInt(duration),
       genres,
     });
+
+    unqfy.save('data.json');
   }
 
 }
