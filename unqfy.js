@@ -198,7 +198,8 @@ class UNQfy {
   getArtistById(id) {
     const artist = this.artists.find(artist => artist.getId() === id);
     if (artist) {
-      return (console.log('El artista con id ', id, 'es: ', artist));
+      console.log('El artista con id ', id, 'es: ', artist);
+      return artist;
     }
     console.log('El artista no está registrado con el id ', id);
   }
@@ -419,6 +420,10 @@ class UNQfy {
     return searchIdForTrack(title)
       .then((id) => track.getLyrics(id));
       
+  }
+
+  getArtistsByName(artistName){
+    this.artists.filter(artist => artist.name)
   }
 
 
