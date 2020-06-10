@@ -1,26 +1,23 @@
 const express = require('express');
 const artistRouter = express.Router();
+const {addArtist,searchArtists,getArtistById,updateArtist,deleteArtist} = require('../model/services/artistsService');
 
 artistRouter.route('/')
   .post((req,res) => {
     const artistData = {name:req.body.name,country:req.body.country};
-    const newArtist = res.locals.unqfy.addArtist(artistData);
-    res.locals.unqfy.save('data.json');
-    res.send(newArtist);
+    const artist = addArtist(res.locals.unqfy,artistData);
+    res.status(201).send({status:201,code:'CREATED',artist});
   })
   .get((req,res) => {
-    if(req.query.name){
-      res.send(res.locals.unqfy.searchArtistsByName(req.query.name));
-    }
-    else {
-      res.send(res.locals.unqfy.getArtists());
-    }
+    const artists = searchArtists(res.locals.unqfy,req.query.name);
+    res.status(200).send({status:200,code:'OK',artists});
   });
 
 artistRouter.route('/:id')
   .get((req,res) => {
     const artistId = +req.params.id;
-    res.send(res.locals.unqfy.getArtistById(artistId));
+    const artist = getArtistById(res.locals.unqfy,artistId);
+    res.status(200).send({code:200,stats:'OK',artist});
   })
   .put((req,res) => {
     const artistId = +req.params.id;
@@ -28,15 +25,13 @@ artistRouter.route('/:id')
       name:req.body.name,
       country: req.body.country,
     };
-    const updatedArtist = res.locals.unqfy.updateArtist(artistId,artistData);
-    res.locals.unqfy.save('data.json');
-    res.send(updatedArtist);
+    const artist = updateArtist(res.locals.unqfy,artistId,artistData);
+    res.status(200).send({code:200,status:'OK',artist});
   })
   .delete((req,res) => {
     const artistId = +req.params.id;
-    res.locals.unqfy.deleteArtist(artistId);
-    res.locals.unqfy.save('data.json');
-    res.send('Artista borrado exitosamente');
+    deleteArtist(res.locals.unqfy,artistId)
+    res.status(204).send({status:204,code:'NO CONTENT'});
   });
 
 module.exports = artistRouter;
