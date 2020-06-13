@@ -60,7 +60,6 @@ class UNQfy {
     console.log('Artista no existe con ese id: ', artistId);
   }
 
-
   deleteArtist(artistId) {
     const artist = this.artists.find((artist) => artist.getId() === artistId);
     if (artist) {
@@ -87,7 +86,6 @@ class UNQfy {
     const albumes = this.artists.flatMap((artist) => artist.getAlbums());
     return albumes;
   }
-
 
   deletePlaylist(playlistId) {
     this.playlists = this.playlists.filter(playlist => playlist.getId() !== playlistId);
@@ -182,7 +180,6 @@ class UNQfy {
     console.log('no existe el track con es id ', trackId);
   }
 
-
   deleteTrack(trackId) {
     const albumes = this.getAlbums();
     const track = this.getTrackById(trackId);
@@ -226,7 +223,6 @@ class UNQfy {
     console.log('El track no pertenece a ningún album');
   }
 
-
   getPlaylistById(id) {
     const playlist = this.playlists.find(playlist => playlist.getId() === id);
     if (playlist) {
@@ -257,7 +253,6 @@ class UNQfy {
     console.log('No existe un artista con ese nombre');
 
   }
-
 
   // name: nombre de la playlist
   // genresToInclude: array de generos
@@ -330,8 +325,6 @@ class UNQfy {
   searchPlaylistsByTitle(name) {
     return this.playlists.filter(playlist => playlist.getTitle().toLowerCase().includes(name.toLowerCase()));
   }
-
-
 
   addUser(userData) {
     const user = this.users.map(user => user.name).includes(userData.name);
@@ -418,7 +411,7 @@ class UNQfy {
     const track = this.getTracks().find((track) => track.title === title);
 
     return searchIdForTrack(title)
-      .then((id) => track.getLyrics(id));
+      .then((id) => {return track.getLyrics(id)});
       
   }
 

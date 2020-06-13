@@ -66,9 +66,11 @@ class Track{
     }
 
     return searchLyricsForTrackId(trackId)
-      .then(lyrics => {this.lyrics = lyrics; console.log(lyrics)})
+      .then(lyrics => {this.lyrics = lyrics; console.log(lyrics); 
+          return this.lyrics})
       .catch(error => {
-        return this.lyrics = 'Esta cancion no tiene letra';
+        this.lyrics = 'Esta cancion no tiene letra';
+        return this.lyrics;
       });
   }
 }
