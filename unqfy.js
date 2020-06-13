@@ -169,6 +169,7 @@ class UNQfy {
     }
 
   }
+  
   updateTrack(trackId, trackData) {
     const tracks = this.getAlbums().flatMap(album => album.getTracks());
     const track = tracks.find(track => track.getId() === trackId);
@@ -241,6 +242,8 @@ class UNQfy {
 
   }
 
+  
+
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
   getTracksMatchingArtist(artistName) {
@@ -282,6 +285,41 @@ class UNQfy {
     this.playlistId++;
     console.log('Se registró una nueva playlist ', newPlaylist);
     return newPlaylist;
+  }
+
+  createPlaylistWithIdsTracks(name, idsOfTracks){
+    const tracks = this.getTracksMatchingIdsTracks(idsOfTracks);
+    let duartions = 0;
+    const playlistTracks = [];
+
+    tracks.forEach((track) => {
+      duration += track.getDuration();
+    });
+
+    const newPlaylist = new Playlist(this.playlistId, name, tracks, duration);
+    this.playlists.push(newPlaylist);
+    this.playlistId++;
+    console.log('Se registró una nueva playlist ', newPlaylist);
+    return newPlaylist;
+  }
+
+  getPlaylistsByMaxDuration(maxDuration){
+    const playlists = this.getPlaylists();
+    const playListMaxDuration = playlists.filter(playlist => playlist.getDuration() > maxDuration)
+    return playListmaxDuration;
+  }
+
+  getPlaylistsByMinDuration(minDuration){
+    const playlists = this.getPlaylists();
+    const playListMinDuration = playlists.filter(playlist => playlist.getDuration() < minDuration)
+    return playListMinDuration;
+  }
+
+  //los ids solicitados ya existen en unqfy.
+  getTracksMatchingIdsTracks(ids){
+    let listResult = [];
+    ids.forEach(id => listResult.push(this.getTrackById(id)));
+    return listResults;
   }
 
   save(filename) {

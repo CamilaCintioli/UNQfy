@@ -6,6 +6,7 @@ const apiRouter = express.Router();
 const artists = require('./artists');
 const albums = require('./albums');
 const tracks = require('./tracks');
+const playList = require('./playLists');
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -28,6 +29,7 @@ app.use('/api',getUNQfy,apiRouter);
 apiRouter.use('/artists',artists);
 apiRouter.use('/albums',albums);
 apiRouter.use('/tracks', tracks);
+apiRouter.use('./playLists', playLists);
 
 app.listen(3000, () => {
   console.log('Example app listening on port 3000!');
