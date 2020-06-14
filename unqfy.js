@@ -227,7 +227,8 @@ class UNQfy {
   getPlaylistById(id) {
     const playlist = this.playlists.find(playlist => playlist.getId() === id);
     if (playlist) {
-      return (console.log('La playlist con id ', id, 'es ', playlist));
+      console.log('La playlist con id ', id, 'es ', playlist);
+      return playlist;
     }
     console.log('La playlist no pertenece a unqfy');
   }
@@ -235,11 +236,9 @@ class UNQfy {
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genres) {
-
     const tracks = this.getTracks();
     const tracksByGenre = tracks.filter(track => track.haveAnyGenres(genres));
     return tracksByGenre;
-
   }
 
   
@@ -268,7 +267,6 @@ class UNQfy {
         * un metodo duration() que retorne la duración de la playlist.
         * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
     */
-
     const tracks = this.getTracksMatchingGenres(genresToInclude);
     let duration = 0;
     const playlistTracks = [];
@@ -289,8 +287,8 @@ class UNQfy {
 
   createPlaylistWithIdsTracks(name, idsOfTracks){
     const tracks = this.getTracksMatchingIdsTracks(idsOfTracks);
-    let duartions = 0;
-    const playlistTracks = [];
+    let duration = 0;
+    //const playlistTracks = [];
 
     tracks.forEach((track) => {
       duration += track.getDuration();
@@ -306,7 +304,7 @@ class UNQfy {
   getPlaylistsByMaxDuration(maxDuration){
     const playlists = this.getPlaylists();
     const playListMaxDuration = playlists.filter(playlist => playlist.getDuration() > maxDuration)
-    return playListmaxDuration;
+    return playListMaxDuration;
   }
 
   getPlaylistsByMinDuration(minDuration){
@@ -315,11 +313,17 @@ class UNQfy {
     return playListMinDuration;
   }
 
+  getPlaylistByTitle(title){
+    const playlists = this.getPlaylists();
+        const playlist = playlists.filter((playlist) => playlist.getTitle() === title);
+    return playlist;
+  }
+
   //los ids solicitados ya existen en unqfy.
   getTracksMatchingIdsTracks(ids){
     let listResult = [];
     ids.forEach(id => listResult.push(this.getTrackById(id)));
-    return listResults;
+    return listResult;
   }
 
   save(filename) {
