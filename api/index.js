@@ -6,6 +6,7 @@ const unqmod = require('../unqfy'); // importamos el modulo unqfy
 const artists = require('./artists');
 const albums = require('./albums');
 const { validationErrorHandler } = require('./validation');
+const { unqfyErrorHandler } = require('./error');
 
 const app = express();
 const apiRouter = express.Router();
@@ -30,6 +31,7 @@ app.use('/api',unqfyMiddleware, apiRouter);
 apiRouter.use('/artists',artists);
 apiRouter.use('/albums',albums);
 app.use('/api', validationErrorHandler);
+app.use('/api', unqfyErrorHandler);
 
 app.listen(3000, () => {
   console.log('Example app listening on port 3000!');

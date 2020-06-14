@@ -3,8 +3,10 @@ const yup = require('yup');
 
 const { addArtist, searchArtists, getArtistById, updateArtist, deleteArtist } = require('../model/services/artistsService');
 const { createValidationMiddleware } = require('./validation');
+const { unqfyError } = require('./error');
 
 const artistRouter = express.Router();
+
 
 artistRouter.route('/')
   .post(
@@ -12,10 +14,15 @@ artistRouter.route('/')
       name: yup.string().trim().required('El nombre es requerido'),
       country: yup.string().trim().required('El pais es requerido'),
     })),
-    (req, res) => {
-      const artistData = { name: req.body.name, country: req.body.country };
-      const artist = addArtist(res.locals.unqfy, artistData)
-      res.status(201).send({ status: 201, code: 'CREATED', artist });      
+    (req, res, next) => {
+      try{
+        const artistData = { name: req.body.name, country: req.body.country };
+        const artist = addArtist(res.locals.unqfy, artistData);
+        res.status(201).send({ status: 201, code: 'CREATED', artist });      
+      }
+      catch(error){
+        next(unqfyError(error));
+      }
     }
   )
   .get((req, res) => {
