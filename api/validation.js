@@ -1,4 +1,5 @@
 const VALIDATION_ERROR = 'VALIDATION_ERROR';
+const yupToError = require('./utils');
 
 function createValidationMiddleware(schema) {
   return (req, res, next) => {
@@ -10,7 +11,7 @@ function createValidationMiddleware(schema) {
 
 function validationErrorHandler(err, req, res, next) {
   if (err.type === VALIDATION_ERROR) {
-    res.status(400).send(err.errors);
+    res.status(400).send(yupToError(err.errors));
   }
   else {
     next(err);
