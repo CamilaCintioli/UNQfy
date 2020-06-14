@@ -5,11 +5,15 @@ const bodyParser = require('body-parser');
 const unqmod = require('../unqfy'); // importamos el modulo unqfy
 const artists = require('./artists');
 const albums = require('./albums');
+const tracks = require('./tracks');
+const playlists = require('./playlists');
+const users = require('./users');
 const { validationErrorHandler } = require('./validation');
 const { unqfyErrorHandler } = require('./error');
 
 const app = express();
 const apiRouter = express.Router();
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -30,6 +34,9 @@ function unqfyMiddleware(req, res, next) {
 app.use('/api',unqfyMiddleware, apiRouter);
 apiRouter.use('/artists',artists);
 apiRouter.use('/albums',albums);
+apiRouter.use('/tracks', tracks);
+apiRouter.use('/playlists', playlists);
+apiRouter.use('/users', users);
 app.use('/api', validationErrorHandler);
 app.use('/api', unqfyErrorHandler);
 

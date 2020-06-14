@@ -62,7 +62,6 @@ class UNQfy {
     throw new ArtistDoesNotExist(artistId);
   }
 
-
   deleteArtist(artistId) {
     const artist = this.artists.find((artist) => artist.getId() === artistId);
     if (artist) {
@@ -90,7 +89,6 @@ class UNQfy {
     const albumes = this.artists.flatMap((artist) => artist.getAlbums());
     return albumes;
   }
-
 
   deletePlaylist(playlistId) {
     this.playlists = this.playlists.filter(playlist => playlist.getId() !== playlistId);
@@ -179,6 +177,7 @@ class UNQfy {
     }
 
   }
+  
   updateTrack(trackId, trackData) {
     const tracks = this.getAlbums().flatMap(album => album.getTracks());
     const track = tracks.find(track => track.getId() === trackId);
@@ -189,7 +188,6 @@ class UNQfy {
     }
     console.log('no existe el track con es id ', trackId);
   }
-
 
   deleteTrack(trackId) {
     const albumes = this.getAlbums();
@@ -236,11 +234,11 @@ class UNQfy {
     console.log('El track no pertenece a ningún album');
   }
 
-
   getPlaylistById(id) {
     const playlist = this.playlists.find(playlist => playlist.getId() === id);
     if (playlist) {
-      return (console.log('La playlist con id ', id, 'es ', playlist));
+      console.log('La playlist con id ', id, 'es ', playlist);
+      return playlist;
     }
     console.log('La playlist no pertenece a unqfy');
   }
@@ -248,12 +246,12 @@ class UNQfy {
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genres) {
-
     const tracks = this.getTracks();
     const tracksByGenre = tracks.filter(track => track.haveAnyGenres(genres));
     return tracksByGenre;
-
   }
+
+  
 
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
@@ -268,7 +266,6 @@ class UNQfy {
 
   }
 
-
   // name: nombre de la playlist
   // genresToInclude: array de generos
   // maxDuration: duración en segundos
@@ -280,7 +277,6 @@ class UNQfy {
         * un metodo duration() que retorne la duración de la playlist.
         * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
     */
-
     const tracks = this.getTracksMatchingGenres(genresToInclude);
     let duration = 0;
     const playlistTracks = [];
@@ -297,6 +293,47 @@ class UNQfy {
     this.playlistId++;
     console.log('Se registró una nueva playlist ', newPlaylist);
     return newPlaylist;
+  }
+
+  createPlaylistWithIdsTracks(name, idsOfTracks){
+    const tracks = this.getTracksMatchingIdsTracks(idsOfTracks);
+    let duration = 0;
+    //const playlistTracks = [];
+
+    tracks.forEach((track) => {
+      duration += track.getDuration();
+    });
+
+    const newPlaylist = new Playlist(this.playlistId, name, tracks, duration);
+    this.playlists.push(newPlaylist);
+    this.playlistId++;
+    console.log('Se registró una nueva playlist ', newPlaylist);
+    return newPlaylist;
+  }
+
+  getPlaylistsByMaxDuration(maxDuration){
+    const playlists = this.getPlaylists();
+    const playListMaxDuration = playlists.filter(playlist => playlist.getDuration() > maxDuration)
+    return playListMaxDuration;
+  }
+
+  getPlaylistsByMinDuration(minDuration){
+    const playlists = this.getPlaylists();
+    const playListMinDuration = playlists.filter(playlist => playlist.getDuration() < minDuration)
+    return playListMinDuration;
+  }
+
+  getPlaylistByTitle(title){
+    const playlists = this.getPlaylists();
+        const playlist = playlists.filter((playlist) => playlist.getTitle() === title);
+    return playlist;
+  }
+
+  //los ids solicitados ya existen en unqfy.
+  getTracksMatchingIdsTracks(ids){
+    let listResult = [];
+    ids.forEach(id => listResult.push(this.getTrackById(id)));
+    return listResult;
   }
 
   save(filename) {
@@ -340,8 +377,6 @@ class UNQfy {
   searchPlaylistsByTitle(name) {
     return this.playlists.filter(playlist => playlist.getTitle().toLowerCase().includes(name.toLowerCase()));
   }
-
-
 
   addUser(userData) {
     const user = this.users.map(user => user.name).includes(userData.name);
@@ -428,7 +463,7 @@ class UNQfy {
     const track = this.getTracks().find((track) => track.title === title);
 
     return searchIdForTrack(title)
-      .then((id) => track.getLyrics(id));
+      .then((id) => {return track.getLyrics(id)});
       
   }
 

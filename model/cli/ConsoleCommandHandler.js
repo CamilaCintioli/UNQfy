@@ -28,6 +28,10 @@ const GetTracksCommand = require('./commands/GetTracksCommand');
 const PopulateAlbumsForArtistCommand = require('./commands/PopulateAlbumsForArtistCommand');
 const GetAlbumsForArtistCommand = require('./commands/GetAlbumsForArtistCommand');
 const GetLyricsCommand = require('./commands/GetLyricsCommand');
+const CreatePlaylistWithIdsTracksCommand = require('./commands/CreatePlaylistWithIdsTracksCommand');
+const GetPlaylistsByMaxDurationCommand = require('./commands/GetPlaylistsByMaxDurationCommand')
+const GetPlaylistsByMinDurationCommand = require('./commands/GetPlaylistsByMinDurationCommand')
+const GetPlaylistByTitleCommand = require ('./commands/GetPlaylistByTitleCommand');
 const {CommandDoesNotExist} = require('../Exceptions');
 
 class ConsoleCommandHandler{
@@ -93,6 +97,14 @@ class ConsoleCommandHandler{
       return new GetAlbumsForArtistCommand();
     case 'getLyrics':
       return new GetLyricsCommand();
+    case 'createPlaylistWithIdsTracks':
+      return new CreatePlaylistWithIdsTracksCommand();
+    case 'getPlaylistsByMaxDuration':
+      return new GetPlaylistsByMaxDurationCommand();
+    case 'getPlaylistsByMinDuration':
+      return new GetPlaylistsByMinDurationCommand();
+    case 'getPlaylistByTitle':
+      return new GetPlaylistByTitleCommand();
     default:
       throw new CommandDoesNotExist();
     }
