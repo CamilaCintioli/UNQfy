@@ -14,17 +14,12 @@ artistRouter.route('/')
     })),
     (req, res) => {
       const artistData = { name: req.body.name, country: req.body.country };
-      
-      addArtist(res.locals.unqfy, artistData)
-        .then((artist) => {
-          res.status(201).send({ status: 201, code: 'CREATED', artist });
-        })
-        .catch((err) => {
-          next(businessLogicError(err))
-        });
+      const artist = addArtist(res.locals.unqfy, artistData)
+      res.status(201).send({ status: 201, code: 'CREATED', artist });      
     }
   )
   .get((req, res) => {
+    //validar que si no es name, es un bad request
     const artists = searchArtists(res.locals.unqfy, req.query.name);
     res.status(200).send({ status: 200, code: 'OK', artists });
   });
@@ -35,7 +30,10 @@ artistRouter.route('/:id')
     const artist = getArtistById(res.locals.unqfy, artistId);
     res.status(200).send({ code: 200, stats: 'OK', artist });
   })
-  .put((req, res) => {
+  .put(createValidationMiddleware(yup.object({
+    name: yup.string().trim().required('El nombre es requerido'),
+    country: yup.string().trim().required('El pais es requerido'),
+  })),(req, res) => {
     const artistId = +req.params.id;
     const artistData = {
       name: req.body.name,
