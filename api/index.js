@@ -1,12 +1,15 @@
 const express = require('express');
-const app = express();
 const fs = require('fs'); // necesitado para guardar/cargar unqfy
+const bodyParser = require('body-parser');
+
 const unqmod = require('../unqfy'); // importamos el modulo unqfy
-const apiRouter = express.Router();
 const artists = require('./artists');
 const albums = require('./albums');
+const { validationErrorHandler } = require('./validation');
 
-const bodyParser = require('body-parser');
+const app = express();
+const apiRouter = express.Router();
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -18,14 +21,15 @@ function getUNQfyAux(filename = 'data.json') {
   return unqfy;
 }
 
-function getUNQfy(req, res, next) {
+function unqfyMiddleware(req, res, next) {
   res.locals.unqfy = getUNQfyAux();
   next();
 }
 
-app.use('/api',getUNQfy,apiRouter);
+app.use('/api',unqfyMiddleware, apiRouter);
 apiRouter.use('/artists',artists);
 apiRouter.use('/albums',albums);
+app.use('/api', validationErrorHandler);
 
 app.listen(3000, () => {
   console.log('Example app listening on port 3000!');
