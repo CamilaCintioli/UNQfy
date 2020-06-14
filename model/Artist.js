@@ -1,3 +1,5 @@
+const { DuplicatedAlbum } = require("./Exceptions");
+
 class Artist{
   constructor(id, name, country){
     this.id = id;
@@ -19,6 +21,10 @@ class Artist{
   }
 
   addAlbum(album){
+
+    if(this.albums.map(album => album.title).includes(album.title)){
+      throw new DuplicatedAlbum(this.albums.find(({title}) => title === album.title));
+    }
     this.albums.push(album);
   }
 
