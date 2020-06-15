@@ -11,7 +11,8 @@ function createValidationMiddleware(schema) {
 
 function validationErrorHandler(err, req, res, next) {
   if (err.type === VALIDATION_ERROR) {
-    res.status(400).send(yupToError(err.errors));
+    const fields = yupToError(err.errors);
+    res.status(400).send({status:400,errorCode:'BAD_REQUEST',fields});
   }
   else {
     next(err);

@@ -1,17 +1,21 @@
 const express = require('express');
+
 const playlistRouter = express.Router();
 const { createPlaylist } = require('../model/services/playlistsService');
 const { getPlaylistById } = require('../model/services/playlistsService');
 const { searchPlaylists, deletePlaylist } = require('../model/services/playlistsService');
-
+const { createValidationMiddleware } = require('./validation');
+const { playlistSchema } = require('../schemas');
 
 playlistRouter.route('/')
-  .post((req,res) => {
-    const playlistData = {title:req.body.title, duration:req.body.duration, genres:req.body.genres, 
-      tracks:req.body.tracks};
-    const playlist = createPlaylist(res.locals.unqfy,playlistData);
-    res.status(201).send({status:201,code:'CREATED',playlist});
-  })
+  .post(
+    createValidationMiddleware(playlistSchema)
+    ,(req,res) => {
+      const playlistData = {title:req.body.title, duration:req.body.duration, genres:req.body.genres, 
+        tracks:req.body.tracks};
+      const playlist = createPlaylist(res.locals.unqfy,playlistData);
+      res.status(201).send({status:201,code:'CREATED',playlist});
+    })
   
   .get((req,res) => {
     const playlists = searchPlaylists(res.locals.unqfy,req.query.title, req.query.durationLT, 
@@ -23,7 +27,7 @@ playlistRouter.route('/')
 playlistRouter.route('/:id')
   .delete((req,res) => {
     const playlistId = +req.params.id;
-    deletePlaylist(res.locals.unqfy,playlistId)
+    deletePlaylist(res.locals.unqfy,playlistId);
     res.status(204).send({status:204,code:'NO CONTENT'});
   })
   .get((req,res) => {
