@@ -5,7 +5,7 @@ const Artist = require('./model/Artist');
 const Track = require('./model/Track');
 const Album = require('./model/Album');
 const Playlist = require('./model/Playlist');
-const { DuplicatedArtist, DuplicatedTrackInAlbum, ArtistDoesNotExist, AlbumCantBeCreated, AlbumDoesNotExist } = require('./model/Exceptions');
+const { DuplicatedArtist, DuplicatedTrackInAlbum, ArtistDoesNotExist, AlbumCantBeCreated, AlbumDoesNotExist, TrackDoesNotExist } = require('./model/Exceptions');
 const User = require('./model/User');
 const {searchIdForArtist,searchAlbumsForArtistId} = require('./model/services/spotifyService');
 const {searchIdForTrack, searchLyricsForTrackId} = require('./model/services/musicMatchService');
@@ -232,6 +232,7 @@ class UNQfy {
       return track;
     }
     console.log('El track no pertenece a ningún album');
+    throw new TrackDoesNotExist(id);
   }
 
   getPlaylistById(id) {
@@ -313,25 +314,25 @@ class UNQfy {
 
   getPlaylistsByMaxDuration(maxDuration){
     const playlists = this.getPlaylists();
-    const playListMaxDuration = playlists.filter(playlist => playlist.getDuration() > maxDuration)
+    const playListMaxDuration = playlists.filter(playlist => playlist.getDuration() > maxDuration);
     return playListMaxDuration;
   }
 
   getPlaylistsByMinDuration(minDuration){
     const playlists = this.getPlaylists();
-    const playListMinDuration = playlists.filter(playlist => playlist.getDuration() < minDuration)
+    const playListMinDuration = playlists.filter(playlist => playlist.getDuration() < minDuration);
     return playListMinDuration;
   }
 
   getPlaylistByTitle(title){
     const playlists = this.getPlaylists();
-        const playlist = playlists.filter((playlist) => playlist.getTitle() === title);
+    const playlist = playlists.filter((playlist) => playlist.getTitle() === title);
     return playlist;
   }
 
   //los ids solicitados ya existen en unqfy.
   getTracksMatchingIdsTracks(ids){
-    let listResult = [];
+    const listResult = [];
     ids.forEach(id => listResult.push(this.getTrackById(id)));
     return listResult;
   }
@@ -460,10 +461,19 @@ class UNQfy {
   }
 
   getLyrics(title){
-    const track = this.getTracks().find((track) => track.title === title);
 
-    return searchIdForTrack(title)
-      .then((id) => {return track.getLyrics(id)});
+    try {
+      const track = this.getTracks().find((track) => track.title === title);
+      if(!track){
+        throw new TrackDoesNotExist(title);
+      }
+      return searchIdForTrack(title)
+        .then((id) => {return track.getLyrics(id);});
+    }
+    catch(error){
+      return Promise.reject(error);
+    }
+   
       
   }
 
