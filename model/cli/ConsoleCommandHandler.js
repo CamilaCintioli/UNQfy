@@ -32,6 +32,7 @@ const CreatePlaylistWithIdsTracksCommand = require('./commands/CreatePlaylistWit
 const GetPlaylistsByMaxDurationCommand = require('./commands/GetPlaylistsByMaxDurationCommand')
 const GetPlaylistsByMinDurationCommand = require('./commands/GetPlaylistsByMinDurationCommand')
 const GetPlaylistByTitleCommand = require ('./commands/GetPlaylistByTitleCommand');
+const DeleteUserCommand = require ('./commands/DeleteUserCommand');
 const {CommandDoesNotExist} = require('../Exceptions');
 
 class ConsoleCommandHandler{
@@ -105,6 +106,9 @@ class ConsoleCommandHandler{
       return new GetPlaylistsByMinDurationCommand();
     case 'getPlaylistByTitle':
       return new GetPlaylistByTitleCommand();
+    case 'deleteUser':
+      return new DeleteUserCommand();
+    
     default:
       throw new CommandDoesNotExist();
     }

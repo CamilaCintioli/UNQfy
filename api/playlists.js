@@ -1,12 +1,16 @@
 const express = require('express');
+const { 
+  createPlaylist,
+  getPlaylistById,
+  searchPlaylists,
+  deletePlaylist,
+} = require('../model/services/playlistsService');
 
-const playlistRouter = express.Router();
-const { createPlaylist } = require('../model/services/playlistsService');
-const { getPlaylistById } = require('../model/services/playlistsService');
-const { searchPlaylists, deletePlaylist } = require('../model/services/playlistsService');
 const { createValidationMiddleware } = require('./validation');
 const { playlistSchema } = require('../schemas');
 const { unqfyError } = require('./error');
+
+const playlistRouter = express.Router();
 
 playlistRouter.route('/')
   .post(
