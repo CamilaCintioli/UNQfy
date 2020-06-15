@@ -29,6 +29,9 @@ class User{
     return tracks2;
   }
 
+  
+
+
   timesHeardATrack(trackId){
     return this.tracksHeard.filter(track => track.getId() === trackId).length;
   }
@@ -37,6 +40,8 @@ class User{
   addTimeTrackHeard(trackData){
     this.timeTrackHeard = this.timeTrackHeard + trackData.getDuration();
   }
+
+  
 
 }
 

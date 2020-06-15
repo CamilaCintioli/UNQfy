@@ -241,8 +241,6 @@ class UNQfy {
     return tracksByGenre;
   }
 
-  
-
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
   getTracksMatchingArtist(artistName) {
@@ -380,10 +378,11 @@ class UNQfy {
     console.log('Ya existente el usuario ', user.getName());
   }
 
-  registerTrackByUser(userId, trackId) {
+  listenTrackByUser(userId, trackId) {
     const track = this.getTrackById(trackId);
     const user = this.getUserById(userId);
     user.addTrackHeard(track);
+    return user
   }
 
   getUserById(id) {
@@ -461,6 +460,18 @@ class UNQfy {
     this.artists.filter(artist => artist.name)
   }
 
+  deleteUser(userId){
+    const user = this.getUserById(userId);
+    if (!user) {
+      console.log('No existe un usuario con el id');
+      return ;
+    }
+    this.users = this.users.filter(user => user.getId() !== userId);
+    console.log('El user ha sido eliminado exitosamente');
+    return this.users;
+  }
+
+  
 
 }
 

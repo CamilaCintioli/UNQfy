@@ -6,6 +6,8 @@ class AddUserCommand{
       lastname,
     });
     
+    unqfy.save('data.json');
+    
   }
 }
 

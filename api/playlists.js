@@ -1,8 +1,7 @@
 const express = require('express');
 const playlistRouter = express.Router();
 const { createPlaylist } = require('../model/services/playlistsService');
-const { getPlaylistById } = require('../model/services/playlistsService');
-const { searchPlaylists, deletePlaylist } = require('../model/services/playlistsService');
+const { searchPlaylists, deletePlaylist,  getPlaylistById } = require('../model/services/playlistsService');
 
 
 playlistRouter.route('/')
