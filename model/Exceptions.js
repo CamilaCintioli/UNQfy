@@ -4,7 +4,8 @@ const {
   ARTIST_DOESNT_EXIST_ERROR,
   ALBUM_CANT_BE_CREATED_ERROR,
   ALBUM_DOESNT_EXIST_ERROR,
-  TRACK_DOESNT_EXIST_ERROR
+  TRACK_DOESNT_EXIST_ERROR,
+  PLAYLIST_DOESNT_EXIST_ERROR
 } = require('../exceptions');
 
 class DuplicatedArtist extends Error{
@@ -72,6 +73,15 @@ class TrackDoesNotExist extends Error {
   }
 }
 
+class PlaylistDoesNotExist extends Error {
+  constructor(playlistId){
+    super('No existe una playlist con ese id');
+    this.name = PLAYLIST_DOESNT_EXIST_ERROR;
+    this.message = 'No existe una playlist con ese id';
+    this.data = playlistId;
+  }
+}
+
 module.exports = {
   DuplicatedArtist, 
   DuplicatedTrackInAlbum,
@@ -80,5 +90,6 @@ module.exports = {
   AlbumCantBeCreated, 
   DuplicatedAlbum,
   AlbumDoesNotExist,
-  TrackDoesNotExist
+  TrackDoesNotExist,
+  PlaylistDoesNotExist
 };

@@ -4,7 +4,8 @@ const {
   ARTIST_DOESNT_EXIST_ERROR,
   ALBUM_CANT_BE_CREATED_ERROR,
   ALBUM_DOESNT_EXIST_ERROR,
-  TRACK_DOESNT_EXIST_ERROR
+  TRACK_DOESNT_EXIST_ERROR,
+  PLAYLIST_DOESNT_EXIST_ERROR,
 } = require('../exceptions');
 
 function unqfyError(error){
@@ -19,6 +20,7 @@ function unqfyError(error){
 }
 
 function unqfyErrorHandler(err,req,res,next){
+  console.log(err);
   if(err.type === 'UNQFY_ERROR'){
     errors[err.error.name](res,err.error.data);
   }
@@ -49,7 +51,8 @@ const errors = {
   [ALBUM_CANT_BE_CREATED_ERROR]: createRelatedResourceDoesntExistResponseError,
   [DUPLICATED_ALBUM_ERROR]: createDuplicatedAlbumResponseError,
   [ALBUM_DOESNT_EXIST_ERROR]:createResourceDoesntExistResponseError,
-  [TRACK_DOESNT_EXIST_ERROR]:createResourceDoesntExistResponseError
+  [TRACK_DOESNT_EXIST_ERROR]:createResourceDoesntExistResponseError,
+  [PLAYLIST_DOESNT_EXIST_ERROR]:createResourceDoesntExistResponseError,
 };
 
 module.exports = {unqfyError,unqfyErrorHandler};

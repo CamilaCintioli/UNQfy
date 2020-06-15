@@ -5,7 +5,13 @@ const Artist = require('./model/Artist');
 const Track = require('./model/Track');
 const Album = require('./model/Album');
 const Playlist = require('./model/Playlist');
-const { DuplicatedArtist, DuplicatedTrackInAlbum, ArtistDoesNotExist, AlbumCantBeCreated, AlbumDoesNotExist, TrackDoesNotExist } = require('./model/Exceptions');
+const { DuplicatedArtist,
+  DuplicatedTrackInAlbum,
+  ArtistDoesNotExist,
+  AlbumCantBeCreated,
+  AlbumDoesNotExist,
+  TrackDoesNotExist,
+  PlaylistDoesNotExist} = require('./model/Exceptions');
 const User = require('./model/User');
 const {searchIdForArtist,searchAlbumsForArtistId} = require('./model/services/spotifyService');
 const {searchIdForTrack, searchLyricsForTrackId} = require('./model/services/musicMatchService');
@@ -91,8 +97,8 @@ class UNQfy {
   }
 
   deletePlaylist(playlistId) {
+    this.getPlaylistById(playlistId);
     this.playlists = this.playlists.filter(playlist => playlist.getId() !== playlistId);
-    console.log('La playlist ha sido eliminada exitosamente');
   }
 
   // albumData: objeto JS con los datos necesarios para crear un album
@@ -242,6 +248,7 @@ class UNQfy {
       return playlist;
     }
     console.log('La playlist no pertenece a unqfy');
+    throw new PlaylistDoesNotExist(id);
   }
 
   // genres: array de generos(strings)
