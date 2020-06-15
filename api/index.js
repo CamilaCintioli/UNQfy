@@ -1,15 +1,20 @@
 const express = require('express');
-const app = express();
 const fs = require('fs'); // necesitado para guardar/cargar unqfy
+const bodyParser = require('body-parser');
+
 const unqmod = require('../unqfy'); // importamos el modulo unqfy
-const apiRouter = express.Router();
 const artists = require('./artists');
 const albums = require('./albums');
 const tracks = require('./tracks');
 const playlists = require('./playlists');
 const users = require('./users');
+const { validationErrorHandler } = require('./validation');
+const { unqfyErrorHandler } = require('./error');
 
-const bodyParser = require('body-parser');
+const app = express();
+const apiRouter = express.Router();
+
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -21,17 +26,19 @@ function getUNQfyAux(filename = 'data.json') {
   return unqfy;
 }
 
-function getUNQfy(req, res, next) {
+function unqfyMiddleware(req, res, next) {
   res.locals.unqfy = getUNQfyAux();
   next();
 }
 
-app.use('/api',getUNQfy,apiRouter);
+app.use('/api',unqfyMiddleware, apiRouter);
 apiRouter.use('/artists',artists);
 apiRouter.use('/albums',albums);
 apiRouter.use('/tracks', tracks);
 apiRouter.use('/playlists', playlists);
 apiRouter.use('/users', users);
+app.use('/api', validationErrorHandler);
+app.use('/api', unqfyErrorHandler);
 
 app.listen(3000, () => {
   console.log('Example app listening on port 3000!');

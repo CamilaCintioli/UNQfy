@@ -5,7 +5,7 @@ const Artist = require('./model/Artist');
 const Track = require('./model/Track');
 const Album = require('./model/Album');
 const Playlist = require('./model/Playlist');
-const { DuplicatedArtist, DuplicatedTrackInAlbum } = require('./model/Exceptions');
+const { DuplicatedArtist, DuplicatedTrackInAlbum, ArtistDoesNotExist, AlbumCantBeCreated, AlbumDoesNotExist } = require('./model/Exceptions');
 const User = require('./model/User');
 const {searchIdForArtist,searchAlbumsForArtistId} = require('./model/services/spotifyService');
 const {searchIdForTrack, searchLyricsForTrackId} = require('./model/services/musicMatchService');
@@ -35,7 +35,7 @@ class UNQfy {
 
     try {
       if (this.searchArtistsByName(name).length > 0) {
-        throw new DuplicatedArtist();
+        throw new DuplicatedArtist(this.searchArtistsByName(name)[0]);
       }
       const newArtist = new Artist(this.artistId, name, country);
       this.artistId++;
@@ -43,8 +43,9 @@ class UNQfy {
       console.log('Se registró nuevo artista: ', newArtist);
       return newArtist;
     }
-    catch (DuplicatedArtist) {
+    catch (duplicatedArtist) {
       console.log('Existe un artista con el nombre dado');
+      throw duplicatedArtist;
     }
   }
 
@@ -58,6 +59,7 @@ class UNQfy {
       return artist;
     }
     console.log('Artista no existe con ese id: ', artistId);
+    throw new ArtistDoesNotExist(artistId);
   }
 
   deleteArtist(artistId) {
@@ -69,6 +71,7 @@ class UNQfy {
       console.log('Artista borrado exitosamente');
     } else {
       console.log('No existe un artista con ese id ', artistId);
+      throw new ArtistDoesNotExist(artistId);
     }
   }
 
@@ -102,15 +105,18 @@ class UNQfy {
        - una propiedad name (string)
        - una propiedad year (number)
     */
-    const artist = this.artists.find(({ id }) => id === artistId);
-    if (artist) {
-      const album = new Album(this.albumId, title, year);
-      artist.addAlbum(album);
-      console.log('Se registró un nuevo album ', album);
-      this.albumId++;
-      return album;
+    let artist = null;
+    try{
+      artist = this.getArtistById(artistId);
     }
-    console.log('No existe un artista con ese id ', artistId);
+    catch(error){
+      throw new AlbumCantBeCreated(artistId);
+    }
+    const album = new Album(this.albumId, title, year);
+    artist.addAlbum(album);
+    console.log('Se registró un nuevo album ', album);
+    this.albumId++;
+    return album;
   }
 
 
@@ -124,6 +130,7 @@ class UNQfy {
     }
 
     console.log('No existe album con ese id ', albumId);
+    throw new AlbumDoesNotExist(albumId);
   }
 
 
@@ -131,6 +138,7 @@ class UNQfy {
     const album = this.getAlbumById(albumId);
     if (!album) {
       console.log('No existe un album con el id');
+      throw new AlbumDoesNotExist(albumId);
     }
     const tracks = album.getTracks();
     this.artists.forEach(artist => artist.deleteAlbum(albumId));
@@ -200,6 +208,7 @@ class UNQfy {
       return artist;
     }
     console.log('El artista no está registrado con el id ', id);
+    throw new ArtistDoesNotExist(id);
   }
 
   getAlbumById(id) {
@@ -209,6 +218,7 @@ class UNQfy {
       return album;
     }
     console.log('El album no esta registrado con el id ', id);
+    throw new AlbumDoesNotExist(id);
   }
 
   getTracks() {
@@ -457,7 +467,7 @@ class UNQfy {
   }
 
   getArtistsByName(artistName){
-    this.artists.filter(artist => artist.name)
+    this.artists.filter(artist => artist.name);
   }
 
   deleteUser(userId){
