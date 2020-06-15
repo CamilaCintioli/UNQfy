@@ -1,7 +1,15 @@
 function getLyrics(unqfy, trackId){
-    const trackTitle =  unqfy.getTrackById(trackId).title;
-    return unqfy.getLyrics(trackTitle)
-    .then(lyrics => {return {lyrics, trackTitle }});
+  let track = null;
+  try{
+    track = unqfy.getTrackById(trackId);
+  }
+  catch(error){
+    return Promise.reject(error);
+  }
+
+  return unqfy.getLyrics(track.title)
+    .then(lyrics => {return {lyrics, trackTitle: track.title};});
+
 }
 
 

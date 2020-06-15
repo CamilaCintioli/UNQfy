@@ -66,8 +66,8 @@ class Track{
     }
 
     return searchLyricsForTrackId(trackId)
-      .then(lyrics => {this.lyrics = lyrics; console.log(lyrics); 
-          return this.lyrics})
+      .then(lyrics => {this.lyrics = lyrics; 
+        return this.lyrics;})
       .catch(error => {
         this.lyrics = 'Esta cancion no tiene letra';
         return this.lyrics;
