@@ -8,7 +8,7 @@ const {
   PLAYLIST_DOESNT_EXIST_ERROR,
   DUPLICATED_USER_ERROR,
   USER_DOESNT_EXIST_ERROR,
-} = require('../exceptions');
+} = require('../../exceptions');
 
 function unqfyError(error){
   return {
@@ -72,4 +72,20 @@ const errors = {
   [USER_DOESNT_EXIST_ERROR]:createResourceDoesntExistResponseError
 };
 
-module.exports = {unqfyError,unqfyErrorHandler};
+
+function notFoundErrorHandler(req,res){
+  res.status(404).send({status:404,errorCode:'RESOURCE_NOT_FOUND'});
+}
+
+function defaultErrorHandler(err,req,res,next){
+  res.status(500).send({status:500,errorCode:'INTERNAL_SERVER_ERROR'});
+}
+
+function invalidBodyErrorHandler(err, req, res, next){
+  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+    return res.status(400).send({ status: 400, errorCode: 'BAD_REQUEST' });
+  }
+  next();
+}
+
+module.exports = {unqfyError,unqfyErrorHandler, notFoundErrorHandler, defaultErrorHandler, invalidBodyErrorHandler};

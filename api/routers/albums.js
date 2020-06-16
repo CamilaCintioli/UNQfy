@@ -1,9 +1,9 @@
 const express = require('express');
 const yup = require('yup');
 const albumRouter = express.Router();
-const { addAlbum, searchAlbums, getAlbumById, updateAlbum, deleteAlbum } = require('../model/services/albumsService');
-const { createValidationMiddleware } = require('./validation');
-const { unqfyError } = require('./error');
+const { addAlbum, searchAlbums, getAlbumById, updateAlbum, deleteAlbum } = require('../../model/services/albumsService');
+const { createValidationMiddleware } = require('../middlewares/validation');
+const { unqfyError } = require('../middlewares/error');
 
 albumRouter.route('/')
   .post(createValidationMiddleware(yup.object({

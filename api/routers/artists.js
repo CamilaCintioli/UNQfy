@@ -1,9 +1,9 @@
 const express = require('express');
 const yup = require('yup');
 
-const { addArtist, searchArtists, getArtistById, updateArtist, deleteArtist } = require('../model/services/artistsService');
-const { createValidationMiddleware } = require('./validation');
-const { unqfyError } = require('./error');
+const { addArtist, searchArtists, getArtistById, updateArtist, deleteArtist } = require('../../model/services/artistsService');
+const { createValidationMiddleware } = require('../middlewares/validation');
+const { unqfyError } = require('../middlewares/error');
 
 const artistRouter = express.Router();
 

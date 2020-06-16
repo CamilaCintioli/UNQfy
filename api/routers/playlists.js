@@ -4,11 +4,11 @@ const {
   getPlaylistById,
   searchPlaylists,
   deletePlaylist,
-} = require('../model/services/playlistsService');
+} = require('../../model/services/playlistsService');
 
-const { createValidationMiddleware } = require('./validation');
+const { createValidationMiddleware } = require('../middlewares/validation');
 const { playlistSchema } = require('../schemas');
-const { unqfyError } = require('./error');
+const { unqfyError } = require('../middlewares/error');
 
 const playlistRouter = express.Router();
 

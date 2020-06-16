@@ -6,9 +6,9 @@ const {
   getUserById,
   listenTrackByUser,
   getTracksListenByUser,
-  deleteUser} = require('../model/services/usersService');
-const { createValidationMiddleware } = require('./validation');
-const { unqfyError } = require('./error');
+  deleteUser} = require('../../model/services/usersService');
+const { createValidationMiddleware } = require('../middlewares/validation');
+const { unqfyError } = require('../middlewares/error');
 
 userRouter.route('/')
   .post(
@@ -20,7 +20,7 @@ userRouter.route('/')
       try{
         const userData = {name:req.body.name, lastname:req.body.lastname};
         const user = addUser(res.locals.unqfy, userData);
-        res.status(201).send({status:201,code:'CREATED',user});
+        res.status(201).send(user);
       }
       catch(error){
         next(unqfyError(error));
@@ -37,7 +37,7 @@ userRouter.route('/')
         const userId =  req.body.userId;
         const trackId  = req.body.trackId; 
         const user = listenTrackByUser(res.locals.unqfy,userId,trackId);
-        res.status(200).send({code:200,status:'OK',user});
+        res.status(200).send(user);
       }
       catch(error){
         next(unqfyError(error));
@@ -47,7 +47,7 @@ userRouter.route('/')
     try{
       const userId = req.body.userId;
       const tracks = getTracksListenByUser(res.locals.unqfy, userId);
-      res.status(200).send({code:200,status:'OK',tracks});
+      res.status(200).send(tracks);
     }
     catch(error){
       next(unqfyError(error));
@@ -60,7 +60,7 @@ userRouter.route('/:id/tracks')
     try{
       const userId = +req.params.id;
       const tracks = getTracksListenByUser(res.locals.unqfy,userId);
-      res.status(200).send({status:200,code:'OK',tracks});
+      res.status(200).send(tracks);
     }
     catch(error){
       next(unqfyError(error));
@@ -72,12 +72,11 @@ userRouter.route('/:id')
     try{
       const userId =  +req.params.id;
       const user = getUserById(res.locals.unqfy,userId);
-      res.status(200).send({status:200,code:'OK',user});
+      res.status(200).send(user);
     }
     catch(error){
       next(unqfyError(error));
     }
-
   })
   .delete((req,res, next) => {
     try{

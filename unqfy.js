@@ -495,6 +495,7 @@ class UNQfy {
   }
 
   deleteUser(userId){
+
     const user = this.getUserById(userId);
     if (!user) {
       console.log('No existe un usuario con el id');

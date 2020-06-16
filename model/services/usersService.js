@@ -23,9 +23,8 @@ function getTimesHeardATrack(unqfy, userId, trackId){
 }
 
 function deleteUser(unqfy, userId){
-    console.log("USER ID", userId)
   unqfy.deleteUser(userId);
-  //unqfy.save('data.json');
+  unqfy.save('data.json');
 }
 
 

@@ -1,7 +1,7 @@
 const express = require('express');
 const trackRouter = express.Router();
-const {getLyrics} = require('../model/services/tracksService');
-const { unqfyError } = require('./error');
+const {getLyrics} = require('../../model/services/tracksService');
+const { unqfyError } = require('../middlewares/error');
 
 
 trackRouter.route('/:id/lyrics')
