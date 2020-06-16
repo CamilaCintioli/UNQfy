@@ -32,11 +32,18 @@ function unqfyMiddleware(req, res, next) {
 }
 
 function notFoundHandler(req,res){
-  res.status(404).send({status:404,statusCode:'RESOURCE_NOT_FOUND'});
+  res.status(404).send({status:404,errorCode:'RESOURCE_NOT_FOUND'});
 }
 
 function defaultError(err,req,res,next){
-  res.status(500).send({status:500,statusCode:'INTERNAL_SERVER_ERROR'});
+  res.status(500).send({status:500,errorCode:'INTERNAL_SERVER_ERROR'});
+}
+
+function invalidJsonError(err, req, res, next){
+  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+    return res.status(400).send({ status: 400, errorCode: 'BAD_REQUEST' });
+  }
+  next();
 }
 
 app.use('/api',unqfyMiddleware, apiRouter);
@@ -48,6 +55,7 @@ apiRouter.use('/users', users);
 app.use(notFoundHandler);
 app.use('/api', validationErrorHandler);
 app.use('/api', unqfyErrorHandler);
+app.use(invalidJsonError);
 app.use('/api', defaultError);
 
 app.listen(3000, () => {
