@@ -18,7 +18,7 @@ artistRouter.route('/')
       try{
         const artistData = { name: req.body.name, country: req.body.country };
         const artist = addArtist(res.locals.unqfy, artistData);
-        res.status(201).send({ status: 201, code: 'CREATED', artist });      
+        res.status(201).send( artist );      
       }
       catch(error){
         next(unqfyError(error));
@@ -27,7 +27,7 @@ artistRouter.route('/')
   )
   .get((req, res) => {
     const artists = searchArtists(res.locals.unqfy, req.query.name);
-    res.status(200).send({ status: 200, code: 'OK', artists });
+    res.status(200).send(artists);
   });
 
 artistRouter.route('/:id')
@@ -35,7 +35,7 @@ artistRouter.route('/:id')
     const artistId = +req.params.id;
     try{
       const artist = getArtistById(res.locals.unqfy, artistId);
-      res.status(200).send({ code: 200, stats: 'OK', artist });
+      res.status(200).send(artist);
     }
     catch(error){
       next(unqfyError(error));
@@ -53,7 +53,7 @@ artistRouter.route('/:id')
     };
     try{
       const artist = updateArtist(res.locals.unqfy, artistId, artistData);
-      res.status(200).send({ code: 200, status: 'OK', artist });
+      res.status(200).send(artist);
     }
     catch(error){
       next(unqfyError(error));
@@ -63,7 +63,7 @@ artistRouter.route('/:id')
     const artistId = +req.params.id;
     try{
       deleteArtist(res.locals.unqfy, artistId);
-      res.status(204).send({ status: 204, code: 'NO CONTENT' });
+      res.status(204).send();
     }
     catch(error){
       next(unqfyError(error));

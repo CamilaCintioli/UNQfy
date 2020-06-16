@@ -41,23 +41,23 @@ function unqfyErrorHandler(err,req,res,next){
 
 
 function createDuplicatedArtistResponseError(res,artist){
-  res.status(409).send({status:409,errorCode:'RESOURCE_ALREADY_EXISTS',artist});
+  res.status(409).send({status:409,errorCode:'RESOURCE_ALREADY_EXISTS'});
 }
 
 function createDuplicatedAlbumResponseError(res,album){
-  res.status(409).send({status:409,errorCode:'RESOURCE_ALREADY_EXISTS',album});
+  res.status(409).send({status:409,errorCode:'RESOURCE_ALREADY_EXISTS'});
 }
 
 function createResourceDoesntExistResponseError(res,id){
-  res.status(404).send({status:404,errorCode:'RESOURCE_NOT_FOUND',id});
+  res.status(404).send({status:404,errorCode:'RESOURCE_NOT_FOUND'});
 }
 
 function createRelatedResourceDoesntExistResponseError(res,id){
-  res.status(404).send({status:404,errorCode:'RELATED_RESOURCE_NOT_FOUND',id});
+  res.status(404).send({status:404,errorCode:'RELATED_RESOURCE_NOT_FOUND'});
 }
 
 function createDuplicatedUserResponseError(res,user){
-  res.status(409).send({status:409,errorCode:'RESOURCE_ALREADY_EXISTS',user});
+  res.status(409).send({status:409,errorCode:'RESOURCE_ALREADY_EXISTS'});
 }
 
 const errors = {
