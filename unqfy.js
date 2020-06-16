@@ -469,7 +469,8 @@ class UNQfy {
 
     return searchIdForArtist(artistName)
       .then((id) => searchAlbumsForArtistId(id))
-      .then((albums) => albums.forEach(album => this.addAlbum(artistId, album)));
+      .then((albums) => albums.forEach(album => this.addAlbum(artistId, album)))
+      .catch((error) => console.log('Algo salió mal.'));
 
   }
 

@@ -14,7 +14,7 @@ function searchIdForArtist(artistName) {
   };
   return rp.get(options)
     .then((response) => { return response.artists.items[0].id; })
-    .catch(error => console.error(error));
+    
 }
 
 function searchAlbumsForArtistId(artistId) {
@@ -28,8 +28,7 @@ function searchAlbumsForArtistId(artistId) {
       return response.items.map(album => {
         return { title: album.name, year: +album.release_date.slice(0, 4) };
       });
-    })
-    .catch(error => console.error(error));
+    });
 }
 
 module.exports={

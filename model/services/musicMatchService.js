@@ -26,10 +26,9 @@ function searchIdForTrack(title) {
   return rp.get(options)
     .then((response) => { 
       const trackId = response.message.body.track_list.find(track => track.track.has_lyrics ===1).track.track_id;
-      return trackId
-    
-    })
-    .catch(error => console.error(error));
+      return trackId;
+
+    });
 }
 
 function searchLyricsForTrackId(trackId) {
@@ -44,8 +43,7 @@ function searchLyricsForTrackId(trackId) {
   return rp.get(options)
     .then((response) => {
       return response.message.body.lyrics.lyrics_body;
-    })
-    .catch(error => console.error(error));
+    });
 }
 
 module.exports={
