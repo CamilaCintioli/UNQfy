@@ -22,14 +22,23 @@ function unqfyError(error){
 }
 
 function unqfyErrorHandler(err,req,res,next){
-
+  
   if(err.type === 'UNQFY_ERROR'){
-    errors[err.error.name](res,err.error.data);
+    const createResponse = errors[err.error.name];
+    if(createResponse){
+      createResponse(res,err.error.data);
+    }
+    else {
+      next(err);
+    }
   }
   else {
     next(err);
   }
 }
+
+
+
 
 function createDuplicatedArtistResponseError(res,artist){
   res.status(409).send({status:409,errorCode:'RESOURCE_ALREADY_EXISTS',artist});

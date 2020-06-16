@@ -31,14 +31,24 @@ function unqfyMiddleware(req, res, next) {
   next();
 }
 
+function notFoundHandler(req,res){
+  res.status(404).send({status:404,statusCode:'RESOURCE_NOT_FOUND'});
+}
+
+function defaultError(err,req,res,next){
+  res.status(500).send({status:500,statusCode:'INTERNAL_SERVER_ERROR'});
+}
+
 app.use('/api',unqfyMiddleware, apiRouter);
 apiRouter.use('/artists',artists);
 apiRouter.use('/albums',albums);
 apiRouter.use('/tracks', tracks);
 apiRouter.use('/playlists', playlists);
 apiRouter.use('/users', users);
+app.use(notFoundHandler);
 app.use('/api', validationErrorHandler);
 app.use('/api', unqfyErrorHandler);
+app.use('/api', defaultError);
 
 app.listen(3000, () => {
   console.log('Example app listening on port 3000!');
