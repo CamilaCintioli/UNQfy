@@ -15,15 +15,15 @@ albumRouter.route('/')
     try {
       const albumData = { title: req.body.title, year: req.body.year };
       const album = addAlbum(res.locals.unqfy, req.body.artistId, albumData);
-      res.status(201).send({ status: 201, code: 'CREATED', album });
+      res.status(201).send(album);
     }
     catch (error) {
       next(unqfyError(error));
     }
   })
   .get((req, res) => {
-    const albums = searchAlbums(res.locals.unqfy, req.query.name);
-    res.status(200).send({ status: 200, code: 'OK', albums });
+    const albums = searchAlbums(res.locals.unqfy, req.query.title);
+    res.status(200).send(albums);
   });
 
 albumRouter.route('/:id')
@@ -31,15 +31,15 @@ albumRouter.route('/:id')
     try {
       const albumId = +req.params.id;
       const album = getAlbumById(res.locals.unqfy, albumId);
-      res.status(200).send({ code: 200, stats: 'OK', album });
+      res.status(200).send(album);
     }
     catch (error) {
       next(unqfyError(error));
     }
   })
   .put(createValidationMiddleware(yup.object({
-    title: yup.string().trim().required('El titulo del album es requerido'),
-    year: yup.number().strict(true).required('El año del album es requerido'),
+    title: yup.string().trim(true),
+    year: yup.number().strict(true),
   })),
   (req, res, next) => {
     try{
@@ -49,7 +49,7 @@ albumRouter.route('/:id')
         year: req.body.year,
       };
       const album = updateAlbum(res.locals.unqfy, albumId, albumData);
-      res.status(200).send({ code: 200, status: 'OK', album });
+      res.status(200).send(album);
     }
     catch(error){
       next(unqfyError(error));
@@ -60,7 +60,7 @@ albumRouter.route('/:id')
     try{
       const albumId = +req.params.id;
       deleteAlbum(res.locals.unqfy, albumId);
-      res.status(204).send({ status: 204, code: 'NO CONTENT' });
+      res.status(204).send();
     }
     catch(error){
       next(unqfyError(error));

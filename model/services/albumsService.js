@@ -1,3 +1,5 @@
+const { filter } = require("lodash");
+
 function addAlbum(unqfy,artistId,albumData){
   const album = unqfy.addAlbum(artistId,albumData);
   unqfy.save('data.json');
@@ -16,7 +18,13 @@ function getAlbumById(unqfy,id){
 }
     
 function updateAlbum(unqfy,id,albumData){
-  const album = unqfy.updateAlbum(id,albumData);
+  
+  const filterAlbumData = Object.fromEntries(
+    Object.entries(albumData)
+      .filter(([k, v]) => !!v)
+  );
+
+  const album = unqfy.updateAlbum(id,filterAlbumData);
   unqfy.save('data.json');
   return album;
 }
