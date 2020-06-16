@@ -15,6 +15,9 @@ class User{
     return this.name;
   }
    
+  getLastname(){
+    return this.lastname;
+  }
     
   addTrackHeard(track){
     return this.tracksHeard.push(track);

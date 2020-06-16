@@ -5,7 +5,9 @@ const {
   ALBUM_CANT_BE_CREATED_ERROR,
   ALBUM_DOESNT_EXIST_ERROR,
   TRACK_DOESNT_EXIST_ERROR,
-  PLAYLIST_DOESNT_EXIST_ERROR
+  PLAYLIST_DOESNT_EXIST_ERROR,
+  DUPLICATED_USER_ERROR,
+  USER_DOESNT_EXIST_ERROR
 } = require('../exceptions');
 
 class DuplicatedArtist extends Error{
@@ -82,6 +84,23 @@ class PlaylistDoesNotExist extends Error {
   }
 }
 
+class DuplicatedUser extends Error{
+  constructor(user){
+    super('Ya existe un user con ese nombre'); 
+    this.name = DUPLICATED_USER_ERROR;
+    this.data= user;
+  }
+}
+
+class UserDoesNotExist extends Error {
+  constructor(userId){
+    super('No existe un user con ese id');
+    this.name = USER_DOESNT_EXIST_ERROR;
+    this.message = 'No existe un user con ese id';
+    this.data = userId;
+  }
+}
+
 module.exports = {
   DuplicatedArtist, 
   DuplicatedTrackInAlbum,
@@ -91,5 +110,7 @@ module.exports = {
   DuplicatedAlbum,
   AlbumDoesNotExist,
   TrackDoesNotExist,
-  PlaylistDoesNotExist
+  PlaylistDoesNotExist,
+  DuplicatedUser,
+  UserDoesNotExist,
 };

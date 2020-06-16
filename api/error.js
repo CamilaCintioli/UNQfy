@@ -6,6 +6,8 @@ const {
   ALBUM_DOESNT_EXIST_ERROR,
   TRACK_DOESNT_EXIST_ERROR,
   PLAYLIST_DOESNT_EXIST_ERROR,
+  DUPLICATED_USER_ERROR,
+  USER_DOESNT_EXIST_ERROR,
 } = require('../exceptions');
 
 function unqfyError(error){
@@ -20,7 +22,7 @@ function unqfyError(error){
 }
 
 function unqfyErrorHandler(err,req,res,next){
-  console.log(err);
+
   if(err.type === 'UNQFY_ERROR'){
     errors[err.error.name](res,err.error.data);
   }
@@ -45,6 +47,10 @@ function createRelatedResourceDoesntExistResponseError(res,id){
   res.status(404).send({status:404,errorCode:'RELATED_RESOURCE_NOT_FOUND',id});
 }
 
+function createDuplicatedUserResponseError(res,user){
+  res.status(409).send({status:409,errorCode:'RESOURCE_ALREADY_EXISTS',user});
+}
+
 const errors = {
   [DUPLICATED_ARTIST_ERROR]: createDuplicatedArtistResponseError, 
   [ARTIST_DOESNT_EXIST_ERROR]: createResourceDoesntExistResponseError,
@@ -53,6 +59,8 @@ const errors = {
   [ALBUM_DOESNT_EXIST_ERROR]:createResourceDoesntExistResponseError,
   [TRACK_DOESNT_EXIST_ERROR]:createResourceDoesntExistResponseError,
   [PLAYLIST_DOESNT_EXIST_ERROR]:createResourceDoesntExistResponseError,
+  [DUPLICATED_USER_ERROR]:createDuplicatedUserResponseError,
+  [USER_DOESNT_EXIST_ERROR]:createResourceDoesntExistResponseError
 };
 
 module.exports = {unqfyError,unqfyErrorHandler};

@@ -11,7 +11,10 @@ const { DuplicatedArtist,
   AlbumCantBeCreated,
   AlbumDoesNotExist,
   TrackDoesNotExist,
-  PlaylistDoesNotExist} = require('./model/Exceptions');
+  PlaylistDoesNotExist,
+  DuplicatedUser,
+  UserDoesNotExist,
+} = require('./model/Exceptions');
 const User = require('./model/User');
 const {searchIdForArtist,searchAlbumsForArtistId} = require('./model/services/spotifyService');
 const {searchIdForTrack, searchLyricsForTrackId} = require('./model/services/musicMatchService');
@@ -384,27 +387,31 @@ class UNQfy {
     return this.playlists.filter(playlist => playlist.getTitle().toLowerCase().includes(name.toLowerCase()));
   }
 
-  addUser(userData) {
-    const user = this.users.map(user => user.name).includes(userData.name);
+  addUser({name,lastname}) {
+    const user = this.users.find(user => user.getName() === name && user.getLastname() === lastname);
     if (!user) {
-      const user = new User(this.userId, userData.name, userData.lastname);
+      const user = new User(this.userId, name,lastname);
       this.users.push(user);
       console.log('Se registró un nuevo user ', user);
       this.userId++;
       return user;
     }
-    console.log('Ya existente el usuario ', user.getName());
+    console.log('Ya existente el usuario ', name, lastname);
+    throw new DuplicatedUser(user);
   }
 
   listenTrackByUser(userId, trackId) {
     const track = this.getTrackById(trackId);
     const user = this.getUserById(userId);
     user.addTrackHeard(track);
-    return user
+    return user;
   }
 
   getUserById(id) {
     const user = this.users.find(user => user.id === id);
+    if(!user){
+      throw new UserDoesNotExist(id);
+    }
     return user;
   }
 
@@ -491,7 +498,7 @@ class UNQfy {
     const user = this.getUserById(userId);
     if (!user) {
       console.log('No existe un usuario con el id');
-      return ;
+      return "nada";
     }
     this.users = this.users.filter(user => user.getId() !== userId);
     console.log('El user ha sido eliminado exitosamente');
