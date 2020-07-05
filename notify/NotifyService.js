@@ -1,5 +1,6 @@
 const picklify = require('picklify');
 const fs = require('fs');
+const { delete } = require('request-promise');
 
 class NotifyService {
   constructor(){
@@ -29,6 +30,10 @@ class NotifyService {
       artistId,
       subscribers: this.subscribers[artistId] || []
     };
+  }
+
+  deleteSubscribersOfArtistId(artistId){
+    delete this.subscribers[artistId]
   }
 
   static load() {

@@ -30,13 +30,23 @@ apiRouter.post('/unsubscribe',
   }
 );
 
-apiRouter.get('/subscriptions',
-  verifyArtistIdMiddleware(),
-  (req,res) => {
-    const subscribers = res.locals.notificator.getSubscribersForArtistId(+req.query.artistId);
-    res.status(200).send({statusCode:200,body:subscribers});
-  }
-)
+apiRouter.route('/subscriptions')
+  .get(
+    verifyArtistIdMiddleware(),
+    (req,res) => {
+      const subscribers = res.locals.notificator.getSubscribersForArtistId(+req.query.artistId);
+      res.status(200).send({statusCode:200,body:subscribers});
+    }
+  )
+  .delete(
+    verifyArtistIdMiddleware(),
+    (req,res) => {
+      res.locals.notificator.deleteSubscribersOfArtistId(+req.body.artistId);
+      res.status(200).send({statusCode:200});
+    }
+  );
+
+
 
 app.use(validationErrorHandler);
 app.use(errorHandlerMiddleware);
