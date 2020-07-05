@@ -16,6 +16,14 @@ class NotifyService {
     this.save();
   }
 
+  unsubscribe(artistId,email){
+    const subscribers = this.subscribers[artistId];
+    if(subscribers){
+      this.subscribers[artistId] = subscribers.filter(mail => mail !== email);
+      this.save();
+    }
+  }
+
   static load() {
     const serializedData = fs.readFileSync('notification.json', { encoding: 'utf-8' });
     const classes = [NotifyService];

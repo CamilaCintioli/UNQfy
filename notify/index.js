@@ -1,10 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const yup = require('yup');
 const { notifyMiddleware } = require('./middlewares/notify');
 const { verifyArtistIdMiddleware } = require('./middlewares/verifyArtistIdMiddleware');
 const { errorHandlerMiddleware } = require('./middlewares/errorHandlerMiddleware');
 const { createValidationMiddleware, validationErrorHandler } = require('../api/middlewares/validation');
+const { subscriptionSchema } = require('./schemas');
 
 const app = express();
 const apiRouter = express.Router();
@@ -14,15 +14,23 @@ app.use(bodyParser.json());
 app.use('/api', notifyMiddleware, apiRouter);
 
 apiRouter.post('/subscribe',
-  createValidationMiddleware(yup.object({
-    artistId:yup.string().required('El id del artista es obligatorio'),
-    email: yup.string().email('Debe ser un mail valido').required('El email es obligatorio')
-  })),
+  createValidationMiddleware(subscriptionSchema),
   verifyArtistIdMiddleware(),
   (req, res, next) => {
     res.locals.notificator.subscribe(req.body.artistId,req.body.email);
     res.status(200).send({statusCode: 200});
   });
+
+apiRouter.post('/unsubscribe',
+  createValidationMiddleware(subscriptionSchema),
+  verifyArtistIdMiddleware(),
+  (req,res,next) => {
+    res.locals.notificator.unsubscribe(+req.body.artistId,req.body.email);
+    res.status(200).send({statusCode: 200});
+  }
+);
+
+
 
 app.use(validationErrorHandler);
 app.use(errorHandlerMiddleware);
