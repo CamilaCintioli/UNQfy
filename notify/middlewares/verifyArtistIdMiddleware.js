@@ -3,7 +3,9 @@ const {ARTIST_DOESNT_EXIST_ERROR} = require('../exceptions');
 
 function verifyArtistIdMiddleware() {
   return (req, res, next) => {
-    verifyArtist(+req.body.artistId)
+    const artistId = Number.isSafeInteger(req.body.artistId) ? +req.body.artistId : +req.query.artistId;
+  
+    verifyArtist(artistId)
       .then(() => next())
       .catch((err) => next(artistDoesntExistError()));
   };

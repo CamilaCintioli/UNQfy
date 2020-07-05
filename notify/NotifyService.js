@@ -24,6 +24,13 @@ class NotifyService {
     }
   }
 
+  getSubscribersForArtistId(artistId){
+    return {
+      artistId,
+      subscribers: this.subscribers[artistId] || []
+    };
+  }
+
   static load() {
     const serializedData = fs.readFileSync('notification.json', { encoding: 'utf-8' });
     const classes = [NotifyService];
