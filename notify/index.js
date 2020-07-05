@@ -13,8 +13,8 @@ app.use('/api', notifyMiddleware, apiRouter);
 apiRouter.post('/subscribe',
   verifyArtistIdMiddleware(),
   (req, res, next) => {
-    res.locals.notificator.subscribe(req.body.artistId,req.body.email)
-    res.status(200).send('subscripto');
+    res.locals.notificator.subscribe(req.body.artistId,req.body.email);
+    res.status(200).send({statusCode: 200});
   });
 
 app.listen(5000, () => console.log('Notify escuchando en puerto 5000'));

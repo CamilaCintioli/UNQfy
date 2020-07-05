@@ -1,10 +1,10 @@
 const fs = require('fs'); 
-const Notificator = require('../../notificator/NotificationService'); 
+const Notificator = require('../NotifyService'); 
 
 function getNotificator(filename = 'notification.json') {
   let notificator = new Notificator();
   if (fs.existsSync(filename)) {
-    notificator = Notificator.load(filename);
+    notificator = Notificator.load();
   }
   return notificator;
 }
