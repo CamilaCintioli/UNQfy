@@ -1,4 +1,4 @@
-const {ARTIST_DOESNT_EXIST_ERROR} = require('../exceptions');
+const {ARTIST_DOESNT_EXIST_ERROR, NOTIFY_ERROR} = require('../exceptions');
 
 function errorHandlerMiddleware(err,req,res,next){
   const createResponse = errors[err.type];
@@ -10,12 +10,23 @@ function errorHandlerMiddleware(err,req,res,next){
   }
 }
 
+function notifyError(err){
+  return {
+    type: err.name
+  };
+}
+
 const errors = {
-  [ARTIST_DOESNT_EXIST_ERROR]:createResourceDoesntExistResponseError
+  [ARTIST_DOESNT_EXIST_ERROR]:createResourceDoesntExistResponseError,
+  [NOTIFY_ERROR]:createInternalServerResponseError
 };
 
 function createResourceDoesntExistResponseError(res){
   res.status(404).send({status:404,errorCode:'RESOURCE_NOT_FOUND'});
 }
 
-module.exports = { errorHandlerMiddleware } ;
+function createInternalServerResponseError(res){
+  res.status(500).send({status:500, errorCode: 'INTERNAL_SERVER_ERROR'});
+}
+
+module.exports = { errorHandlerMiddleware, notifyError } ;
