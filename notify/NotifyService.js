@@ -1,10 +1,10 @@
 const picklify = require('picklify');
 const fs = require('fs');
-const { delete } = require('request-promise');
 
 class NotifyService {
-  constructor(){
+  constructor(emailSender){
     this.subscribers = {};
+    this.emailSender = emailSender;
   }
 
   subscribe(artistId,email){
@@ -26,20 +26,35 @@ class NotifyService {
   }
 
   getSubscribersForArtistId(artistId){
-    return {
-      artistId,
-      subscribers: this.subscribers[artistId] || []
-    };
+    return this.subscribers[artistId] || [];
   }
 
   deleteSubscribersOfArtistId(artistId){
     delete this.subscribers[artistId]
   }
 
-  static load() {
-    const serializedData = fs.readFileSync('notification.json', { encoding: 'utf-8' });
-    const classes = [NotifyService];
-    return picklify.unpicklify(JSON.parse(serializedData), classes);
+  notify(artistId,subject,message){
+    const subscribers = this.getSubscribersForArtistId(artistId);
+    this._notifySubscribers(subscribers, subject, message);
+  }
+
+  _notifySubscribers(subscribers, subject, message){
+    this.emailSender.send(subscribers, subject, message);
+  }
+
+  _setEmailSender(emailSender){
+    this.emailSender = emailSender;
+  }
+
+  static load(filename,emailSender) {
+    if(fs.existsSync(filename)){
+      const serializedData = fs.readFileSync(filename, { encoding: 'utf-8' });
+      const classes = [NotifyService];
+      const notifyService = picklify.unpicklify(JSON.parse(serializedData), classes);
+      notifyService._setEmailSender(emailSender);
+      return notifyService;
+    }
+    return new NotifyService(emailSender);
   }
 
   save(){

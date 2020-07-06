@@ -1,12 +1,9 @@
 const fs = require('fs'); 
-const Notificator = require('../NotifyService'); 
+const NotifyService = require('../NotifyService');
+const EmailSender = require('../EmailSender');
 
 function getNotificator(filename = 'notification.json') {
-  let notificator = new Notificator();
-  if (fs.existsSync(filename)) {
-    notificator = Notificator.load();
-  }
-  return notificator;
+  return NotifyService.load(filename, EmailSender.load());
 }
   
 function notifyMiddleware(req, res, next) {
