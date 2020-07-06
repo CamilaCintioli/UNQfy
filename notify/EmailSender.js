@@ -10,7 +10,7 @@ class EmailSender{
   }
 
   send(receivers,subject,message){
-    receivers.forEach((receiver) => {
+    return Promise.all(receivers.map((receiver) => {
       this.client.users.messages.send(
         {
           userId: 'me',
@@ -19,14 +19,13 @@ class EmailSender{
           },
         }
       );
-    });
-    
+    }));  
   }
 
   _createMessage(receiver,subject, body) {
     // You can use UTF-8 encoding for the subject using the method below.
     // You can also just use a plain string if you don't need anything fancy.
-   
+    
     const utf8Subject = `=?utf-8?B?${Buffer.from(subject).toString('base64')}?=`;
     const messageParts = [
       'From: UNQfy <unqfy20@gmail.com>',

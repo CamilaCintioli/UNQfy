@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { notifyMiddleware } = require('./middlewares/notify');
 const { verifyArtistIdMiddleware } = require('./middlewares/verifyArtistIdMiddleware');
-const { errorHandlerMiddleware } = require('./middlewares/errorHandlerMiddleware');
+const { errorHandlerMiddleware, notifyError } = require('./middlewares/errorHandlerMiddleware');
 const { createValidationMiddleware, validationErrorHandler } = require('../api/middlewares/validation');
 const { subscriptionSchema } = require('./schemas');
 
@@ -45,6 +45,15 @@ apiRouter.route('/subscriptions')
       res.status(200).send({statusCode:200});
     }
   );
+
+apiRouter.post('/notify', 
+  verifyArtistIdMiddleware(),
+  (req,res, next) => {
+    res.locals.notificator.notify(req.body.artistId,req.body.subject, req.body.message)
+      .then(() => res.status(200).send({statusCode:200}))
+      .catch((err) => next(notifyError(err)));
+  }
+);
 
 
 

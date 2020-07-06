@@ -1,5 +1,6 @@
 const picklify = require('picklify');
 const fs = require('fs');
+const { NotifyError } = require('./exceptions');
 
 class NotifyService {
   constructor(emailSender){
@@ -30,16 +31,17 @@ class NotifyService {
   }
 
   deleteSubscribersOfArtistId(artistId){
-    delete this.subscribers[artistId]
+    delete this.subscribers[artistId];
   }
 
   notify(artistId,subject,message){
     const subscribers = this.getSubscribersForArtistId(artistId);
-    this._notifySubscribers(subscribers, subject, message);
+    return this._notifySubscribers(subscribers, subject, message);
   }
 
   _notifySubscribers(subscribers, subject, message){
-    this.emailSender.send(subscribers, subject, message);
+    return this.emailSender.send(subscribers, subject, message)
+      .catch(() => {throw new NotifyError();});
   }
 
   _setEmailSender(emailSender){
