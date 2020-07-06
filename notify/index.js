@@ -4,6 +4,7 @@ const { notifyMiddleware } = require('./middlewares/notify');
 const { verifyArtistIdMiddleware } = require('./middlewares/verifyArtistIdMiddleware');
 const { errorHandlerMiddleware, notifyError } = require('./middlewares/errorHandlerMiddleware');
 const { createValidationMiddleware, validationErrorHandler } = require('../api/middlewares/validation');
+const { emailSenderMiddleware } = require('./middlewares/emailSenderMiddleware');
 const { subscriptionSchema } = require('./schemas');
 
 const app = express();
@@ -48,13 +49,13 @@ apiRouter.route('/subscriptions')
 
 apiRouter.post('/notify', 
   verifyArtistIdMiddleware(),
+  emailSenderMiddleware,
   (req,res, next) => {
     res.locals.notificator.notify(req.body.artistId,req.body.subject, req.body.message)
       .then(() => res.status(200).send({statusCode:200}))
       .catch((err) => next(notifyError(err)));
   }
 );
-
 
 
 app.use(validationErrorHandler);

@@ -1,4 +1,4 @@
-const { verifyArtist } = require('../unqfyService');
+const { verifyArtist } = require('../services/unqfyService');
 const {ARTIST_DOESNT_EXIST_ERROR} = require('../exceptions');
 
 function verifyArtistIdMiddleware() {

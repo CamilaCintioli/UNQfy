@@ -1,4 +1,4 @@
-const getGmailClient = require('../gmailClient');
+const getGmailClient = require('../../gmailClient');
 
 class EmailSender{
   constructor(){
