@@ -1,11 +1,13 @@
 const { DuplicatedAlbum } = require("./Exceptions");
+const NotifyService = require("./services/NotifyService");
 
 class Artist{
-  constructor(id, name, country){
+  constructor(id, name, country, notifyService){
     this.id = id;
     this.name = name;
     this.country = country;
     this.albums = [];
+    this.notifyService = notifyService;
   }
 
   getName(){
@@ -25,6 +27,7 @@ class Artist{
     if(this.albums.map(album => album.title).includes(album.title)){
       throw new DuplicatedAlbum(this.albums.find(({title}) => title === album.title));
     }
+    this.notifyService.update(this, album);
     this.albums.push(album);
   }
 

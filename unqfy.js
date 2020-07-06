@@ -18,6 +18,7 @@ const { DuplicatedArtist,
 const User = require('./model/User');
 const {searchIdForArtist,searchAlbumsForArtistId} = require('./model/services/spotifyService');
 const {searchIdForTrack, searchLyricsForTrackId} = require('./model/services/musicMatchService');
+const NotifyService = require('./model/services/NotifyService');
 
 class UNQfy {
   constructor() {
@@ -29,6 +30,7 @@ class UNQfy {
     this.playlistId = 0;
     this.userId = 0;
     this.users = [];
+    this.notifyService = new NotifyService();
   }
 
   // artistData: objeto JS con los datos necesarios para crear un artista
@@ -46,7 +48,7 @@ class UNQfy {
       if (this.searchArtistsByName(name).length > 0) {
         throw new DuplicatedArtist(this.searchArtistsByName(name)[0]);
       }
-      const newArtist = new Artist(this.artistId, name, country);
+      const newArtist = new Artist(this.artistId, name, country,this.notifyService);
       this.artistId++;
       this.artists.push(newArtist);
       console.log('Se registró nuevo artista: ', newArtist);
@@ -358,7 +360,7 @@ class UNQfy {
   static load(filename) {
     const serializedData = fs.readFileSync(filename, { encoding: 'utf-8' });
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy, Artist, Track, Album, Playlist, User];
+    const classes = [UNQfy, Artist, Track, Album, Playlist, User, NotifyService];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 
