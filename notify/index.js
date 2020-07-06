@@ -49,7 +49,7 @@ apiRouter.route('/subscriptions')
 
 apiRouter.post('/notify', 
   verifyArtistIdMiddleware(),
-  emailSenderMiddleware,
+  emailSenderMiddleware(),
   (req,res, next) => {
     res.locals.notificator.notify(req.body.artistId,req.body.subject, req.body.message)
       .then(() => res.status(200).send({statusCode:200}))
