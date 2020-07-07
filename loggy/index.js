@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { activate, deactivate } = require('./services/loggyService');
+const { activate, deactivate, log } = require('./services/loggyService');
 
 const app = express();
 const apiRouter = express.Router();
@@ -22,7 +22,8 @@ apiRouter.post('/deactivate',
   });
 apiRouter.post('/log',
   (req,res,next) => {
-    res.status(200).send('Log!');
+    log(req.body.level, req.body.message);
+    res.status(200).send({statusCode:200});
   });
 
 app.listen(7000, () => console.log('LOGGY listening on port 7000!'));

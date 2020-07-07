@@ -1,3 +1,6 @@
+const { saveLogLocally } = require('./localLogger');
+const { saveLoggly } = require('./loggly');
+
 let isActivated = true;
 
 function activate(){
@@ -8,4 +11,11 @@ function deactivate(){
   isActivated = false;
 }
 
-module.exports = { activate, deactivate };
+function log(level,message){
+  if(isActivated){
+    saveLogLocally(level,message);
+    saveLoggly(level,message);
+  }
+}
+
+module.exports = { activate, deactivate, log };
