@@ -49,7 +49,7 @@ class UNQfy {
         throw new DuplicatedArtist(this.searchArtistsByName(name)[0]);
       }
       const newArtist = new Artist(this.artistId, name, country);
-      this.loggyService.logAdd(newArtist);
+      this.loggyService.logAddArtist(newArtist);
       this.artistId++;
       this.artists.push(newArtist);
       console.log('Se registró nuevo artista: ', newArtist);
@@ -80,7 +80,7 @@ class UNQfy {
       const tracks = this.getTracksMatchingArtist(artist.getName());
       this.playlists.forEach(playlist => playlist.deleteTracks(tracks));
       this.artists = this.artists.filter((artist) => artist.getId() !== artistId);
-      this.loggyService.logDelete(artist);
+      this.loggyService.logDeleteArtist(artist);
       console.log('Artista borrado exitosamente');
     } else {
       console.log('No existe un artista con ese id ', artistId);
@@ -128,6 +128,7 @@ class UNQfy {
     const album = new Album(this.albumId, title, year);
     artist.addAlbum(album);
     console.log('Se registró un nuevo album ', album);
+    this.loggyService.logAddAlbum(album);
     this.albumId++;
     return album;
   }
@@ -156,6 +157,7 @@ class UNQfy {
     const tracks = album.getTracks();
     this.artists.forEach(artist => artist.deleteAlbum(albumId));
     this.playlists.forEach(playlist => playlist.deleteTracks(tracks));
+    this.loggyService.logDeleteAlbum(album);
     console.log('Album fue borrado exitosamente');
   }
 
@@ -183,6 +185,7 @@ class UNQfy {
       const track = new Track(this.trackId, trackData.title, trackData.genres, trackData.duration);
       album.addTrack(track);
       this.trackId++;
+      this.loggyService.logAddTrack(track);
       console.log('Se registró un nuevo track', track);
       return track;
     } catch (DuplicatedTrackInAlbum) {
@@ -208,6 +211,7 @@ class UNQfy {
     if (track) {
       albumes.forEach(album => album.deleteTrack(trackId));
       this.playlists.forEach(playlist => playlist.deleteTrack(trackId));
+      this.loggyService.logDeleteTrack(track);
       console.log('Track borrado exitosamente');
     } else {
       console.log('No existe un track con ese id ', trackId);

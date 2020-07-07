@@ -1,12 +1,28 @@
 const rp = require('request-promise');
 
 class LoggyService{
-  logAdd(artist){
-    this.log('Se creo un nuevo artista '+artist.name,'info');
+  logAddArtist(artist){
+    this.log('Se creo un nuevo artista '+ artist.name,'info');
   }
 
-  logDelete(artist){
+  logDeleteArtist(artist){
     this.log('Se borró el artista: ' + artist.name, 'info');
+  }
+
+  logAddAlbum(album){
+    this.log('Se creo un nuevo album '+ album.title,'info');
+  }
+
+  logDeleteAlbum(album){
+    this.log('Se borró el album: ' + album.title, 'info');
+  }
+
+  logAddTrack(track){
+    this.log('Se creo un nuevo track '+ track.title,'info');
+  }
+
+  logDeleteTrack(track){
+    this.log('Se borró el track: ' + track.title, 'info');
   }
 
   log(message, level){
