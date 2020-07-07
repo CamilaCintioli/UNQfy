@@ -9,8 +9,6 @@ winston.add(new Loggly({
 }));
 
 function saveLoggly(level,message) {
-  console.log('Guardando en loggly');
-  console.log(level,message);
   winston.log({level, message});
 }
 

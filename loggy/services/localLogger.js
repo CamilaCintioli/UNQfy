@@ -11,8 +11,6 @@ const logger = winston.createLogger({
 });
 
 function saveLogLocally(level,message){
-  console.log('Guardando localmente');
-  console.log(level,message);
   logger.log({level,message});    
 }
 

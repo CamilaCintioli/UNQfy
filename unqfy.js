@@ -18,6 +18,7 @@ const { DuplicatedArtist,
 const User = require('./model/User');
 const {searchIdForArtist,searchAlbumsForArtistId} = require('./model/services/spotifyService');
 const {searchIdForTrack, searchLyricsForTrackId} = require('./model/services/musicMatchService');
+const LoggyService = require('./model/services/LoggyService');
 
 class UNQfy {
   constructor() {
@@ -29,6 +30,7 @@ class UNQfy {
     this.playlistId = 0;
     this.userId = 0;
     this.users = [];
+    this.loggyService = new LoggyService();
   }
 
   // artistData: objeto JS con los datos necesarios para crear un artista
@@ -47,6 +49,7 @@ class UNQfy {
         throw new DuplicatedArtist(this.searchArtistsByName(name)[0]);
       }
       const newArtist = new Artist(this.artistId, name, country);
+      this.loggyService.logAdd(newArtist);
       this.artistId++;
       this.artists.push(newArtist);
       console.log('Se registró nuevo artista: ', newArtist);
@@ -77,6 +80,7 @@ class UNQfy {
       const tracks = this.getTracksMatchingArtist(artist.getName());
       this.playlists.forEach(playlist => playlist.deleteTracks(tracks));
       this.artists = this.artists.filter((artist) => artist.getId() !== artistId);
+      this.loggyService.logDelete(artist);
       console.log('Artista borrado exitosamente');
     } else {
       console.log('No existe un artista con ese id ', artistId);
@@ -358,7 +362,7 @@ class UNQfy {
   static load(filename) {
     const serializedData = fs.readFileSync(filename, { encoding: 'utf-8' });
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy, Artist, Track, Album, Playlist, User];
+    const classes = [UNQfy, Artist, Track, Album, Playlist, User, LoggyService];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 
