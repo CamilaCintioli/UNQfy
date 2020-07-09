@@ -28,7 +28,7 @@ class Artist{
     if(this.albums.map(album => album.title).includes(album.title)){
       throw new DuplicatedAlbum(this.albums.find(({title}) => title === album.title));
     }
-    this.discribers.forEach(suscriber => suscriber.update(this,  album))
+    this.suscribers.forEach(suscriber => suscriber.update(this,  album));
     this.albums.push(album);
   }
 
