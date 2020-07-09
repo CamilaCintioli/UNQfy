@@ -48,7 +48,8 @@ class UNQfy {
       if (this.searchArtistsByName(name).length > 0) {
         throw new DuplicatedArtist(this.searchArtistsByName(name)[0]);
       }
-      const newArtist = new Artist(this.artistId, name, country,this.notifyService);
+      const newArtist = new Artist(this.artistId, name, country);
+      newArtist.addSuscribe(this.notifyService)
       this.artistId++;
       this.artists.push(newArtist);
       console.log('Se registró nuevo artista: ', newArtist);

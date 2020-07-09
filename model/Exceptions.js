@@ -7,7 +7,8 @@ const {
   TRACK_DOESNT_EXIST_ERROR,
   PLAYLIST_DOESNT_EXIST_ERROR,
   DUPLICATED_USER_ERROR,
-  USER_DOESNT_EXIST_ERROR
+  USER_DOESNT_EXIST_ERROR,
+  DUPLICTED_SUSCRIPTOR_ERROR,
 } = require('../exceptions');
 
 class DuplicatedArtist extends Error{
@@ -101,6 +102,15 @@ class UserDoesNotExist extends Error {
   }
 }
 
+class DuplicateSuscriber extends Error{
+  constructor(suscripter){
+    super('Ya está suscripto con ese artista');
+    this.name = DUPLICTED_SUSCRIPTOR_ERROR;
+    this.message = "Ya está suscripto con ese artista";
+    this.data = suscripter;
+  }
+}
+
 module.exports = {
   DuplicatedArtist, 
   DuplicatedTrackInAlbum,
@@ -113,4 +123,5 @@ module.exports = {
   PlaylistDoesNotExist,
   DuplicatedUser,
   UserDoesNotExist,
+  DuplicateSuscriber
 };
