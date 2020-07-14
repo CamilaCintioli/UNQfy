@@ -22,6 +22,9 @@ yarn-error.log*
 
 data.json
 spotifyCreds.json
+
 notification.json
 credentials.json
 token.json
+error.log
+logs.log
