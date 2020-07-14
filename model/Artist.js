@@ -1,11 +1,14 @@
-const { DuplicatedAlbum } = require("./Exceptions");
+const { DuplicatedAlbum, DuplicateSuscriber } = require("./Exceptions");
+//const NotifyService = require("./services/NotifyService");
 
 class Artist{
+
   constructor(id, name, country){
     this.id = id;
     this.name = name;
     this.country = country;
     this.albums = [];
+    this.suscribers = [];
   }
 
   getName(){
@@ -25,9 +28,20 @@ class Artist{
     if(this.albums.map(album => album.title).includes(album.title)){
       throw new DuplicatedAlbum(this.albums.find(({title}) => title === album.title));
     }
+    this.suscribers.forEach(suscriber => suscriber.update(this,  album));
     this.albums.push(album);
   }
 
+  addSuscribe(suscriber){
+    if(this.suscribers.includes(suscriber)){
+      throw new DuplicateSuscriber(suscriber);
+    }
+    this.suscribers.push(suscriber);    
+  }
+
+  unSuscribe(suscripterData){
+    this.suscribers = this.suscribers.filter((suscripter) => suscripter == suscripterData)
+  }
 
   setName(name){
     this.name = name;

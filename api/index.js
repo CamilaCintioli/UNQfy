@@ -33,6 +33,6 @@ app.use(invalidBodyErrorHandler);
 app.use('/api', defaultErrorHandler);
 
 app.listen(3000, () => {
-  console.log('Example app listening on port 3000!');
+  console.log('UNQfy listening on port 3000!');
 });
 
