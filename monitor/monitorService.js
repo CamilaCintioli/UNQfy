@@ -1,8 +1,8 @@
 const rp = require('request-promise');
+const CronJob = require('cron').CronJob;
 const { getPreviousState, setState, states, getServices } = require('./services');
 const { notifyServiceStartedWorking, notifyServiceFailure } = require('./notify');
 
-let monitor = null;
 
 /**
  * @returns {Promise<{ [service: string]: string }>} el estado de cada servicio.
@@ -31,12 +31,17 @@ function getServiceStatus(serviceUri) {
     .catch(() => states.STOPPED);
 }
 
+const job = new CronJob(
+  '0/3 * * * * *',
+  notifyServicesStatus
+);
+
 function activate(){
-  monitor = setInterval(notifyServicesStatus, 2500);
+  job.start();
 }
 
 function deactivate(){
-  clearInterval(monitor);
+  job.stop();
 }
 
 function notifyServicesStatus(){
