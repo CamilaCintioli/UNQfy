@@ -1,5 +1,6 @@
 const rp = require('request-promise');
-const fs = require('fs');
+const { getPreviousState, setState, states, getServices } = require('./services');
+const { notifyServiceStartedWorking, notifyServiceFailure } = require('./notify');
 
 let monitor = null;
 
@@ -7,90 +8,54 @@ let monitor = null;
  * @returns {Promise<{ [service: string]: string }>} el estado de cada servicio.
  */
 function getServicesStatus() {
-
-  const services = JSON.parse(fs.readFileSync('services.json'));
-
-  const serviceEntries = Object.entries(services);
+  const serviceEntries = Object.entries(getServices());
 
   return Promise.all(serviceEntries.map(([serviceName, serviceUrl]) =>
     getServiceStatus(serviceUrl)
       .then(status => [serviceName, status])))
     .then((servicesStatus) => Object.fromEntries(servicesStatus));
-
 }
 
-function getServiceStatus(service) {
+/**
+ * @param {string} serviceUri
+ */
+function getServiceStatus(serviceUri) {
   const options = {
     method: 'GET',
-    uri: service,
+    uri: serviceUri,
     simple: false,
     timeout: 1000,
   };
   return rp.get(options)
-    .then(() => 'RUNNING')
-    .catch(() => 'DEAD');
+    .then(() => states.RUNNING)
+    .catch(() => states.STOPPED);
 }
 
-
-
 function activate(){
-  monitor = setInterval(notifySlack, 2500)
+  monitor = setInterval(notifyServicesStatus, 2500);
 }
 
 function deactivate(){
-  clearInterval(monitor)
-  console.log("desactivando")
+  clearInterval(monitor);
 }
 
-
-
-const services = {};
-
-const dead = 'DEAD';
-const running = 'RUNNING';
-
-function getPreviousState(service){
-  return services[service] || running;
-}
-
-function setState(service,status){
-  services[service] = status;
-}
-
-function notifyServiceFailure(service){
-  const date = new Date();
-  sendSlackNotification(`${date.getHours()}:${date.getMinutes()} -- ${service} ha dejado de funcionar`);
-}
-
-function notifyServiceStartedWorking(service){
-  const date = new Date();
-  sendSlackNotification(`${date.getHours()}:${date.getMinutes()} -- ${service} ha vuelto a la normalidad`);
-}
-
-function sendSlackNotification(message){
-  console.log(message);
-}
-
-function notifySlack(){
-
+function notifyServicesStatus(){
   getServicesStatus()
     .then((servicesStatus) => {
 
       Object.entries(servicesStatus)
         .forEach(([serviceName,serviceStatus]) => {
 
-          if(getPreviousState(serviceName) === dead && serviceStatus === running){
+          if(getPreviousState(serviceName) === states.STOPPED && serviceStatus === states.RUNNING){
             notifyServiceStartedWorking(serviceName);
           }
-          if(getPreviousState(serviceName) === running && serviceStatus === dead){
+          if(getPreviousState(serviceName) === states.RUNNING && serviceStatus === states.STOPPED){
             notifyServiceFailure(serviceName);
           }
 
           setState(serviceName,serviceStatus);
-
         });
     });
 }
 
 module.exports = { getServicesStatus, activate, deactivate };
-
