@@ -1,0 +1,27 @@
+{
+  "name": "unqfy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "lodash": "^4.17.15",
+    "picklify": "git+https://github.com/lwoites/picklify.git",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.5",
+    "yup": "^0.28.5"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.10.0",
+    "mocha": "^5.0.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node api"
+  },
+  "author": "",
+  "license": "ISC"
+}
