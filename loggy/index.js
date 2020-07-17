@@ -25,5 +25,10 @@ apiRouter.post('/log',
     log(req.body.level, req.body.message);
     res.status(200).send({statusCode:200});
   });
+apiRouter.get('/status',
+  (req, res, next) => {
+    res.status(200).send({statusCode:200})
+  });
+
 
 app.listen(7000, () => console.log('LOGGY listening on port 7000!'));

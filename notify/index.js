@@ -56,7 +56,11 @@ apiRouter.post('/notify',
       .catch((err) => next(notifyError(err)));
   }
 );
-
+apiRouter.get('/status', 
+  (req, res, next) => {
+    res.status(200).send({statusCode:200});
+  }
+);
 
 app.use(validationErrorHandler);
 app.use(errorHandlerMiddleware);
