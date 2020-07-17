@@ -1,5 +1,5 @@
 const rp = require('request-promise');
-const spotifyCredentials = require('../../spotifyCreds.json');
+const spotifyCredentials = require('../../credentials/spotifyCreds.json');
 const spotifyToken = spotifyCredentials.access_token; 
 
 function searchIdForArtist(artistName) {

@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const { notifyMiddleware } = require('./middlewares/notify');
 const { verifyArtistIdMiddleware } = require('./middlewares/verifyArtistIdMiddleware');
 const { errorHandlerMiddleware, notifyError } = require('./middlewares/errorHandlerMiddleware');
-const { createValidationMiddleware, validationErrorHandler } = require('../api/middlewares/validation');
+const { createValidationMiddleware, validationErrorHandler } = require('./middlewares/validation');
 const { emailSenderMiddleware } = require('./middlewares/emailSenderMiddleware');
 const { subscriptionSchema } = require('./schemas');
 
