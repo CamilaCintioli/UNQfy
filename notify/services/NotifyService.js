@@ -3,8 +3,6 @@ const fs = require('fs');
 const { NotifyError } = require('../exceptions');
 
 class NotifyService {
-  subscribers = {};
-  emailSender = null;
   constructor(emailSender){
     this.subscribers = {};
     this.emailSender = emailSender;
