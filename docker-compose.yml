@@ -1,0 +1,19 @@
+version: '2.0'
+services:
+  unqfy:
+    build: ./unqfy
+    ports:
+    - "3000:3000" 
+  loggy:
+    build: ./loggy
+    ports:
+    - "7000:7000"
+  notify:
+    build: ./notify
+    ports: 
+    - "5000:5000"
+  monitor:
+    build: ./monitor
+    ports: 
+    - "9000:9000"
+    

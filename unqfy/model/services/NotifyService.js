@@ -6,7 +6,7 @@ class NotifyService{
 
   update(artist,album){
     const options = {
-      url: 'http://localhost:5000/api/notify',
+      url: 'http://notify:5000/api/notify',
       body: {
         artistId: artist.getId(),
         subject: this._createSubject(artist),

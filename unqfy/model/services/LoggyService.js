@@ -27,7 +27,7 @@ class LoggyService{
 
   log(message, level){
     const options = {
-      url: 'http://localhost:7000/api/log',
+      url: 'http://loggy:7000/api/log',
       body: {
         level: level,
         message : message

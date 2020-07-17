@@ -1,6 +1,6 @@
 {
-    "unqfyService":"http://localhost:3000/api/artists",
-    "notifyService":"http://localhost:5000/api/status",
-    "loggyService":"http://localhost:7000/api/status"
+    "unqfyService":"http://unqfy:3000/api/artists",
+    "notifyService":"http://notify:5000/api/status",
+    "loggyService":"http://loggy:7000/api/status"
 }
 
