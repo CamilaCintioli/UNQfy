@@ -11,7 +11,7 @@ function notifyServiceStartedWorking(service){
 function sendNotification(message){
   const options = {
     method:'POST',  
-    url: 'https://hooks.slack.com/services/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',
+    url: 'https://hooks.slack.com/services/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',
     body: {
       text: message,
     },
