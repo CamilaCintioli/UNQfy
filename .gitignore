@@ -28,3 +28,5 @@ credentials.json
 token.json
 error.log
 logs.log
+
+slackUrl.js

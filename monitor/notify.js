@@ -1,4 +1,5 @@
 const rp = require("request-promise");
+const {slackUrl} = require("./slackUrl");
 
 function notifyServiceFailure(service){
   sendNotification(new Date().getHours() + ':' + new Date().getMinutes() + ` -- ${service} ha dejado de funcionar`);
@@ -11,7 +12,7 @@ function notifyServiceStartedWorking(service){
 function sendNotification(message){
   const options = {
     method:'POST',  
-    url: 'https://hooks.slack.com/services/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',
+    url: slackUrl,
     body: {
       text: message,
     },
