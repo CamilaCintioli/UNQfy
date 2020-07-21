@@ -2,11 +2,16 @@ const rp = require('request-promise');
 const {slackUrl} = require('./slackUrl');
 
 function notifyServiceFailure(service){
-  sendNotification(new Date().getHours() + ':' + new Date().getMinutes() + ` -- ${service} ha dejado de funcionar`);
+  sendNotification( `${getTime()} -- ${service} ha dejado de funcionar`);
 }
   
 function notifyServiceStartedWorking(service){
-  sendNotification(new Date().getHours() + ':' + new Date().getMinutes() + ` -- ${service} ha vuelto a la normalidad`);
+  sendNotification(`${getTime()} -- ${service} ha vuelto a la normalidad`);
+}
+
+function getTime(){
+  
+  return new Date().getHours()-3 + ':' + new Date().getMinutes();
 }
   
 function sendNotification(message){
@@ -19,9 +24,9 @@ function sendNotification(message){
     json: true,
   };
   rp.post(options).then(response => {
-    console.log('cool');
+    console.log('Notification sent');
   }).catch(err => {
-    console.log('algo malio sal', err.error, err.statusCode);
+    console.log('Notification failed to sent');
   });
 }
 
