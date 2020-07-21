@@ -5,8 +5,8 @@ const logger = winston.createLogger({
   format: winston.format.json(),
   defaultMeta: { service: 'loggy-service' },
   transports: [
-    new winston.transports.File({ filename: 'error.log', level: 'error' }),
-    new winston.transports.File({ filename: 'logs.log' }),
+    new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'logs/logs.log' }),
   ],
 });
 

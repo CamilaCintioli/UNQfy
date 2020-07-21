@@ -8,6 +8,8 @@ services:
     build: ./loggy
     ports:
     - "7000:7000"
+    volumes:
+    - ./loggy/logs:/usr/src/app/logs
   notify:
     build: ./notify
     ports: 
@@ -15,5 +17,4 @@ services:
   monitor:
     build: ./monitor
     ports: 
-    - "9000:9000"
-    
+    - "9000:9000"  

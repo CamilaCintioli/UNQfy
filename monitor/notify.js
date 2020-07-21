@@ -1,5 +1,5 @@
-const rp = require("request-promise");
-const {slackUrl} = require("./slackUrl");
+const rp = require('request-promise');
+const {slackUrl} = require('./slackUrl');
 
 function notifyServiceFailure(service){
   sendNotification(new Date().getHours() + ':' + new Date().getMinutes() + ` -- ${service} ha dejado de funcionar`);
