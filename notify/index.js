@@ -5,7 +5,7 @@ const { verifyArtistIdMiddleware } = require('./middlewares/verifyArtistIdMiddle
 const { errorHandlerMiddleware, notifyError } = require('./middlewares/errorHandlerMiddleware');
 const { createValidationMiddleware, validationErrorHandler } = require('./middlewares/validation');
 const { emailSenderMiddleware } = require('./middlewares/emailSenderMiddleware');
-const { subscriptionSchema } = require('./schemas');
+const { subscriptionSchema, notificationSchema } = require('./schemas');
 
 const app = express();
 const apiRouter = express.Router();
@@ -48,6 +48,7 @@ apiRouter.route('/subscriptions')
   );
 
 apiRouter.post('/notify', 
+  createValidationMiddleware(notificationSchema),
   verifyArtistIdMiddleware(),
   emailSenderMiddleware(),
   (req,res, next) => {
@@ -65,4 +66,4 @@ apiRouter.get('/status',
 app.use(validationErrorHandler);
 app.use(errorHandlerMiddleware);
 
-app.listen(5000, () => console.log('Notify escuchando en puerto 5000'));
+app.listen(5000, () => console.log('NOTIFY listening on port 5000!'));
