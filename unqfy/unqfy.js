@@ -52,6 +52,7 @@ class UNQfy {
       return newArtist;
     }
     catch (duplicatedArtist) {
+      this.loggyService.logError(duplicatedArtist);
       console.log('Existe un artista con el nombre dado');
       throw duplicatedArtist;
     }
@@ -80,7 +81,9 @@ class UNQfy {
       console.log('Artista borrado exitosamente');
     } else {
       console.log('No existe un artista con ese id ', artistId);
-      throw new ArtistDoesNotExist(artistId);
+      const err = new ArtistDoesNotExist(artistId);
+      this.loggyService.logError(err);
+      throw err;
     }
   }
 
@@ -122,7 +125,9 @@ class UNQfy {
       artist = this.getArtistById(artistId);
     }
     catch(error){
-      throw new AlbumCantBeCreated(artistId);
+      const err =  new AlbumCantBeCreated(artistId);
+      this.loggyService.logError(err);
+      throw err;
     }
     const album = new Album(this.albumId, title, year);
     artist.addAlbum(album);
@@ -171,7 +176,9 @@ class UNQfy {
       return album;
     }
     console.log('El album no esta registrado con el id ', id);
-    throw new AlbumDoesNotExist(id);
+    const err =  new AlbumDoesNotExist(id);
+    this.loggyService.logError(err);
+    throw err;
   }
 
   searchAlbumsByTitle(name) {
@@ -287,7 +294,9 @@ class UNQfy {
         return undefined;
       }
       if (album.hasTrackWithTitle(trackData.title)) {
-        throw new DuplicatedTrackInAlbum();
+        const err = new DuplicatedTrackInAlbum();
+        this.loggyService.logError(err);
+        throw err;
       }
       const track = new Track(this.trackId, trackData.title, trackData.genres, trackData.duration);
       album.addTrack(track);
@@ -296,6 +305,7 @@ class UNQfy {
       console.log('Se registró un nuevo track', track);
       return track;
     } catch (DuplicatedTrackInAlbum) {
+      this.loggyService.logError(DuplicatedTrackInAlbum);
       console.log('Ya existe un track con ese nombre en el album');
     }
 

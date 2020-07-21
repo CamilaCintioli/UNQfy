@@ -25,6 +25,10 @@ class LoggyService{
     this.log('Se borró el track: ' + track.title, 'info');
   }
 
+  logError(error){
+    this.log(error.name,'error')
+  }
+
   log(message, level){
     const options = {
       url: 'http://loggy:7000/api/log',
