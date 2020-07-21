@@ -1,5 +1,5 @@
 {
-    "unqfyService":"http://unqfy:3000/api/artists",
+    "unqfyService":"http://unqfy:3000/api/status",
     "notifyService":"http://notify:5000/api/status",
     "loggyService":"http://loggy:7000/api/status"
 }

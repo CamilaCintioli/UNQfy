@@ -21,6 +21,10 @@ app.use(bodyParser.json());
 
 
 app.use('/api',unqfyMiddleware, apiRouter);
+apiRouter.get('/status', (req,res,next) => {
+  res.status(200).send({statusCode:200})
+})
+
 apiRouter.use('/artists',artists);
 apiRouter.use('/albums',albums);
 apiRouter.use('/tracks', tracks);
