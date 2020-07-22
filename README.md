@@ -6,14 +6,49 @@ Members: Camila Cintioli y Graciela Daglio.
 
 Get the latest version of node from the [official website](https://nodejs.org/) or using [nvm](https://github.com/creationix/nvm).
 
-
 ## **Getting dependencies**
 
  - ```npm install```
 
-## **UML**
+# Visado 3
 
-![uml](./UNQfyUML.svg "Diagrama de clases")
+To run docker, you will need to add some files in the project first:
+
+## UNQfy
+
+### spotifyCreds.json
+
+Go to **/unqfy/credentials** and run in your terminal:
+```node generateSpotifyCredentials.js```
+You will have to click the link provided in your terminal, log with your spotify account. This will generate the file spotifyCreds.json with the access token. 
+You'll have to move this file to credentials folder.
+
+## Monitor service
+
+### slackUrl.js
+
+Go to **/monitor** and create a file called slackUrl.js. This file should have a constant called slackUrl with the slack hook url. It should look something like this:
+```javascript
+const slackUrl = 'your hook in slack';
+module.exports = { slackUrl };
+```
+
+## Notify service
+
+### token.json
+
+Go to **/notify**
+
+Run ```node getOAuthToken.js``` and click the url in the terminal. You should log in gmail and authorize the app. 
+You should copy and paste the link given in the console where you executed getOAuthToken.js and this will create the file ```token.json```.
+
+## Docker-compose
+
+To run the app with docker-compose, you should have previously installed docker and docker-compose. Then simply run in a console:
+```docker-compose up```
+
+
+# Visado 1
 
 ## **Run UNQfy**
 
@@ -69,3 +104,7 @@ There's a script avaliable to create artists, albums, tracks and users. To use i
 - ```node main getTracksListenByUser {userId}```
 
 - ```node main getTopTracksOfArtist {artistId}```
+
+## **UML**
+
+![uml](./UNQfyUML.svg "Diagrama de clases")
