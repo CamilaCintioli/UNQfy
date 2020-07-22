@@ -2,7 +2,7 @@ const { repeat } = require('lodash');
 
 const rp = require('request-promise');
 
-class NotifyService{
+class ArtistNotificationsObservers{
 
   update(artist,album){
     const options = {
@@ -27,4 +27,4 @@ class NotifyService{
 
 }
 
-module.exports = NotifyService;
+module.exports = ArtistNotificationsObservers;

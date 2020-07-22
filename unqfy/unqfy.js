@@ -18,8 +18,8 @@ const { DuplicatedArtist,
 const User = require('./model/User');
 const {searchIdForArtist,searchAlbumsForArtistId} = require('./model/services/spotifyService');
 const {searchIdForTrack, searchLyricsForTrackId} = require('./model/services/musicMatchService');
-const LoggyService = require('./model/services/LoggyService');
-const NotifyService = require('./model/services/NotifyService');
+const LoggerObserver = require('./observers/LoggerObserver');
+const ArtistNotificationsObserver = require('./observers/ArtistNotificationsObserver');
 
 class UNQfy {
   constructor() {
@@ -31,9 +31,8 @@ class UNQfy {
     this.playlistId = 0;
     this.userId = 0;
     this.users = [];
-    this.loggyService = new LoggyService();
-    this.notifyService = new NotifyService();
-
+    this.loggerObserver = new LoggerObserver();
+    this.artistObserver = new ArtistNotificationsObserver();
   }
 
 
@@ -43,16 +42,20 @@ class UNQfy {
       if (this.searchArtistsByName(name).length > 0) {
         throw new DuplicatedArtist(this.searchArtistsByName(name)[0]);
       }
+
+
       const newArtist = new Artist(this.artistId, name, country);
-      this.loggyService.logAddArtist(newArtist);
-      newArtist.addSuscribe(this.notifyService)
+      newArtist.addSuscribe(this.artistObserver)
+
+
+
       this.artistId++;
       this.artists.push(newArtist);
       console.log('Se registró nuevo artista: ', newArtist);
       return newArtist;
     }
     catch (duplicatedArtist) {
-      this.loggyService.logError(duplicatedArtist);
+      this.loggerObserver.logError(duplicatedArtist);
       console.log('Existe un artista con el nombre dado');
       throw duplicatedArtist;
     }
@@ -77,12 +80,12 @@ class UNQfy {
       const tracks = this.getTracksMatchingArtist(artist.getName());
       this.playlists.forEach(playlist => playlist.deleteTracks(tracks));
       this.artists = this.artists.filter((artist) => artist.getId() !== artistId);
-      this.loggyService.logDeleteArtist(artist);
+      this.loggerObserver.logDeleteArtist(artist);
       console.log('Artista borrado exitosamente');
     } else {
       console.log('No existe un artista con ese id ', artistId);
       const err = new ArtistDoesNotExist(artistId);
-      this.loggyService.logError(err);
+      this.loggerObserver.logError(err);
       throw err;
     }
   }
@@ -126,13 +129,13 @@ class UNQfy {
     }
     catch(error){
       const err =  new AlbumCantBeCreated(artistId);
-      this.loggyService.logError(err);
+      this.loggerObserver.logError(err);
       throw err;
     }
     const album = new Album(this.albumId, title, year);
     artist.addAlbum(album);
     console.log('Se registró un nuevo album ', album);
-    this.loggyService.logAddAlbum(album);
+    this.loggerObserver.logAddAlbum(album);
     this.albumId++;
     return album;
   }
@@ -160,7 +163,7 @@ class UNQfy {
     const tracks = album.getTracks();
     this.artists.forEach(artist => artist.deleteAlbum(albumId));
     this.playlists.forEach(playlist => playlist.deleteTracks(tracks));
-    this.loggyService.logDeleteAlbum(album);
+    this.loggerObserver.logDeleteAlbum(album);
     console.log('Album fue borrado exitosamente');
   }
 
@@ -177,7 +180,7 @@ class UNQfy {
     }
     console.log('El album no esta registrado con el id ', id);
     const err =  new AlbumDoesNotExist(id);
-    this.loggyService.logError(err);
+    this.loggerObserver.logError(err);
     throw err;
   }
 
@@ -295,17 +298,17 @@ class UNQfy {
       }
       if (album.hasTrackWithTitle(trackData.title)) {
         const err = new DuplicatedTrackInAlbum();
-        this.loggyService.logError(err);
+        this.loggerObserver.logError(err);
         throw err;
       }
       const track = new Track(this.trackId, trackData.title, trackData.genres, trackData.duration);
       album.addTrack(track);
       this.trackId++;
-      this.loggyService.logAddTrack(track);
+      this.loggerObserver.logAddTrack(track);
       console.log('Se registró un nuevo track', track);
       return track;
     } catch (DuplicatedTrackInAlbum) {
-      this.loggyService.logError(DuplicatedTrackInAlbum);
+      this.loggerObserver.logError(DuplicatedTrackInAlbum);
       console.log('Ya existe un track con ese nombre en el album');
     }
 
@@ -328,7 +331,7 @@ class UNQfy {
     if (track) {
       albumes.forEach(album => album.deleteTrack(trackId));
       this.playlists.forEach(playlist => playlist.deleteTrack(trackId));
-      this.loggyService.logDeleteTrack(track);
+      this.loggerObserver.logDeleteTrack(track);
       console.log('Track borrado exitosamente');
     } else {
       console.log('No existe un track con ese id ', trackId);
@@ -484,7 +487,7 @@ class UNQfy {
 
   static load(filename) {
     const serializedData = fs.readFileSync(filename, { encoding: 'utf-8' });
-    const classes = [UNQfy, Artist, Track, Album, Playlist, User, NotifyService, LoggyService];
+    const classes = [UNQfy, Artist, Track, Album, Playlist, User, ArtistNotificationsObserver, LoggerObserver];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 

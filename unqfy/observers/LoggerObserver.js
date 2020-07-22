@@ -1,6 +1,6 @@
 const rp = require('request-promise');
 
-class LoggyService{
+class LoggerObserver{
   logAddArtist(artist){
     this.log('Se creo un nuevo artista '+ artist.name,'info');
   }
@@ -43,4 +43,4 @@ class LoggyService{
 
 }
 
-module.exports = LoggyService;
+module.exports = LoggerObserver;
