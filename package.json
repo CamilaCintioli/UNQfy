@@ -9,7 +9,7 @@
     "cron": "^1.8.2",
     "express": "^4.17.1",
     "googleapis": "^39.2.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "picklify": "github:lwoites/picklify",
     "request": "^2.88.2",
     "request-promise": "^4.2.5",
