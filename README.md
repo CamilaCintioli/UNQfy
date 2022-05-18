@@ -1,5 +1,7 @@
 # UNQfy 
 
+[![codecov](https://codecov.io/gh/codecov/CamilaCintioli/UNQfy/master/graph/badge.svg)](https://codecov.io/gh/codecov/example-java)
+
 Seminario web -- 2020c1  
 Members: Camila Cintioli y Graciela Daglio.
 ## **Installing node**
